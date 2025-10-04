@@ -14,7 +14,6 @@ from typing import List
 DEFAULT_TARGETS = (
     "schemas",
     "notes",
-    "../P002_sadb/20_receipts/docmeta",
 )
 
 
@@ -35,9 +34,8 @@ def cli(argv: List[str] | None = None) -> int:
     missing = [path for path in args.paths if not Path(path).exists()]
     if missing:
         for item in missing:
-            print(f"Missing path (skipped for stub): {item}")
-        # Treat missing upstream data as a soft failure for now
-        return 1
+            print(f"WARN: Missing path (skipped for stub): {item}")
+        # Allow missing paths during stub phase; warn but don't fail
 
     print("DocMeta tag validation not yet implemented. TODO: enforce routing tags, projects, and topic taxonomy alignment.")
     return 99
