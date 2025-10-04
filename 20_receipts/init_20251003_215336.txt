@@ -1,0 +1,1 @@
+C010 standards initialized; Ruff baseline + templates + bootstrap added (20251003_215336)
