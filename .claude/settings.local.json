@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/jeremybradford/SyncedProjects/**)",
+      "Bash(test:*)",
+      "Bash(ruff:*)",
+      "Bash(python3:*)",
+      "Bash(mv:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

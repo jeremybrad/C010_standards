@@ -1,0 +1,211 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Houston Features Configuration",
+  "type": "object",
+  "required": ["features", "safety_controls", "gradual_trust_building"],
+  "properties": {
+    "features": {
+      "type": "object",
+      "required": ["audio", "visual", "ide_integration", "agency_levels", "monitoring", "memory_integration"],
+      "properties": {
+        "audio": {
+          "type": "object",
+          "required": ["enabled", "theme", "effects", "voice"],
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "theme": {"enum": ["mission_control", "modern", "retro_panel", "starship_bridge"]},
+            "effects": {
+              "type": "object",
+              "properties": {
+                "radio_static": {"type": "boolean"},
+                "space_ambience": {"type": "boolean"},
+                "confirmation_sounds": {"type": "boolean"},
+                "warning_alerts": {"type": "boolean"},
+                "presence_howl": {"type": "boolean"}
+              },
+              "additionalProperties": false
+            },
+            "voice": {
+              "type": "object",
+              "required": ["personality", "processing_effects", "volume", "tts_engine"],
+              "properties": {
+                "personality": {"enum": ["hal9000", "southern_ops", "neutral"]},
+                "processing_effects": {
+                  "type": "array",
+                  "items": {"type": "string"}
+                },
+                "volume": {"type": "number", "minimum": 0, "maximum": 1},
+                "tts_engine": {"enum": ["local", "elevenlabs", "huggingface"]}
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "visual": {
+          "type": "object",
+          "required": ["dashboard_theme", "effects", "presence"],
+          "properties": {
+            "dashboard_theme": {"enum": ["modern", "retro_panel", "starship_bridge"]},
+            "effects": {
+              "type": "object",
+              "properties": {
+                "crt_scanlines": {"type": "boolean"},
+                "led_indicators": {"type": "boolean"},
+                "orbital_visualizer": {"type": "boolean"},
+                "telemetry_stream": {"type": "boolean"},
+                "status_lights": {"type": "boolean"}
+              },
+              "additionalProperties": false
+            },
+            "presence": {
+              "type": "object",
+              "properties": {
+                "idle_animation": {"type": "string"},
+                "active_animation": {"type": "string"},
+                "error_state": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "ide_integration": {
+          "type": "object",
+          "required": ["enabled", "supported_editors", "features", "hotkeys"],
+          "properties": {
+            "enabled": {"type": "boolean"},
+            "supported_editors": {
+              "type": "array",
+              "items": {"enum": ["cursor", "vscode", "jetbrains"]},
+              "uniqueItems": true
+            },
+            "features": {
+              "type": "object",
+              "properties": {
+                "context_awareness": {"type": "boolean"},
+                "code_explanation": {"type": "boolean"},
+                "standard_reminders": {"type": "boolean"},
+                "refactoring_suggestions": {"type": "boolean"},
+                "build_validation": {"type": "boolean"}
+              },
+              "additionalProperties": false
+            },
+            "hotkeys": {
+              "type": "object",
+              "properties": {
+                "ask_houston": {"type": "string"},
+                "explain_code": {"type": "string"},
+                "check_standards": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "agency_levels": {
+          "type": "object",
+          "required": ["current_level", "supervisory", "advisory", "autonomous"],
+          "properties": {
+            "current_level": {"enum": ["supervisory", "advisory", "autonomous"]},
+            "supervisory": {"type": "object"},
+            "advisory": {"type": "object"},
+            "autonomous": {"type": "object"}
+          },
+          "additionalProperties": false
+        },
+        "monitoring": {
+          "type": "object",
+          "required": ["system_health", "proactive_alerts"],
+          "properties": {
+            "system_health": {
+              "type": "object",
+              "required": ["enabled", "check_interval_seconds", "critical_services", "notification_thresholds"],
+              "properties": {
+                "enabled": {"type": "boolean"},
+                "check_interval_seconds": {"type": "integer", "minimum": 5},
+                "critical_services": {
+                  "type": "array",
+                  "items": {"type": "string"},
+                  "minItems": 1
+                },
+                "notification_thresholds": {
+                  "type": "object",
+                  "required": ["warning", "critical"],
+                  "properties": {
+                    "warning": {"type": "integer", "minimum": 1},
+                    "critical": {"type": "integer", "minimum": 1}
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "additionalProperties": false
+            },
+            "proactive_alerts": {"type": "object"}
+          },
+          "additionalProperties": false
+        },
+        "memory_integration": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "safety_controls": {
+      "type": "object",
+      "required": ["destructive_actions", "emergency_protocols"],
+      "properties": {
+        "destructive_actions": {
+          "type": "object",
+          "required": ["require_password", "require_voice_confirmation", "log_all_actions", "rollback_capability"],
+          "properties": {
+            "require_password": {"type": "boolean"},
+            "require_voice_confirmation": {"type": "boolean"},
+            "log_all_actions": {"type": "boolean"},
+            "rollback_capability": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "emergency_protocols": {
+          "type": "object",
+          "required": ["panic_button", "auto_shutdown_threshold", "graceful_degradation"],
+          "properties": {
+            "panic_button": {"type": "boolean"},
+            "auto_shutdown_threshold": {"type": "integer", "minimum": 0, "maximum": 100},
+            "graceful_degradation": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "gradual_trust_building": {
+      "type": "object",
+      "required": ["phases", "current_phase", "auto_advance", "manual_review_required"],
+      "properties": {
+        "phases": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["phase", "name", "agency_level", "features_enabled", "duration_days"],
+            "properties": {
+              "phase": {"type": "integer", "minimum": 1},
+              "name": {"type": "string"},
+              "agency_level": {"enum": ["supervisory", "advisory", "autonomous"]},
+              "features_enabled": {
+                "type": "array",
+                "items": {"type": "string"}
+              },
+              "duration_days": {"type": "integer", "minimum": 1}
+            },
+            "additionalProperties": false
+          },
+          "minItems": 1
+        },
+        "current_phase": {"type": "integer", "minimum": 1},
+        "auto_advance": {"type": "boolean"},
+        "manual_review_required": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

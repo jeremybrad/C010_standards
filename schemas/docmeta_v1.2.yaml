@@ -1,0 +1,53 @@
+# DocMeta schema canonical template (v1.2)
+# Source: ../P002_sadb/10_docs/SADB_DocMeta_Schema_v1.2.md
+# Attribution: SADB knowledge base metadata schema maintained by Jeremy Bradford.
+schema: "DocMeta.v1.2"
+doc:
+  sha256: "<sha256_bytes>"
+  title: "<human-readable title>"
+  description: |
+    <3-6 sentence abstract optimized for retrieval>
+  type: "<report|research|receipt|email|spec|note|conversation|code|data>"
+  language: "en"
+  created: "<YYYY-MM-DD>"
+  authors:
+    - "<optional author>"
+  projects:
+    - "SADB"
+    - "CloudMD"
+    - "ParallelLLMs"
+    - "GlobalWork"
+    - "Betty"
+    - "MCP"
+    - "VelvetBetty"
+  topics:
+    - "parallel LLMs"
+    - "indexing"
+    - "audit"
+    - "fingerprints"
+    - "deduplication"
+    - "metadata"
+  keywords:
+    - "<search term>"
+  entities:
+    people: []
+    orgs: []
+    products: []
+  connections:
+    conversations:
+      - "<chat-id or file ref>"
+    related_docs:
+      - "<sha256 or path>"
+  governance:
+    pii: false
+    confidential: false
+    license: "internal"
+  routing:
+    canonical: true
+    live: true
+    tags:
+      - "source:incoming"
+      - "priority:high"
+      - "auto:llama-turbo"
+  notes: |
+    <optional curatorial notes>

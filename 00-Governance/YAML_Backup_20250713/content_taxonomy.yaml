@@ -1,0 +1,99 @@
+# content_taxonomy.yaml
+# CANONICAL CONTENT TYPE METADATA v0.1
+# This file defines the standard content categories for semantic classification
+
+meta:
+  version: "0.1"
+  schema_version: "1.0"
+  last_modified: "2024-12-19"
+  framework: "Cognitive-mode based classification"
+  compatibility:
+    min_version: "0.1"
+    breaking_changes: []
+
+content_types:
+  technical:
+    tag: "technical"
+    definition: "Code, specifications, problem-solving, system design"
+    cognitive_mode: "analytical"
+    typical_emotions: ["anticipation", "frustration", "joy"]
+    search_priority: "high"
+    temporal_relevance: "evergreen"
+    examples:
+      - "code snippets"
+      - "architecture designs"
+      - "debugging sessions"
+      - "technical documentation"
+    
+  reflective:
+    tag: "reflective"
+    definition: "Self-examination, meaning-making, personal insight"
+    cognitive_mode: "introspective"
+    typical_emotions: ["nostalgia", "awe", "sadness"]
+    search_priority: "medium"
+    temporal_relevance: "evergreen"
+    examples:
+      - "journal entries"
+      - "life lessons"
+      - "personal growth insights"
+      - "meditation notes"
+    
+  relational:
+    tag: "relational"
+    definition: "Interpersonal dynamics, social connections, relationships"
+    cognitive_mode: "empathetic"
+    typical_emotions: ["love", "trust", "anxiety"]
+    search_priority: "medium"
+    temporal_relevance: "contextual"
+    examples:
+      - "relationship observations"
+      - "social dynamics"
+      - "communication patterns"
+      - "interpersonal conflicts"
+    
+  creative:
+    tag: "creative"
+    definition: "Artistic expression, imaginative work, generative content"
+    cognitive_mode: "divergent"
+    typical_emotions: ["joy", "awe", "longing"]
+    search_priority: "high"
+    temporal_relevance: "evergreen"
+    examples:
+      - "story ideas"
+      - "musical compositions"
+      - "visual concepts"
+      - "creative writing"
+    
+  biographical:
+    tag: "biographical"
+    definition: "Life events, factual history, personal timeline"
+    cognitive_mode: "documentary"
+    typical_emotions: ["nostalgia", "trust", "surprise"]
+    search_priority: "high"
+    temporal_relevance: "anchored"
+    temporal_importance: "critical"
+    examples:
+      - "life milestones"
+      - "personal history"
+      - "important dates"
+      - "factual records"
+    
+  logistical:
+    tag: "logistical"
+    definition: "Planning, organizing, task management, coordination"
+    cognitive_mode: "executive"
+    typical_emotions: ["anticipation", "frustration", "trust"]
+    search_priority: "low"
+    temporal_relevance: "time-bound"
+    examples:
+      - "todo lists"
+      - "project planning"
+      - "scheduling"
+      - "resource management"
+
+usage_guidelines:
+  - "Content can have 1-2 types maximum"
+  - "Primary type should reflect dominant cognitive mode"
+  - "Consider temporal relevance when archiving"
+  - "Use 'biographical' for any timeline-anchor events"
+  - "When unsure between creative/reflective, check if it's generative (creative) or analytical (reflective)"

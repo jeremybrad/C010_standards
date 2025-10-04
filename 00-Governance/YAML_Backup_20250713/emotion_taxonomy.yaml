@@ -1,0 +1,124 @@
+# emotion_taxonomy.yaml
+# CANONICAL EMOTION METADATA v0.1
+# This file defines the standard emotional categories for content classification
+
+meta:
+  version: "0.1"
+  schema_version: "1.0"
+  last_modified: "2025-01-07"
+  framework: "Core emotion model with valence and arousal dimensions"
+  compatibility:
+    min_version: "0.1"
+    breaking_changes: []
+
+emotions:
+  joy:
+    tag: "joy"
+    definition: "Feelings of happiness, delight, or positive excitement"
+    valence: "positive"
+    arousal: "high"
+    color_association: "#FFD700"
+    typical_contexts: ["achievements", "discoveries", "connections", "creative breakthroughs"]
+    
+  sadness:
+    tag: "sadness"
+    definition: "Feelings of sorrow, melancholy, or loss"
+    valence: "negative"
+    arousal: "low"
+    color_association: "#4682B4"
+    typical_contexts: ["loss", "disappointment", "endings", "unfulfilled desires"]
+    
+  nostalgia:
+    tag: "nostalgia"
+    definition: "Bittersweet longing for the past, mixing joy and sadness"
+    valence: "mixed"
+    arousal: "medium"
+    color_association: "#DDA0DD"
+    typical_contexts: ["memories", "past experiences", "childhood", "lost connections"]
+    
+  awe:
+    tag: "awe"
+    definition: "Wonder and reverence in the face of something vast or profound"
+    valence: "positive"
+    arousal: "medium"
+    color_association: "#9370DB"
+    typical_contexts: ["nature", "realizations", "spiritual moments", "beauty"]
+    
+  love:
+    tag: "love"
+    definition: "Deep affection, care, and connection"
+    valence: "positive"
+    arousal: "medium"
+    color_association: "#FF69B4"
+    typical_contexts: ["relationships", "family", "passion", "deep connections"]
+    
+  anger:
+    tag: "anger"
+    definition: "Frustration, irritation, or rage"
+    valence: "negative"
+    arousal: "high"
+    color_association: "#DC143C"
+    typical_contexts: ["injustice", "obstacles", "violations", "disappointments"]
+    
+  fear:
+    tag: "fear"
+    definition: "Anxiety, worry, or dread about potential threats"
+    valence: "negative"
+    arousal: "high"
+    color_association: "#2F4F4F"
+    typical_contexts: ["uncertainty", "danger", "vulnerability", "unknown"]
+    
+  anticipation:
+    tag: "anticipation"
+    definition: "Excited expectation or nervous waiting"
+    valence: "mixed"
+    arousal: "high"
+    color_association: "#FF8C00"
+    typical_contexts: ["future events", "planning", "hope", "preparation"]
+    
+  trust:
+    tag: "trust"
+    definition: "Confidence, security, and faith in reliability"
+    valence: "positive"
+    arousal: "low"
+    color_association: "#20B2AA"
+    typical_contexts: ["relationships", "systems", "consistency", "safety"]
+    
+  surprise:
+    tag: "surprise"
+    definition: "Sudden unexpected feeling, can be positive or negative"
+    valence: "neutral"
+    arousal: "high"
+    color_association: "#FFD700"
+    typical_contexts: ["discoveries", "revelations", "unexpected events", "plot twists"]
+    
+  longing:
+    tag: "longing"
+    definition: "Deep desire or yearning for something absent"
+    valence: "mixed"
+    arousal: "medium"
+    color_association: "#4B0082"
+    typical_contexts: ["desires", "dreams", "missing someone", "aspirations"]
+    
+  frustration:
+    tag: "frustration"
+    definition: "Feeling blocked or thwarted in achieving goals"
+    valence: "negative"
+    arousal: "medium"
+    color_association: "#CD5C5C"
+    typical_contexts: ["obstacles", "technical issues", "miscommunication", "delays"]
+    
+  anxiety:
+    tag: "anxiety"
+    definition: "Unease or nervousness about uncertain outcomes"
+    valence: "negative"
+    arousal: "high"
+    color_association: "#708090"
+    typical_contexts: ["social situations", "performance", "future uncertainty", "decisions"]
+
+usage_guidelines:
+  - "Content can have 1-3 emotions maximum"
+  - "Primary emotion should be most prominent feeling"
+  - "Consider both immediate and underlying emotions"
+  - "Mixed valence emotions (nostalgia, longing) are often most meaningful"
+  - "Emotions can evolve - tag the dominant emotion at time of creation"

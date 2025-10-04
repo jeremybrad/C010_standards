@@ -1,0 +1,233 @@
+# Canonical content taxonomy consolidated for P210 metadata governance.
+# Source: ../P002_sadb/30_config/CONTENT_TAXONOMY.yaml (2025-07-07 analysis).
+# Duplicate test fixtures in ../P002_sadb/30_taxonomy/ ignored; see README for details.
+# CONTENT_TAXONOMY.yaml
+# Content type classification from cross-corpus analysis (July 7, 2025)
+# Distinguishes analytical, strategic, and integrative content types
+
+content_types:
+  # Analytical Content (Problem-solving, technical analysis)
+  analytical:
+    description: "Technical problem-solving and analytical reasoning"
+    patterns:
+      - debugging
+      - troubleshooting
+      - analyzing
+      - investigating
+      - diagnosing
+      - examining
+      - parsing
+      - dissecting
+      - deconstructing
+    indicators:
+      - "error messages"
+      - "stack traces"
+      - "root cause"
+      - "performance metrics"
+      - "data analysis"
+      - "code review"
+      - "test results"
+      - "bug reports"
+    context_clues:
+      - contains_code: true
+      - contains_logs: true
+      - contains_metrics: true
+    weight: 1.0
+
+  # Strategic Content (Planning, decision-making)
+  strategic:
+    description: "High-level planning and strategic thinking"
+    patterns:
+      - planning
+      - strategizing
+      - architecting
+      - designing
+      - roadmapping
+      - prioritizing
+      - scoping
+      - aligning
+    indicators:
+      - "business goals"
+      - "project timeline"
+      - "resource allocation"
+      - "risk assessment"
+      - "decision matrix"
+      - "trade-offs"
+      - "stakeholders"
+      - "milestones"
+    context_clues:
+      - contains_timeline: true
+      - contains_goals: true
+      - contains_decisions: true
+    weight: 1.1
+
+  # Integrative Content (Synthesis, connection-making)
+  integrative:
+    description: "Synthesis and integration across domains"
+    patterns:
+      - integrating
+      - synthesizing
+      - connecting
+      - bridging
+      - weaving
+      - unifying
+      - harmonizing
+      - orchestrating
+    indicators:
+      - "cross-functional"
+      - "interdisciplinary"
+      - "holistic view"
+      - "systems thinking"
+      - "emergent patterns"
+      - "synergy"
+      - "convergence"
+      - "unified approach"
+    context_clues:
+      - spans_domains: true
+      - makes_connections: true
+      - identifies_patterns: true
+    weight: 1.2
+
+  # Reflective Content (Personal insights, metacognition)
+  reflective:
+    description: "Personal reflection and metacognitive awareness"
+    patterns:
+      - reflecting
+      - contemplating
+      - pondering
+      - meditating
+      - introspecting
+      - realizing
+      - discovering
+    indicators:
+      - "I realize"
+      - "looking back"
+      - "in retrospect"
+      - "lessons learned"
+      - "personal growth"
+      - "self-awareness"
+      - "insights about"
+    context_clues:
+      - first_person: true
+      - temporal_markers: true
+      - evaluative_language: true
+    weight: 1.0
+
+  # Creative Content (Generative, imaginative)
+  creative:
+    description: "Creative exploration and generative thinking"
+    patterns:
+      - creating
+      - imagining
+      - envisioning
+      - inventing
+      - crafting
+      - composing
+      - generating
+      - ideating
+    indicators:
+      - "what if"
+      - "imagine"
+      - "could be"
+      - "possibility"
+      - "novel approach"
+      - "creative solution"
+      - "innovative"
+    context_clues:
+      - hypothetical: true
+      - generative: true
+      - exploratory: true
+    weight: 1.1
+
+  # Procedural Content (Step-by-step, instructional)
+  procedural:
+    description: "Step-by-step instructions and procedures"
+    patterns:
+      - step-by-step
+      - instructions
+      - procedure
+      - walkthrough
+      - tutorial
+      - guide
+      - recipe
+      - algorithm
+    indicators:
+      - numbered_lists: true
+      - sequential_markers: ["first", "then", "next", "finally"]
+      - imperative_mood: true
+      - action_verbs: true
+    context_clues:
+      - ordered_structure: true
+      - clear_outcomes: true
+    weight: 0.9
+
+# Content Complexity Levels
+complexity_levels:
+  simple:
+    description: "Single concept or straightforward task"
+    indicators:
+      - word_count: "<100"
+      - concepts: 1
+      - no_dependencies: true
+
+  moderate:
+    description: "Multiple related concepts or multi-step process"
+    indicators:
+      - word_count: "100-500"
+      - concepts: "2-3"
+      - some_dependencies: true
+
+  complex:
+    description: "Multiple interrelated concepts requiring synthesis"
+    indicators:
+      - word_count: ">500"
+      - concepts: ">3"
+      - many_dependencies: true
+      - requires_context: true
+
+# Cross-Corpus Patterns
+cross_corpus_patterns:
+  claude_dominant:
+    description: "Patterns more common in Claude conversations"
+    types: ["analytical", "procedural", "strategic"]
+    characteristics:
+      - technical_precision: high
+      - structured_thinking: high
+      - pragmatic_focus: high
+
+  betty_dominant:
+    description: "Patterns more common in Betty conversations"
+    types: ["integrative", "reflective", "creative"]
+    characteristics:
+      - metaphorical_language: high
+      - emotional_depth: high
+      - poetic_expression: high
+
+  universal:
+    description: "Patterns common across both corpora"
+    types: ["strategic", "reflective"]
+    characteristics:
+      - adaptive_to_context: true
+      - balanced_expression: true
+
+# Contextual Modifiers
+context_modifiers:
+  technical_context:
+    boost_types: ["analytical", "procedural"]
+    dampen_types: ["creative", "reflective"]
+    multiplier: 1.2
+
+  creative_context:
+    boost_types: ["creative", "integrative"]
+    dampen_types: ["procedural", "analytical"]
+    multiplier: 1.2
+
+  planning_context:
+    boost_types: ["strategic", "integrative"]
+    dampen_types: ["procedural"]
+    multiplier: 1.1
+
+  personal_context:
+    boost_types: ["reflective", "creative"]
+    dampen_types: ["procedural", "analytical"]
+    multiplier: 1.1

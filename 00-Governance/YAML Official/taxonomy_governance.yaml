@@ -1,0 +1,57 @@
+# Taxonomy Governance Configuration
+# Version: 1.0
+# Last Updated: 2025-07-07
+
+governance:
+  version: "1.0"
+  last_updated: "2025-07-07"
+  
+roles:
+  taxonomy_owner:
+    name: "Betty"
+    responsibilities:
+      - "Define and maintain taxonomy structure"
+      - "Approve major taxonomy changes"
+      - "Ensure consistency across all taxonomies"
+  
+  implementer:
+    name: "Claude"
+    responsibilities:
+      - "Execute taxonomy updates"
+      - "Validate taxonomy compliance"
+      - "Generate reports on taxonomy usage"
+  
+  validator:
+    name: "Dewey"
+    responsibilities:
+      - "Enforce taxonomy rules"
+      - "Flag non-compliant tags"
+      - "Suggest taxonomy improvements"
+
+policies:
+  versioning:
+    - "All taxonomy changes must increment version number"
+    - "Breaking changes require major version bump"
+    - "Additions are minor version bumps"
+    - "Fixes are patch version bumps"
+  
+  modification_rules:
+    - "No deletion of existing tags without deprecation period"
+    - "New tags must align with existing hierarchy"
+    - "Cross-taxonomy consistency must be maintained"
+  
+  review_cycle:
+    frequency: "monthly"
+    participants: ["Betty", "Claude", "Jeremy"]
+    
+validation_rules:
+  tag_format:
+    - "lowercase with underscores"
+    - "no special characters except underscore"
+    - "maximum 3 levels of hierarchy"
+  
+  required_fields:
+    - "id"
+    - "label"
+    - "description"
+    - "parent" # if not root level

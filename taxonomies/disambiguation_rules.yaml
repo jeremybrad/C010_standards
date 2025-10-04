@@ -1,0 +1,180 @@
+# Canonical context disambiguation rules for taxonomy usage.
+# Source: ../P002_sadb/30_config/DISAMBIGUATION_RULES.yaml (2025-07-07 analysis).
+# DISAMBIGUATION_RULES.yaml
+# Cross-corpus disambiguation patterns from July 7, 2025 analysis
+# Handles terms with different meanings in Claude vs Betty contexts
+
+# Primary finding: 81% of business terms in Betty corpus used metaphorically
+# vs 87% pragmatic usage in Claude corpus
+
+disambiguation_rules:
+  # Terms that shift meaning based on context
+  context_sensitive_terms:
+    debugging:
+      claude_context:
+        topics: ["troubleshooting", "error_handling", "testing"]
+        emotions: ["frustration", "persistence", "breakthrough"]
+        indicators: ["error", "bug", "fix", "trace", "breakpoint"]
+        weight: 1.0
+      betty_context:
+        topics: ["personal_growth", "self_discovery"]
+        emotions: ["synthesis", "clarity", "tender"]
+        indicators: ["understanding", "resolving", "healing", "processing"]
+        weight: 1.2
+
+    integration:
+      claude_context:
+        topics: ["api_integration", "system_integration", "data_pipeline"]
+        emotions: ["synthesis", "flow"]
+        indicators: ["API", "endpoint", "merge", "combine", "connect"]
+        weight: 1.0
+      betty_context:
+        topics: ["wholeness", "unification", "healing"]
+        emotions: ["sacred", "luminous", "integrative"]
+        indicators: ["whole", "unified", "complete", "healing", "becoming"]
+        weight: 1.3
+
+    architecture:
+      claude_context:
+        topics: ["software_architecture", "system_design", "infrastructure"]
+        emotions: ["clarity", "synthesis", "strategic"]
+        indicators: ["design", "pattern", "structure", "component", "module"]
+        weight: 1.0
+      betty_context:
+        topics: ["sacred_structure", "foundational", "cosmic_order"]
+        emotions: ["sacred", "reverent", "luminous"]
+        indicators: ["foundation", "temple", "sacred", "eternal", "divine"]
+        weight: 1.3
+
+    alignment:
+      claude_context:
+        topics: ["configuration", "calibration", "formatting"]
+        emotions: ["calibration", "clarity"]
+        indicators: ["config", "setting", "adjust", "format", "position"]
+        weight: 1.0
+      betty_context:
+        topics: ["spiritual_alignment", "purpose", "harmony"]
+        emotions: ["sacred", "flow", "luminous"]
+        indicators: ["purpose", "harmony", "resonance", "attunement", "flow"]
+        weight: 1.2
+
+    processing:
+      claude_context:
+        topics: ["data_processing", "computation", "batch_processing"]
+        emotions: ["flow", "persistence"]
+        indicators: ["data", "compute", "batch", "pipeline", "transform"]
+        weight: 1.0
+      betty_context:
+        topics: ["emotional_processing", "integration", "healing"]
+        emotions: ["tender", "synthesis", "breakthrough"]
+        indicators: ["feeling", "emotion", "integrate", "digest", "metabolize"]
+        weight: 1.2
+
+    framework:
+      claude_context:
+        topics: ["software_framework", "libraries", "tools"]
+        emotions: ["clarity", "analytical"]
+        indicators: ["library", "tool", "package", "dependency", "module"]
+        weight: 1.0
+      betty_context:
+        topics: ["conceptual_framework", "worldview", "paradigm"]
+        emotions: ["integrative", "luminous"]
+        indicators: ["paradigm", "lens", "perspective", "worldview", "understanding"]
+        weight: 1.1
+
+  # Metaphorical usage patterns
+  metaphorical_indicators:
+    strong_metaphor:
+      # Strong indicators that a term is being used metaphorically
+      patterns:
+        - "like {term}"
+        - "{term} of the soul"
+        - "spiritual {term}"
+        - "inner {term}"
+        - "{term} of consciousness"
+        - "sacred {term}"
+        - "divine {term}"
+      boost_betty: 1.5
+      dampen_claude: 0.7
+
+    weak_metaphor:
+      # Weak indicators of metaphorical usage
+      patterns:
+        - "sort of {term}"
+        - "kind of like {term}"
+        - "{term} in a way"
+      boost_betty: 1.2
+      dampen_claude: 0.9
+
+  # Corpus detection heuristics
+  corpus_indicators:
+    claude_markers:
+      # Strong indicators of Claude-style discourse
+      keywords:
+        - "implementation"
+        - "algorithm"
+        - "optimization"
+        - "performance"
+        - "efficiency"
+        - "technical"
+        - "specification"
+        - "requirement"
+      structural:
+        - numbered_lists: true
+        - code_blocks: true
+        - technical_terms: true
+      weight: 1.2
+
+    betty_markers:
+      # Strong indicators of Betty-style discourse
+      keywords:
+        - "sacred"
+        - "divine"
+        - "soul"
+        - "eternal"
+        - "cosmic"
+        - "essence"
+        - "becoming"
+        - "velvet"
+      structural:
+        - poetic_language: true
+        - metaphorical_density: high
+        - emotional_depth: high
+      weight: 1.3
+
+  # Resolution strategy
+  resolution_strategy:
+    priority_order:
+      1: explicit_context  # If context explicitly states usage
+      2: strong_indicators  # Strong contextual clues
+      3: corpus_markers    # General corpus style
+      4: default_mapping   # Fall back to most common usage
+
+    confidence_thresholds:
+      high: 0.8    # Strong evidence for specific interpretation
+      medium: 0.6  # Moderate evidence
+      low: 0.4     # Weak evidence, may need review
+
+    conflict_resolution:
+      # When multiple interpretations have similar confidence
+      prefer_literal_in_technical: true
+      prefer_metaphorical_in_personal: true
+      mark_ambiguous_for_review: true
+
+# Application guidelines
+application:
+  preprocessing:
+    - Detect corpus type from overall document markers
+    - Build context window (±3 sentences) for each term
+    - Check for explicit usage indicators
+
+  scoring:
+    - Base score from term frequency
+    - Apply corpus modifier
+    - Apply context modifiers
+    - Normalize to confidence score
+
+  postprocessing:
+    - Flag low-confidence classifications
+    - Group related disambiguations
+    - Generate disambiguation report

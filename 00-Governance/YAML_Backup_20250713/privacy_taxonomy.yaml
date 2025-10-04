@@ -1,0 +1,71 @@
+# privacy_taxonomy.yaml
+# CANONICAL PRIVACY METADATA v0.1
+# This file defines the standard privacy levels for all content across the EchoSynth ecosystem
+
+meta:
+  version: "0.1"
+  schema_version: "1.0"
+  last_modified: "2024-12-19"
+  framework: "Four-tier privacy model"
+  compatibility:
+    min_version: "0.1"
+    breaking_changes: []
+
+privacy_levels:
+  public:
+    level: 1
+    tag: "public"
+    definition: "Content suitable for open sharing, publication, or broadcast"
+    sharing_scope: "anyone"
+    examples: 
+      - "published work"
+      - "public observations"
+      - "shareable insights"
+      - "general knowledge"
+    storage_requirements: "standard"
+    api_access: "unrestricted"
+    
+  shareable:
+    level: 2
+    tag: "shareable"
+    definition: "Content appropriate for trusted circles and professional contexts"
+    sharing_scope: "friends, colleagues, community"
+    examples: 
+      - "work-in-progress"
+      - "professional opinions"
+      - "personal projects"
+      - "casual observations"
+    storage_requirements: "standard"
+    api_access: "authenticated"
+    
+  sensitive:
+    level: 3
+    tag: "sensitive"
+    definition: "Content requiring discretion and careful context"
+    sharing_scope: "close friends, specific contexts"
+    examples: 
+      - "personal struggles"
+      - "confidential work"
+      - "family matters"
+      - "health information"
+    storage_requirements: "encrypted"
+    api_access: "restricted"
+    
+  intimate:
+    level: 4
+    tag: "intimate"
+    definition: "Deeply personal content for self or most trusted relationships"
+    sharing_scope: "self, partner, therapist"
+    examples: 
+      - "private fears"
+      - "intimate reflections"
+      - "vulnerable moments"
+      - "deepest thoughts"
+    storage_requirements: "encrypted"
+    api_access: "owner_only"
+
+usage_guidelines:
+  - "Default to higher privacy when uncertain"
+  - "Privacy can be lowered but raising requires explicit consent"
+  - "Consider both content AND context when assigning levels"
+  - "Encryption required for levels 3 and 4"

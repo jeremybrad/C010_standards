@@ -1,0 +1,146 @@
+# Canonical topic stoplist for taxonomy filtering.
+# Source: ../P002_sadb/30_config/TOPIC_STOPLIST.yaml.
+# TOPIC_STOPLIST.yaml
+# Blocks overly generic terms that create spurious topic matches
+# Based on analysis showing "chromadb" dominance from substring matching
+
+# Terms to completely block from topic classification
+stop_terms:
+  - db          # Too generic - matches chromadb, mongodb, etc.
+  - memory      # Too generic - appears in multiple contexts
+  - testing     # Too generic - common across all code
+  - test        # Too generic
+  - documentation # Too generic
+  - docs        # Too generic
+  - data        # Too generic unless qualified
+  - file        # Too generic
+  - system      # Too generic
+  - process     # Too generic unless qualified
+  - function    # Too generic
+  - method      # Too generic
+  - class       # Too generic
+  - module      # Too generic
+  - package     # Too generic
+  - error       # Too generic unless qualified
+  - code        # Too generic
+  - script      # Too generic
+  - run         # Too generic
+  - create      # Too generic
+  - update      # Too generic
+  - delete      # Too generic
+  - get         # Too generic
+  - set         # Too generic
+  - config      # Too generic unless qualified
+  - configuration # Too generic unless qualified
+  - api         # Too generic unless qualified
+  - service     # Too generic unless qualified
+  - client      # Too generic unless qualified
+  - server      # Too generic unless qualified
+
+# Terms that require exact whole-word matching only
+exact_match_only:
+  chromadb:
+    pattern: "\\bchromadb\\b"
+    not_patterns:
+      - "chromadb_client"
+      - "chromadb_test"
+      - "test_chromadb"
+    description: "ChromaDB vector database - exact match only"
+
+  mongodb:
+    pattern: "\\bmongodb\\b"
+    not_patterns:
+      - "mongodb_client"
+      - "mongodb_test"
+    description: "MongoDB database - exact match only"
+
+  postgresql:
+    pattern: "\\bpostgresql\\b|\\bpostgres\\b"
+    not_patterns:
+      - "postgresql_test"
+      - "postgres_client"
+    description: "PostgreSQL database - exact match only"
+
+  sqlite:
+    pattern: "\\bsqlite\\b|\\bsqlite3\\b"
+    not_patterns:
+      - "sqlite_test"
+      - "sqlite_client"
+    description: "SQLite database - exact match only"
+
+  redis:
+    pattern: "\\bredis\\b"
+    not_patterns:
+      - "redis_client"
+      - "redis_test"
+    description: "Redis cache/database - exact match only"
+
+# Qualified terms that require context
+requires_context:
+  api_integration:
+    must_have_one_of:
+      - "REST"
+      - "GraphQL"
+      - "webhook"
+      - "endpoint"
+      - "HTTP"
+      - "request"
+      - "response"
+    description: "API topics require specific API context"
+
+  data_pipeline:
+    must_have_one_of:
+      - "ETL"
+      - "transform"
+      - "ingestion"
+      - "batch"
+      - "stream"
+      - "flow"
+    description: "Data pipeline topics require specific pipeline context"
+
+  memory_extraction:
+    must_have_one_of:
+      - "extraction"
+      - "knowledge"
+      - "semantic"
+      - "retrieval"
+      - "embedding"
+      - "vector"
+    description: "Memory topics require specific extraction context"
+
+  testing_framework:
+    must_have_one_of:
+      - "pytest"
+      - "unittest"
+      - "jest"
+      - "mocha"
+      - "jasmine"
+      - "QA"
+      - "regression"
+    description: "Testing topics require specific framework context"
+
+# Paths to skip entirely for topic classification
+skip_paths:
+  - "/node_modules/"
+  - "/vendor/"
+  - "/venv/"
+  - "/.git/"
+  - "/dist/"
+  - "/build/"
+  - "/target/"
+  - "/90_archive/"
+  - "/backup/"
+  - "/temp/"
+  - "/tmp/"
+  - "/.cache/"
+  - "/__pycache__/"
+  - "/.pytest_cache/"
+  - "/test_output/"
+
+# Minimum requirements for topic assignment
+quality_thresholds:
+  min_word_length: 3          # Skip single/double character matches
+  min_confidence: 0.3          # Minimum confidence score
+  min_docs_per_topic: 3        # Need 3+ documents before topic is valid
+  min_chunks_per_doc: 3        # Need 3+ chunks in doc before assigning topic
+  max_generic_ratio: 0.5       # If >50% matches are generic, skip

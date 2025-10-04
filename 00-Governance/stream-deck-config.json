@@ -1,0 +1,223 @@
+{
+  "version": "1.0",
+  "profile_name": "Obsidian Projects",
+  "columns": 5,
+  "rows": 5,
+  "buttons": [
+    {
+      "id": "daily_note",
+      "title": "Daily Note",
+      "icon": "📅",
+      "action": "obsidian://daily-note",
+      "backgroundColor": "#4F5D75",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "command_center",
+      "title": "Command Center",
+      "icon": "🏠",
+      "path": "🏠 Command Center.md",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=%F0%9F%8F%A0%20Command%20Center.md",
+      "backgroundColor": "#EF8354",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "inbox",
+      "title": "Inbox",
+      "icon": "📥",
+      "path": "00-Inbox",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=00-Inbox",
+      "backgroundColor": "#4F5D75",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_1",
+      "title": "Active Projects",
+      "icon": "🔥",
+      "path": "01-Projects/Active-Projects",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FActive-Projects",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_2",
+      "title": "Battle Journal Attribution Win",
+      "icon": "🎯",
+      "path": "01-Projects/Battle-Journal-Attribution-Win",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FBattle-Journal-Attribution-Win",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_3",
+      "title": "Betty Source Tracker",
+      "icon": "📍",
+      "path": "01-Projects/Betty-Source-Tracker",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FBetty-Source-Tracker",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_4",
+      "title": "Claude Code MCP",
+      "icon": "🤖",
+      "path": "01-Projects/Claude-Code-MCP",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FClaude-Code-MCP",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_5",
+      "title": "Codify",
+      "icon": "💻",
+      "path": "01-Projects/Codify",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FCodify",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_6",
+      "title": "Conversation Archive System",
+      "icon": "💬",
+      "path": "01-Projects/Conversation-Archive-System",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FConversation-Archive-System",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_7",
+      "title": "Digital Unification",
+      "icon": "🌐",
+      "path": "01-Projects/Digital-Unification",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FDigital-Unification",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_8",
+      "title": "Knowledge Synthesis Tool",
+      "icon": "🧠",
+      "path": "01-Projects/Knowledge-Synthesis-Tool",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FKnowledge-Synthesis-Tool",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_9",
+      "title": "MCP Implementation",
+      "icon": "🔧",
+      "path": "01-Projects/MCP-Implementation",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FMCP-Implementation",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_10",
+      "title": "WOW Lead Attribution Infrastructure",
+      "icon": "📊",
+      "path": "01-Projects/WOW-Lead-Attribution-Infrastructure",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2FWOW-Lead-Attribution-Infrastructure",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_11",
+      "title": "Ableton Mcp",
+      "icon": "🎛️",
+      "path": "01-Projects/ableton-mcp",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fableton-mcp",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_12",
+      "title": "Band In A Box Ai",
+      "icon": "🎹",
+      "path": "01-Projects/band-in-a-box-ai",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fband-in-a-box-ai",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_13",
+      "title": "Betty Ai",
+      "icon": "🤖",
+      "path": "01-Projects/betty-ai",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fbetty-ai",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_14",
+      "title": "Betty Mcp",
+      "icon": "🔌",
+      "path": "01-Projects/betty-mcp",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fbetty-mcp",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_15",
+      "title": "Macromancer",
+      "icon": "⌨️",
+      "path": "01-Projects/macromancer",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fmacromancer",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_16",
+      "title": "Memory System",
+      "icon": "💾",
+      "path": "01-Projects/memory-system",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fmemory-system",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_17",
+      "title": "Midi Gesture",
+      "icon": "🎼",
+      "path": "01-Projects/midi-gesture",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fmidi-gesture",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_18",
+      "title": "N8n Mcp Setup",
+      "icon": "🔄",
+      "path": "01-Projects/n8n-mcp-setup",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fn8n-mcp-setup",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_19",
+      "title": "Pc Setup Package",
+      "icon": "💻",
+      "path": "01-Projects/pc-setup-package",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fpc-setup-package",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_20",
+      "title": "Resonance Prime",
+      "icon": "🔊",
+      "path": "01-Projects/resonance-prime",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fresonance-prime",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    },
+    {
+      "id": "project_21",
+      "title": "Voice Notes Pipeline",
+      "icon": "🎙️",
+      "path": "01-Projects/voice-notes-pipeline",
+      "url": "obsidian://open?vault=Obsidian-Vault&file=01-Projects%2Fvoice-notes-pipeline",
+      "backgroundColor": "#2D3142",
+      "textColor": "#FFFFFF"
+    }
+  ]
+}

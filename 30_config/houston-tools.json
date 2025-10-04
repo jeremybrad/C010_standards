@@ -1,0 +1,124 @@
+{
+  "tool_pipelines": {
+    "research_pipeline": [
+      "web_search",
+      "browser_automation",
+      "content_summarization",
+      "fact_checking"
+    ],
+    "deployment_pipeline": [
+      "git_status_check",
+      "dependency_verification",
+      "docker_build",
+      "health_monitoring"
+    ],
+    "troubleshooting_pipeline": [
+      "system_diagnostics",
+      "log_analysis",
+      "service_restart",
+      "verification"
+    ]
+  },
+  "tool_access": {
+    "local_tools": {
+      "enabled": true,
+      "auto_discovery": true,
+      "security_sandbox": "strict",
+      "phase_overrides": {
+        "1": {
+          "filesystem": {
+            "read": true,
+            "write": false,
+            "list": true,
+            "search": true,
+            "monitor": true
+          },
+          "process_management": {
+            "list_processes": true,
+            "monitor_services": true,
+            "restart_services": false,
+            "kill_processes": false
+          },
+          "network": {
+            "port_scanning": true,
+            "health_checks": true,
+            "ping": true,
+            "dns_lookup": true
+          }
+        },
+        "2": {
+          "filesystem": {
+            "read": true,
+            "write": true,
+            "list": true,
+            "search": true,
+            "monitor": true
+          },
+          "process_management": {
+            "list_processes": true,
+            "monitor_services": true,
+            "restart_services": true,
+            "kill_processes": false
+          },
+          "network": {
+            "port_scanning": true,
+            "health_checks": true,
+            "ping": true,
+            "dns_lookup": true
+          }
+        }
+      }
+    },
+    "vps_tools": {
+      "enabled": false,
+      "endpoint": "https://mcp.example.com",
+      "authentication": "api_key",
+      "timeout_seconds": 30
+    },
+    "cloud_tools": {
+      "enabled": false,
+      "providers": [
+        "huggingface",
+        "github",
+        "docker_hub"
+      ]
+    }
+  },
+  "tool_safety": {
+    "token_budget": {
+      "per_tool_call": 1000,
+      "per_session": 10000,
+      "daily_limit": 100000
+    },
+    "rate_limiting": {
+      "calls_per_minute": 60,
+      "burst_limit": 10
+    },
+    "dangerous_operations": {
+      "file_deletion": "confirm",
+      "system_shutdown": "password_required",
+      "network_changes": "supervisor_approval"
+    }
+  },
+  "phase_settings": {
+    "current_phase": 1,
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Essential",
+        "pipelines_enabled": [
+          "research_pipeline"
+        ]
+      },
+      {
+        "phase": 2,
+        "name": "Enhanced",
+        "pipelines_enabled": [
+          "research_pipeline",
+          "deployment_pipeline",
+          "troubleshooting_pipeline"
+        ]
+      }
+    ]
+  }
+}

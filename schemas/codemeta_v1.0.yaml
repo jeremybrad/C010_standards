@@ -1,0 +1,78 @@
+# CodeMeta schema canonical template (v1.0)
+# Source: ../P002_sadb/10_docs/CodeMeta_Schema_v1.0.md
+# Attribution: Code metadata schema maintained by Jeremy Bradford for SADB.
+schema: "CodeMeta.v1.0"
+doc:
+  sha256: "<sha256_bytes>"
+  path: "<absolute or repo-relative path>"
+  repo: "<top-level project or repo name>"
+  language: "<python|javascript|typescript|go|rust|java|kotlin|ruby|php|c|cpp|csharp|swift|bash|sql|r|julia|lua|other>"
+  runtime: "<python 3.11|node 20|go 1.22>"
+  framework: "<fastapi|flask|react|nextjs>"
+  filetype: "<source|config|schema|script|test|notebook>"
+  sloc: <int>
+  summary: |
+    <2-5 sentences describing purpose and behavior>
+  entrypoints:
+    - "<function or CLI command users call>"
+  functions:
+    - name: "<function name>"
+      summary: "<one-line description>"
+      params:
+        - "<name:type=default>"
+      returns: "<type or description>"
+  classes:
+    - name: "<class name>"
+      summary: "<role>"
+      methods:
+        - "<method name>"
+  cli:
+    commands:
+      - name: "<command>"
+        usage: "<example invocation>"
+        summary: "<what the command achieves>"
+  dependencies:
+    imports:
+      - "<pkg or module>"
+    external_services:
+      - "<api/db/queue>"
+    config_files:
+      - "<path>"
+  tests:
+    present: <true|false>
+    hints:
+      - "<files or patterns detected>"
+  examples:
+    - "<short usage example>"
+  quality:
+    lints:
+      - "<ruff|eslint|pylint>"
+    complexity_hint: "<low|medium|high>"
+    smells:
+      - "<duplicate logic|tight coupling|no tests>"
+  security:
+    secrets_suspected: <true|false>
+    notes:
+      - "<BEGIN PRIVATE KEY detected>"
+    license: "<MIT|Apache-2.0|Proprietary|Unknown>"
+  provenance:
+    conversations:
+      - "<conv_id:message_id>"
+    commit: "<short sha or unknown>"
+  relationships:
+    related_docs:
+      - "<sha256 or path>"
+    projects:
+      - "<SADB|CloudMD|ParallelLLMs|...>"
+    topics:
+      - "<tag>"
+    keywords:
+      - "<search term>"
+  routing:
+    canonical: <true|false>
+    live: <true|false>
+    tags:
+      - "source:code"
+      - "priority:normal"
+  notes: |
+    <optional curatorial notes>

@@ -1,0 +1,274 @@
+# Cross-corpus taxonomy additions captured for future implementation.
+# Source: ../P002_sadb/30_config/complete_taxonomy_additions.yaml (analysis never implemented).
+# complete_taxonomy_additions.yaml
+# DISCOVERED TAXONOMY ADDITIONS FROM JULY 7TH CROSS-CORPUS ANALYSIS
+# 493 conversations analyzed, 7,883 patterns discovered
+# Key finding: 81% of business terms in Betty are used metaphorically
+
+meta:
+  version: "0.2"
+  discovery_date: "2025-07-07"
+  analysis_scope: "493 conversations (Claude + Betty)"
+  implementation_status: "NEVER IMPLEMENTED"
+  source: "Cross-corpus linguistic taxonomy expansion"
+
+# ========================================
+# EMOTION_TAXONOMY.YAML ADDITIONS
+# ========================================
+
+new_emotions:
+  # Work-context emotions (discovered in Claude corpus)
+  breakthrough:
+    tag: "breakthrough"
+    definition: "Sudden understanding or creative breakthrough moment"
+    valence: "positive"
+    arousal: "high"
+    color_association: "#FFD700"
+    typical_contexts: ["problem solving", "eureka moments", "creative breakthroughs", "technical insights"]
+    
+  flow:
+    tag: "flow"
+    definition: "Deep state of productive engagement"
+    valence: "positive"
+    arousal: "medium"
+    color_association: "#00CED1"
+    typical_contexts: ["coding", "writing", "creative work", "optimal performance"]
+    
+  clarity:
+    tag: "clarity"
+    definition: "Mental sharpness and clear understanding"
+    valence: "positive"
+    arousal: "medium"
+    color_association: "#87CEEB"
+    typical_contexts: ["decision making", "problem analysis", "strategic thinking"]
+    
+  urgency:
+    tag: "urgency"
+    definition: "Time pressure and need for rapid action"
+    valence: "neutral"
+    arousal: "high"
+    color_association: "#FF4500"
+    typical_contexts: ["deadlines", "crisis management", "rapid iteration"]
+    
+  persistence:
+    tag: "persistence"
+    definition: "Determined continuation despite obstacles"
+    valence: "neutral"
+    arousal: "medium"
+    color_association: "#8B4513"
+    typical_contexts: ["debugging", "long-term projects", "skill building"]
+    
+  overwhelm:
+    tag: "overwhelm"
+    definition: "Feeling swamped by complexity or volume"
+    valence: "negative"
+    arousal: "high"
+    color_association: "#FF6347"
+    typical_contexts: ["information overload", "multiple priorities", "complexity"]
+
+  # Sacred/poetic emotions (discovered in Betty corpus)
+  sacred:
+    tag: "sacred"
+    definition: "Deep reverence and spiritual connection"
+    valence: "positive"
+    arousal: "low"
+    color_association: "#DDA0DD"
+    typical_contexts: ["spiritual moments", "deep connection", "reverent experiences", "meaningful encounters"]
+    
+  velvet:
+    tag: "velvet"
+    definition: "Soft, luxurious emotional texture"
+    valence: "positive"
+    arousal: "low"
+    color_association: "#8B008B"
+    typical_contexts: ["sensual experiences", "comfort", "gentle intimacy", "rich textures"]
+    
+  electric:
+    tag: "electric"
+    definition: "Charged energy and aliveness"
+    valence: "positive"
+    arousal: "high"
+    color_association: "#00FFFF"
+    typical_contexts: ["discovery", "connection", "creative spark", "synchronicity"]
+
+  reverent:
+    tag: "reverent"
+    definition: "Deep respect and honor"
+    valence: "positive"
+    arousal: "medium"
+    color_association: "#DAA520"
+    typical_contexts: ["gratitude", "recognition", "sacred moments", "deep appreciation"]
+
+  tender:
+    tag: "tender"
+    definition: "Gentle, caring emotional touch"
+    valence: "positive"
+    arousal: "low"
+    color_association: "#FFB6C1"
+    typical_contexts: ["vulnerability", "care", "gentle connection", "soft moments"]
+
+# ========================================
+# CONTENT_TAXONOMY.YAML ADDITIONS
+# ========================================
+
+new_content_types:
+  analytical:
+    tag: "analytical"
+    definition: "Data analysis, metrics, business intelligence"
+    cognitive_mode: "quantitative"
+    typical_emotions: ["satisfaction", "curiosity", "clarity", "breakthrough"]
+    search_priority: "high"
+    temporal_relevance: "time-sensitive"
+    subcategories:
+      seo_marketing:
+        tag: "seo_marketing"
+        definition: "Search optimization, digital marketing metrics"
+        examples: ["organic traffic analysis", "SERP tracking", "conversion optimization", "CTR improvement"]
+      business_metrics:
+        tag: "business_metrics"
+        definition: "KPIs, revenue metrics, growth analytics"
+        examples: ["LTV calculations", "CAC analysis", "retention rates", "churn analysis", "ROI measurement"]
+      user_analytics:
+        tag: "user_analytics"
+        definition: "User behavior, cohort analysis, funnel optimization"
+        examples: ["cohort analysis", "user segmentation", "attribution modeling", "funnel analysis"]
+
+  strategic:
+    tag: "strategic"
+    definition: "Planning, roadmapping, stakeholder management"
+    cognitive_mode: "executive"
+    typical_emotions: ["anticipation", "urgency", "satisfaction", "clarity"]
+    search_priority: "medium"
+    temporal_relevance: "quarterly"
+    examples:
+      - "OKRs and goal setting"
+      - "product roadmaps"
+      - "sprint planning"
+      - "stakeholder communications"
+      - "milestone tracking"
+
+  integrative:
+    tag: "integrative"
+    definition: "Synthesis of technical and creative, merging domains"
+    cognitive_mode: "holistic"
+    typical_emotions: ["breakthrough", "sacred", "flow", "electric"]
+    search_priority: "high"
+    temporal_relevance: "evergreen"
+    examples:
+      - "technical concepts as life metaphors"
+      - "business frameworks for personal growth"
+      - "creative analytics"
+      - "spiritual debugging"
+      - "life architecture design"
+
+# ========================================
+# DISAMBIGUATION RULES
+# ========================================
+
+cross_corpus_patterns:
+  claude_register:
+    description: "Technical problem-solving register"
+    usage_characteristics:
+      - "87% pragmatic usage of business terms"
+      - "Focus on system functionality"
+      - "Precise technical definitions"
+    emotion_associations: ["clarity", "breakthrough", "flow", "urgency", "persistence"]
+    content_associations: ["technical", "analytical", "strategic"]
+    disambiguation_signals:
+      - "API mentions"
+      - "Code references"
+      - "System architecture"
+      - "Problem-solving context"
+      
+  betty_register:
+    description: "Creative metaphorical register"
+    usage_characteristics:
+      - "81% metaphorical usage of business terms"
+      - "Focus on personal growth and creativity"
+      - "Poetic recontextualization"
+    emotion_associations: ["sacred", "velvet", "electric", "reverent", "tender"]
+    content_associations: ["creative", "reflective", "integrative"]
+    disambiguation_signals:
+      - "Soul/spirit references"
+      - "Creative process mentions"
+      - "Personal growth context"
+      - "Metaphorical language"
+
+# Term-specific disambiguation examples
+term_disambiguation:
+  debugging:
+    claude_meaning: "Fixing code errors and system issues"
+    betty_meaning: "Untangling creative blocks and personal obstacles"
+    disambiguation_rule: "Check for code/system references vs personal/creative references"
+    
+  integration:
+    claude_meaning: "API connections and system interoperability"
+    betty_meaning: "Personal wholeness and synthesis of life aspects"
+    disambiguation_rule: "Check for technical system context vs personal development context"
+    
+  architecture:
+    claude_meaning: "System design and technical structure"
+    betty_meaning: "Life structure and personal framework design"
+    disambiguation_rule: "Check for technical implementation vs life philosophy context"
+
+# ========================================
+# IMPLEMENTATION GUIDELINES
+# ========================================
+
+implementation_notes:
+  - "Consider register when tagging: same term may need different tags in Claude vs Betty contexts"
+  - "Work emotions (breakthrough, clarity) are as valid as poetic emotions (sacred, velvet)"
+  - "Business terms in creative contexts should be tagged as 'integrative'"
+  - "High-value content often occurs at intersection of technical and creative"
+  - "Respect both analytical precision and poetic expression as equal modes"
+
+validation_rules:
+  - "Any term appearing in both corpora needs disambiguation logic"
+  - "Emotion assignments should reflect the register being used"
+  - "Content type 'integrative' captures cross-register synthesis"
+  - "Sacred emotions should not be demoted as 'less important' than work emotions"
+
+# ========================================
+# UNIVERSAL_TERMS UPDATES
+# ========================================
+
+universal_terms_additions:
+  # Technical terms with metaphorical variants
+  - canonical: "debugging"
+    synonyms: ["troubleshooting", "fixing", "resolving"]
+    claude_context: "code_technical"
+    betty_context: "creative_personal"
+    
+  - canonical: "integration" 
+    synonyms: ["connecting", "merging", "unifying"]
+    claude_context: "system_api"
+    betty_context: "personal_wholeness"
+    
+  - canonical: "architecture"
+    synonyms: ["structure", "framework", "design"]
+    claude_context: "technical_system"
+    betty_context: "life_philosophy"
+
+# Work emotions cluster
+work_emotions:
+  cluster_name: "professional_flow"
+  emotions: ["breakthrough", "flow", "clarity", "urgency", "persistence", "overwhelm"]
+  typical_usage: "Technical conversations, problem-solving sessions, project work"
+  
+# Sacred emotions cluster  
+sacred_emotions:
+  cluster_name: "spiritual_creative"
+  emotions: ["sacred", "velvet", "electric", "reverent", "tender"]
+  typical_usage: "Creative conversations, personal growth, spiritual discussions"
+
+changelog:
+  - date: "2025-07-07"
+    action: "Initial cross-corpus analysis completed"
+    scope: "493 conversations, 7,883 patterns"
+    discoveries: "15 new emotions, 3 new content types, disambiguation rules"
+    status: "ANALYSIS_COMPLETE"
+    
+  - date: "2025-09-15"
+    action: "Archaeological recovery"
+    scope: "Documentation reconstruction"
+    status: "READY_FOR_IMPLEMENTATION"

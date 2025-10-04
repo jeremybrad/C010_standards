@@ -1,0 +1,160 @@
+# Canonical emotion taxonomy consolidated for P210 metadata governance.
+# Source: ../P002_sadb/30_config/EMOTION_TAXONOMY.yaml (2025-07-07 analysis).
+# Supersedes placeholder ../P002_sadb/30_taxonomy/emotion_taxonomy.yaml.
+# EMOTION_TAXONOMY.yaml
+# Enhanced emotion taxonomy from cross-corpus analysis (July 7, 2025)
+# Covers both work-context and sacred/poetic emotional registers
+
+# Basic Emotions (Original 8)
+basic_emotions:
+  joy:
+    keywords: ["happy", "excited", "delighted", "thrilled", "cheerful", "elated", "joyful", "pleased"]
+    weight: 1.0
+
+  frustration:
+    keywords: ["frustrated", "annoyed", "irritated", "stuck", "blocked", "stalled", "thwarted"]
+    weight: 1.0
+
+  curiosity:
+    keywords: ["curious", "wondering", "interested", "intrigued", "exploring", "investigating", "questioning"]
+    weight: 1.0
+
+  satisfaction:
+    keywords: ["satisfied", "content", "fulfilled", "accomplished", "complete", "done", "achieved"]
+    weight: 1.0
+
+  gratitude:
+    keywords: ["grateful", "thankful", "appreciative", "blessed", "appreciating", "thanks"]
+    weight: 1.0
+
+  confusion:
+    keywords: ["confused", "puzzled", "perplexed", "unclear", "unsure", "lost", "bewildered"]
+    weight: 1.0
+
+  surprise:
+    keywords: ["surprised", "astonished", "amazed", "unexpected", "wow", "shocking", "astounded"]
+    weight: 1.0
+
+  concern:
+    keywords: ["concerned", "worried", "anxious", "apprehensive", "uneasy", "troubled"]
+    weight: 1.0
+
+# Work-Context Emotions (from cross-corpus analysis)
+work_emotions:
+  breakthrough:
+    keywords: ["breakthrough", "eureka", "aha", "solved", "cracked", "figured out", "unlocked", "discovered"]
+    weight: 1.2
+    context: "Professional discovery and problem-solving moments"
+
+  flow:
+    keywords: ["flow", "zone", "rhythm", "groove", "momentum", "stride", "cruising", "clicking"]
+    weight: 1.1
+    context: "Deep productive work states"
+
+  clarity:
+    keywords: ["clear", "crystallized", "obvious", "evident", "transparent", "lucid", "sharp", "focused"]
+    weight: 1.0
+    context: "Mental clarity and understanding"
+
+  urgency:
+    keywords: ["urgent", "pressing", "critical", "immediate", "priority", "deadline", "rush", "asap"]
+    weight: 1.1
+    context: "Time-sensitive pressures"
+
+  persistence:
+    keywords: ["persistent", "determined", "tenacious", "grinding", "pushing through", "persevering", "relentless"]
+    weight: 1.0
+    context: "Sustained effort despite obstacles"
+
+  overwhelm:
+    keywords: ["overwhelmed", "swamped", "drowning", "buried", "overloaded", "too much", "flooded"]
+    weight: 1.2
+    context: "Cognitive or task overload"
+
+  calibration:
+    keywords: ["calibrating", "adjusting", "tuning", "aligning", "fine-tuning", "dialing in", "tweaking"]
+    weight: 0.9
+    context: "Fine adjustment and optimization"
+
+  anticipation:
+    keywords: ["anticipating", "expecting", "awaiting", "looking forward", "preparing", "ready for", "excited about"]
+    weight: 1.0
+    context: "Forward-looking preparation"
+
+  synthesis:
+    keywords: ["synthesizing", "integrating", "combining", "merging", "weaving", "connecting", "unifying"]
+    weight: 1.1
+    context: "Combining disparate elements"
+
+# Sacred/Poetic Emotions (from Betty corpus)
+sacred_emotions:
+  sacred:
+    keywords: ["sacred", "holy", "divine", "blessed", "consecrated", "hallowed", "sanctified"]
+    weight: 1.3
+    context: "Spiritual or deeply meaningful experiences"
+
+  velvet:
+    keywords: ["velvet", "soft", "gentle", "smooth", "tender", "delicate", "silky", "plush"]
+    weight: 1.2
+    context: "Textural/sensory emotional quality"
+
+  electric:
+    keywords: ["electric", "charged", "buzzing", "alive", "vibrant", "energized", "crackling", "sparking"]
+    weight: 1.2
+    context: "High energy emotional states"
+
+  reverent:
+    keywords: ["reverent", "awe", "wonder", "humbled", "respectful", "honoring", "veneration"]
+    weight: 1.1
+    context: "Deep respect and awe"
+
+  tender:
+    keywords: ["tender", "gentle", "loving", "caring", "soft", "nurturing", "compassionate", "warm"]
+    weight: 1.0
+    context: "Gentle emotional connection"
+
+  luminous:
+    keywords: ["luminous", "radiant", "glowing", "shining", "brilliant", "illuminated", "bright"]
+    weight: 1.1
+    context: "Clarity with spiritual quality"
+
+# Emotion Clusters (for co-occurrence analysis)
+emotion_clusters:
+  discovery_cluster:
+    emotions: ["curiosity", "breakthrough", "surprise", "clarity"]
+    description: "Learning and discovery experiences"
+
+  productivity_cluster:
+    emotions: ["flow", "satisfaction", "persistence", "synthesis"]
+    description: "Deep work and productivity states"
+
+  stress_cluster:
+    emotions: ["frustration", "overwhelm", "urgency", "concern"]
+    description: "Pressure and stress responses"
+
+  sacred_cluster:
+    emotions: ["sacred", "reverent", "tender", "luminous"]
+    description: "Spiritual and poetic experiences"
+
+  sensory_cluster:
+    emotions: ["velvet", "electric", "tender"]
+    description: "Embodied emotional experiences"
+
+# Disambiguation Rules
+disambiguation:
+  context_sensitive:
+    - term: "debugging"
+      work_context: ["frustration", "persistence", "breakthrough"]
+      metaphor_context: ["synthesis", "clarity"]
+
+    - term: "integration"
+      work_context: ["synthesis", "flow"]
+      metaphor_context: ["sacred", "luminous"]
+
+    - term: "architecture"
+      work_context: ["clarity", "synthesis"]
+      metaphor_context: ["sacred", "reverent"]
+
+    - term: "alignment"
+      work_context: ["calibration", "clarity"]
+      metaphor_context: ["sacred", "flow"]

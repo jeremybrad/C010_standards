@@ -1,0 +1,40 @@
+# Metadata classification taxonomy consolidated for P210 metadata governance.
+# Source: ../P002_sadb/30_config/taxonomy.yaml (workspace tagging defaults).
+# 30_config/taxonomy.yaml
+speakers:
+  - "Jeremy Bradford"
+  - "Betty"
+  - "Claude"
+  - "Grok"
+
+types:
+  - preference
+  - stance
+  - quote
+  - decision
+  - event
+  - bio_fact
+  - reflection
+
+domain:            # work/personal labeling (can be both)
+  enum: [work, personal, both, unknown]
+
+category_primary:  # high-level domains (small list for now)
+  enum: [technology, work, music, personal, health, analytics, ai_research, other]
+
+category_secondary:   # optional, per primary; expand over time
+  technology: [hardware, software, llm, cuda, tooling, dev_env]
+  analytics: [ab_testing, attribution, dashboards, metrics, pipelines]
+  ai_research: [prompting, alignment, embeddings, fine_tuning]
+  music: [listening, gear, composition, practice, performance]
+  work: [projects, meetings, decisions, tasks]
+  personal: [family, health, finance, journaling]
+  health: [treatment, recovery, fitness]
+  other: [misc]
+
+# optional defaults (used only by UI when item lacks a value)
+defaults:
+  speaker: "Jeremy Bradford"
+  type: bio_fact
+  domain: unknown
+  category_primary: other

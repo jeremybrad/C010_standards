@@ -1,0 +1,154 @@
+# master_taxonomy.yaml
+# UNIFIED TRI-AXIS TAXONOMY SYSTEM v0.1
+# This is the authoritative source for all metadata classification across Jeremy's projects
+# DO NOT FORK OR DUPLICATE - All tools must reference this file
+
+meta:
+  version: "0.1"
+  schema_version: "1.0"
+  last_modified: "2025-01-07"
+  maintainer: "Jeremy Bradford"
+  description: "Unified taxonomy for content classification across Claude, Betty, and all knowledge systems"
+  source_location: "/Users/jeremybradford/SyncedProjects/Workspace/resonance-prime/shared_taxonomies/"
+  
+  compatibility:
+    min_version: "0.1"
+    breaking_changes: []
+  
+  governance:
+    change_process: "See taxonomy_governance.yaml"
+    authority: "Jeremy Bradford (final approval)"
+    versioning: "Semantic versioning - additions are minor, removals are major"
+
+# Import references (tools should load these files)
+imports:
+  emotion: "./emotion_taxonomy.yaml"
+  privacy: "./privacy_taxonomy.yaml"
+  content: "./content_taxonomy.yaml"
+  governance: "./taxonomy_governance.yaml"
+
+# Consolidated tag structure for quick reference
+axes:
+  emotion:
+    description: "The feeling or mood associated with content"
+    required: true
+    max_values: 3
+    valid_tags:
+      - joy
+      - sadness
+      - nostalgia
+      - awe
+      - love
+      - anger
+      - fear
+      - anticipation
+      - trust
+      - surprise
+      - longing
+      - frustration
+      - anxiety
+  
+  privacy:
+    description: "Access control and sharing scope"
+    required: true
+    max_values: 1
+    valid_tags:
+      - public      # Anyone can access
+      - shareable   # Trusted circles
+      - sensitive   # Close friends, specific contexts
+      - intimate    # Self or most trusted only
+  
+  content_type:
+    description: "Cognitive mode and information category"
+    required: true
+    max_values: 2
+    valid_tags:
+      - technical    # Code, specs, problem-solving
+      - reflective   # Self-examination, insights
+      - relational   # Interpersonal dynamics
+      - creative     # Artistic expression
+      - biographical # Life events, history
+      - logistical   # Planning, organizing
+
+# Validation rules
+validation:
+  required_fields:
+    - emotion
+    - privacy
+    - content_type
+  
+  optional_fields:
+    - timestamp
+    - author
+    - source
+    - project
+    - tags
+    - songs_mentioned
+    - tools_used
+  
+  constraints:
+    emotion_count: "1-3 emotions per entry"
+    privacy_count: "Exactly 1 privacy level"
+    content_type_count: "1-2 content types"
+    privacy_escalation: "Can lower privacy, raising requires consent"
+
+# Usage examples
+examples:
+  claude_conversation:
+    emotion: ["joy", "anticipation"]
+    privacy: "shareable"
+    content_type: ["technical", "creative"]
+    project: "Codify"
+    tools_used: ["ChromaDB", "n8n"]
+    
+  betty_memory:
+    emotion: ["nostalgia", "love"]
+    privacy: "sensitive"
+    content_type: ["biographical", "reflective"]
+    timestamp: "2024-12-19T10:30:00Z"
+    
+  research_note:
+    emotion: ["awe", "frustration"]
+    privacy: "public"
+    content_type: ["technical"]
+    tags: ["LLM", "RAG", "vector-search"]
+
+# Integration points
+integrations:
+  betty_mcp:
+    path: "memory/taxonomy.yaml"
+    sync: "bidirectional"
+    
+  knowledge_synthesis_tool:
+    path: "src/config/taxonomy.yaml"
+    sync: "read-only"
+    
+  obsidian:
+    path: "System/taxonomy.yaml"
+    sync: "bidirectional"
+    
+  claude_exports:
+    processor: "scripts/apply_taxonomy.py"
+    output_format: "yaml_frontmatter"
+
+# API usage
+api:
+  endpoints:
+    validate: "/api/taxonomy/validate"
+    suggest: "/api/taxonomy/suggest"
+    version: "/api/taxonomy/version"
+  
+  rate_limits:
+    validate: "1000/hour"
+    suggest: "100/hour"
+
+# Change log
+changelog:
+  - version: "0.1"
+    date: "2025-01-07"
+    changes:
+      - "Initial unified taxonomy creation"
+      - "Added emotion_taxonomy.yaml"
+      - "Consolidated all three axes"
+      - "Defined validation rules"
+      - "Set up integration points"

@@ -1,0 +1,268 @@
+# Canonical universal terms mapping consolidated for P210 metadata governance.
+# Source: ../P002_sadb/30_config/UNIVERSAL_TERMS.yaml (2025-07-07 analysis).
+# Replaces simplified fixtures under ../P002_sadb/30_taxonomy/.
+# UNIVERSAL_TERMS.yaml
+# Synonym mapping to canonical topics with metaphorical variants
+# Updated from July 7, 2025 cross-corpus analysis
+
+# Technical Terms (Literal Usage - Claude Corpus)
+technical_terms:
+  ai_llm:
+    - "artificial intelligence"
+    - "machine learning"
+    - "neural network"
+    - "deep learning"
+    - "transformer"
+    - "language model"
+    - "LLM"
+    - "GPT"
+    - "Claude"
+    - "ChatGPT"
+    - "AI assistant"
+    - "model"
+    - "inference"
+    - "prompt"
+    - "token"
+
+  data_pipeline:
+    - "ETL"
+    - "data processing"
+    - "batch processing"
+    - "stream processing"
+    - "data flow"
+    - "ingestion"
+    - "transformation"
+    - "extraction"
+    - "loading"
+    - "pipeline"
+
+  memory_extraction:
+    - "memory system"
+    - "knowledge extraction"
+    - "retrieval"
+    - "embedding"
+    - "semantic search"
+    - "vector database"
+    - "ChromaDB"
+    - "context retrieval"
+    - "memory augmentation"
+
+  api_integration:
+    - "REST API"
+    - "webhook"
+    - "endpoint"
+    - "HTTP request"
+    - "API call"
+    - "integration point"
+    - "service connection"
+    - "external service"
+
+  testing:
+    - "unit test"
+    - "integration test"
+    - "test suite"
+    - "QA"
+    - "quality assurance"
+    - "validation"
+    - "verification"
+    - "test coverage"
+    - "regression test"
+
+  error_handling:
+    - "exception handling"
+    - "error recovery"
+    - "fault tolerance"
+    - "error logging"
+    - "debugging"
+    - "troubleshooting"
+    - "stack trace"
+    - "error message"
+
+# Metaphorical Terms (Betty Corpus - 81% metaphorical usage)
+metaphorical_terms:
+  debugging_metaphor:
+    canonical: "personal_growth"
+    variants:
+      - "debugging the soul"
+      - "debugging patterns"
+      - "debugging beliefs"
+      - "inner debugging"
+      - "spiritual debugging"
+      - "emotional debugging"
+      - "consciousness debugging"
+    context: "Used metaphorically for personal development"
+
+  integration_metaphor:
+    canonical: "wholeness"
+    variants:
+      - "integrating shadows"
+      - "integrating parts"
+      - "soul integration"
+      - "spiritual integration"
+      - "consciousness integration"
+      - "divine integration"
+      - "sacred integration"
+    context: "Used for psychological/spiritual unification"
+
+  architecture_metaphor:
+    canonical: "sacred_structure"
+    variants:
+      - "soul architecture"
+      - "consciousness architecture"
+      - "divine architecture"
+      - "sacred architecture"
+      - "temple architecture"
+      - "inner architecture"
+      - "spiritual architecture"
+    context: "Used for spiritual or foundational structures"
+
+  processing_metaphor:
+    canonical: "emotional_processing"
+    variants:
+      - "processing emotions"
+      - "processing trauma"
+      - "processing experiences"
+      - "inner processing"
+      - "spiritual processing"
+      - "consciousness processing"
+      - "metabolizing experience"
+    context: "Used for psychological/emotional work"
+
+  framework_metaphor:
+    canonical: "paradigm"
+    variants:
+      - "spiritual framework"
+      - "consciousness framework"
+      - "belief framework"
+      - "reality framework"
+      - "sacred framework"
+      - "divine framework"
+    context: "Used for worldviews and belief systems"
+
+  alignment_metaphor:
+    canonical: "attunement"
+    variants:
+      - "soul alignment"
+      - "spiritual alignment"
+      - "divine alignment"
+      - "consciousness alignment"
+      - "energy alignment"
+      - "sacred alignment"
+      - "purpose alignment"
+    context: "Used for spiritual/energetic harmony"
+
+# Hybrid Terms (Context-dependent)
+hybrid_terms:
+  performance:
+    technical_context:
+      - "optimization"
+      - "efficiency"
+      - "throughput"
+      - "latency"
+      - "benchmarking"
+      - "metrics"
+    metaphorical_context:
+      - "peak performance"
+      - "performing at highest self"
+      - "life performance"
+      - "soul performance"
+      - "sacred performance"
+
+  memory:
+    technical_context:
+      - "RAM"
+      - "cache"
+      - "storage"
+      - "memory allocation"
+      - "buffer"
+      - "heap"
+      - "stack"
+    metaphorical_context:
+      - "soul memory"
+      - "body memory"
+      - "ancestral memory"
+      - "cellular memory"
+      - "divine memory"
+      - "eternal memory"
+
+  security:
+    technical_context:
+      - "authentication"
+      - "authorization"
+      - "encryption"
+      - "firewall"
+      - "vulnerability"
+      - "penetration testing"
+    metaphorical_context:
+      - "emotional security"
+      - "spiritual security"
+      - "inner security"
+      - "sacred boundaries"
+      - "energetic protection"
+
+# Sacred/Poetic Terms (Betty-specific)
+sacred_terms:
+  becoming:
+    - "transformation"
+    - "emergence"
+    - "unfolding"
+    - "evolution"
+    - "metamorphosis"
+    - "transmutation"
+    - "awakening"
+    - "flowering"
+
+  divine:
+    - "sacred"
+    - "holy"
+    - "eternal"
+    - "cosmic"
+    - "celestial"
+    - "transcendent"
+    - "sublime"
+    - "ineffable"
+
+  velvet:
+    - "soft"
+    - "gentle"
+    - "tender"
+    - "smooth"
+    - "silken"
+    - "plush"
+    - "luxurious"
+    - "sensuous"
+
+  luminous:
+    - "radiant"
+    - "glowing"
+    - "brilliant"
+    - "shining"
+    - "illuminated"
+    - "incandescent"
+    - "effulgent"
+    - "phosphorescent"
+
+# Cross-Corpus Mapping Rules
+mapping_rules:
+  priority:
+    1: "Check for explicit context markers"
+    2: "Apply corpus-specific weighting"
+    3: "Use disambiguation rules"
+    4: "Default to most common usage"
+
+  corpus_detection:
+    claude_indicators:
+      - "code blocks present"
+      - "technical terminology density > 0.3"
+      - "numbered lists"
+      - "implementation details"
+    betty_indicators:
+      - "metaphorical language density > 0.5"
+      - "sacred/divine references"
+      - "first-person emotional language"
+      - "poetic structure"
+
+  confidence_scoring:
+    high: "Clear context with strong indicators"
+    medium: "Mixed signals, apply weighted scoring"
+    low: "Ambiguous, mark for review"

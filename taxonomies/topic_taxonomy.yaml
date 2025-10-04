@@ -1,0 +1,20 @@
+# Canonical topic taxonomy consolidated for P210 metadata governance.
+# Source: ../P002_sadb/30_taxonomy/topic_taxonomy_actual.yaml (latest working copy).
+# Replaces legacy ../P002_sadb/30_taxonomy/topic_taxonomy.yaml test fixture.
+# Basic topic taxonomy for testing
+topics:
+  - AI
+  - machine learning
+  - python
+  - javascript
+  - docker
+  - kubernetes
+  - database
+  - API
+  - testing
+  - documentation
+  - security
+  - performance
+  - debugging
+  - architecture
+  - automation
