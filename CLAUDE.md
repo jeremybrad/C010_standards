@@ -24,13 +24,13 @@ C010_standards is the canonical source of truth for workspace-wide metadata stan
 - `emotion_taxonomy.yaml` - Emotional context tagging
 - `universal_terms.yaml` - Canonical terminology and synonyms
 
-**Validators (`validators/`)** - Phase 2 tooling scaffold:
-- `check_houston_docmeta.py` - Enforce routing tags and taxonomy alignment
-- `check_houston_features.py` - Validate feature config against schema and trust phases
-- `check_houston_tools.py` - Verify tool pipeline consistency
-- `check_houston_models.py` - Check model fallback chains and config parity
-- `check_houston_telemetry.py` - Ensure telemetry freshness and required metrics
-- `run_all.py` - Orchestration harness for validator suite
+**Validators (`validators/`)** - Phase 2 production tooling (COMPLETE):
+- `check_houston_docmeta.py` - Enforce routing tags and taxonomy alignment (YAML/MD parsing)
+- `check_houston_features.py` - Validate feature config against JSON schema and trust phases
+- `check_houston_tools.py` - Verify tool pipeline consistency and dangerous ops gating
+- `check_houston_models.py` - Check deployment permissions against trust phases
+- `check_houston_telemetry.py` - Ensure telemetry freshness, latency, and fallback loops
+- `run_all.py` - Orchestration harness (stops on first failure)
 
 **Houston Config (`30_config/`)** - Mission Control agent configuration:
 - `houston-features.json` - Feature toggles, agency levels, trust building phases
@@ -47,21 +47,35 @@ python validators/run_all.py
 # Run specific validators
 python validators/run_all.py --targets houston_docmeta houston_features
 
-# Pass additional arguments to validators
-python validators/run_all.py --pass-args --fix
+# Individual validator with verbose output
+python validators/check_houston_features.py --verbose
+
+# Output to JSON for CI integration
+python validators/check_houston_docmeta.py --json-output 70_evidence/docmeta_results.json
+
+# Telemetry with custom staleness threshold
+python validators/check_houston_telemetry.py --max-age 600  # 10 minutes
 ```
 
-**Current State**: All validators are scaffolded stubs that exit with status 99 (not implemented). They verify basic inputs and argument parsing but perform no real validation yet. Phase 2 will implement actual checks.
+**Current State**: All 5 validators are fully implemented (Phase 2 complete). They exit 0 on pass, 1 on validation failure, 2 on config errors. Include verbose mode, JSON output, and remediation suggestions.
 
 ### Schema Validation
 
-No automated schema validation exists yet. Future tooling will validate YAML/JSON files against schemas in `schemas/` directory.
+Houston features config is validated against `schemas/houston_features.schema.json` using jsonschema library:
+```bash
+python validators/check_houston_features.py --schema schemas/houston_features.schema.json
+```
+
+Install dependencies: `pip install pyyaml jsonschema` (optional - validators warn if missing)
 
 ### Testing Taxonomy Changes
 
-No test suite exists. When modifying taxonomies:
+When modifying taxonomies:
 1. Verify YAML syntax: `python -c "import yaml; yaml.safe_load(open('taxonomies/topic_taxonomy.yaml'))"`
-2. Check for duplicate keys manually
+2. Run DocMeta validator to check Houston documents against updated taxonomy:
+   ```bash
+   python validators/check_houston_docmeta.py --taxonomy taxonomies/topic_taxonomy.yaml --verbose
+   ```
 3. Update consuming projects (Mission Control, SADB) if terms change
 
 ## Houston Configuration Guidelines
@@ -146,31 +160,45 @@ All imported YAML files include provenance:
 - Reference affected files and upstream sources in commit body
 - Include diff snippets for schema changes
 
-## Validator Development
+## Validator Architecture
 
-When implementing validators (Phase 2):
+All validators follow a consistent pattern:
 
-1. **Maintain CLI Contract**: Accept paths/targets as arguments, exit 0 on success
-2. **Output Formats**: Support JSON for CI integration, human-readable for terminal
-3. **Fixtures**: Add test samples to `validators/fixtures/` for unit tests
-4. **Registry**: Update `validators/__init__.py` with new validator entry in `AVAILABLE_VALIDATORS`
-5. **Documentation**: Update `validators/README.md` usage table
+**CLI Contract**:
+- Accept paths/configs as arguments with sensible defaults
+- Exit 0 on pass, 1 on validation failure, 2 on config/parse errors
+- Support `--verbose` for detailed output
+- Support `--json-output` for CI integration
+- Provide actionable remediation suggestions on failure
 
-Example validator structure:
+**Common Structure**:
 ```python
 def cli(argv: List[str] | None = None) -> int:
     args = parse_args(argv or [])
-    # Validation logic
-    return 0  # success, >0 for failure
+    config = load_config(args.config)
+
+    all_errors = []
+    all_errors.extend(validate_rule_1(config, args.verbose))
+    all_errors.extend(validate_rule_2(config, args.verbose))
+
+    if all_errors:
+        print(f"❌ Validation FAILED ({len(all_errors)} issues)")
+        # Print remediation suggestions
+        return 1
+    else:
+        print("✅ Validation passed")
+        return 0
 ```
+
+**Registry**: Update `validators/__init__.py` `AVAILABLE_VALIDATORS` when adding new validators
 
 ## Integration Points
 
 ### Consuming Projects
-- **Mission Control** (`P180_mission-control`): Houston config, telemetry schemas
+- **Mission Control** (`C001_mission-control`): Consumes via git submodule at `external/standards`
 - **SADB** (`P002_sadb`): DocMeta/CodeMeta templates, taxonomy lookups
 - **Betty Mirror** (`P001_bettymirror`): Protocol enforcement, lint rules
-- **Infrastructure** (various): Standard taxonomies for tagging
+- **Infrastructure** (various): Standard taxonomies for tagging via Ruff bootstrap
 
 ### Schema Consumers
 See `notes/SCHEMA_CONSUMERS.md` for complete inventory of which projects depend on each schema version.
@@ -186,9 +214,9 @@ See `notes/SCHEMA_CONSUMERS.md` for complete inventory of which projects depend 
 
 **Phase 1 (Complete)**: Consolidation of schemas, taxonomies, protocols from SADB and Betty Mirror
 
-**Phase 2 (In Progress)**: Validator implementation, Houston interface prototyping, CI integration
+**Phase 2 (Complete)**: All 5 validators implemented, Ruff baseline deployed, C001 integration via submodule
 
-**Phase 3 (Planned)**: Adoption across all repos, automated metadata checks in CI, schema versioning policy
+**Phase 3 (In Progress)**: Adoption across repos, Houston interface prototyping, schema versioning policy
 
 See `notes/ROADMAP.md` for detailed task breakdown.
 
@@ -199,7 +227,8 @@ See `notes/ROADMAP.md` for detailed task breakdown.
 - **YAML as source of truth**: Markdown schema docs are reference only
 - **Houston is not a chatbot**: It's a Mission Control operations agent with gradual trust phases
 - **Taxonomy changes are breaking**: Update consuming projects when modifying controlled vocabularies
-- **Validators are stubs**: Exit code 99 signals unimplemented logic, not failure
+- **Validators are production-ready**: Exit 0 on pass, 1 on fail - use in CI workflows
+- **Dependencies optional**: Validators warn if PyYAML/jsonschema missing but still function
 
 ## Betty Protocol Compliance
 
@@ -207,5 +236,6 @@ All work follows Betty Protocol evidence-driven development:
 1. Document non-trivial changes in `20_receipts/` (when applicable)
 2. Update `notes/CHANGELOG.md` for schema modifications
 3. Never auto-commit - only when explicitly requested
-4. Report blockers transparently (exit code 99 for unimplemented validators)
-5. Keep README accurate when behavior changes
+4. Report blockers transparently in validator output
+5. Keep README and CHANGELOG accurate when behavior changes
+6. Run validators before committing Houston config changes
