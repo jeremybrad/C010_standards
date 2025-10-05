@@ -19,11 +19,7 @@ for repo in "$ROOT"/*/; do
   else
     echo "  - $(basename "$repo") : Ruff already present"
   fi
-  # Install Ruff (uv preferred, else pip)
-  if command -v uv >/dev/null 2>&1; then
-    uv pip install --system ruff >/dev/null
-  else
-    pip install --user ruff >/dev/null || true
-  fi
+  # Note: Ruff installation skipped (assume already installed via brew/pipx)
+  # To install: brew install ruff OR pipx install ruff
 done
 echo ">>> Done."
