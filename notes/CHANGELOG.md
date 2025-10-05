@@ -1,5 +1,19 @@
 # Metadata Governance Changelog
 
+## 2025-10-04
+- **Phase 2 Complete**: Implemented all 5 Houston validators with full validation logic (exit 0/1 instead of stub 99)
+- Implemented `check_houston_features.py`: JSON schema validation, phase consistency, safety controls, autonomous deployment permissions
+- Implemented `check_houston_docmeta.py`: routing tag validation, taxonomy alignment, project tags, playbook requirements
+- Implemented `check_houston_models.py`: deployment permission validation against trust phases
+- Implemented `check_houston_tools.py`: phase alignment, dangerous operations gating, VPS endpoint validation
+- Implemented `check_houston_telemetry.py`: freshness checks, required fields, latency thresholds, fallback loop detection
+- All validators include verbose mode, JSON output options, and actionable remediation suggestions
+- Renamed repository from P210_metadata-governance to C010_standards
+- Added Ruff baseline config (`pyproject.toml`, policy templates, `scripts/bootstrap_ruff.sh`)
+- Integrated C010_standards into C001_mission-control as git submodule at `external/standards`
+- Added CI workflow (`.github/workflows/standards.yml`) in C001 for non-blocking validation
+- Successfully bootstrapped Ruff config across ~20 workspace repositories
+
 ## 2025-09-21
 - Added Houston chat/voice interface blueprint (`notes/HOUSTON_INTERFACE.md`) and referenced it across contributor guides/roadmap for future UI work.
 - Scaffolded Houston validator harness (`validators/run_all.py`) and stub modules for DocMeta, features, tools, models, and telemetry checks.
