@@ -4,7 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-P210 Metadata Governance is the canonical source of truth for workspace-wide metadata standards, YAML schemas, taxonomies, and protocol definitions. It anchors the Betty Protocol, DocMeta/CodeMeta schemas, Houston configuration, and validation tooling used across Mission Control, SADB, and infrastructure projects.
+C010_standards is the canonical source of truth for workspace-wide metadata standards, YAML schemas, taxonomies, and protocol definitions. It anchors the Betty Protocol, DocMeta/CodeMeta schemas, Houston configuration, and validation tooling used across Mission Control, SADB, and infrastructure projects.
+
+**Location**: `~/SyncedProjects/C010_standards`
+**Consumed by**: C001_mission-control (as git submodule at `external/standards`)
 
 ## Architecture
 
