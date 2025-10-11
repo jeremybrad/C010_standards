@@ -6,7 +6,12 @@
       "Bash(ruff:*)",
       "Bash(python3:*)",
       "Bash(mv:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git add:*)",
+      "Bash(git checkout:*)",
+      "Bash(git grep:*)",
+      "Bash(xargs sed:*)",
+      "Bash(find:*)"
     ],
     "deny": [],
     "ask": []
