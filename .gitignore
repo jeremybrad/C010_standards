@@ -1,0 +1,6 @@
+.env
+.env.local
+local_secrets/
+secrets/
+*.secret
+*.key
