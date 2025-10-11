@@ -5,7 +5,8 @@
       "Bash(test:*)",
       "Bash(ruff:*)",
       "Bash(python3:*)",
-      "Bash(mv:*)"
+      "Bash(mv:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

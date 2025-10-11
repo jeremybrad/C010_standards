@@ -78,6 +78,24 @@ When modifying taxonomies:
    ```
 3. Update consuming projects (Mission Control, SADB) if terms change
 
+### Ruff Bootstrap Tooling
+
+C010_standards provides workspace-wide Python linting standards:
+
+```bash
+# Bootstrap Ruff config to all repos in workspace
+bash scripts/bootstrap_ruff.sh
+
+# Bootstrap to specific directory
+bash scripts/bootstrap_ruff.sh /path/to/workspace
+```
+
+**Template location**: `policy/python/pyproject.ruff.template.toml`
+**What it does**: Adds Ruff configuration to any git repo in SyncedProjects that doesn't already have `[tool.ruff]` section
+**Receipt tracking**: Creates timestamped receipt in `00_admin/RECEIPTS/ruff_*.txt`
+
+**Note**: Assumes Ruff is already installed (`brew install ruff` or `pipx install ruff`)
+
 ## Houston Configuration Guidelines
 
 ### Feature Toggles (`30_config/houston-features.json`)

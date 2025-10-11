@@ -10,6 +10,11 @@ Canonical home for workspace-wide metadata standards, YAML schemas, taxonomies, 
 - Maintain taxonomies (topics, content types, emotions) used across documentation and tooling
 - Host governance documents (Betty Protocol, Universal Claude Standards) with version tracking
 - Deliver validation tooling (linters, schema checkers) for consistent application in all repositories
+- Define and enforce SyncedProjects repository organization standards (C/P/W naming conventions)
+
+## Organization Documentation
+- **[REPOSITORY_ORGANIZATION.md](REPOSITORY_ORGANIZATION.md)** - Naming conventions, folder structure, cleanup procedures
+- **[PROJECT_MAP.md](PROJECT_MAP.md)** - Current project inventory with status and migration needs
 
 ## Directory Layout
 ```
