@@ -30,8 +30,8 @@ scripts/      # Bootstrap scripts (bootstrap_ruff.sh)
 ```
 
 ## Completed Setup
-- [x] Consolidate DocMeta/CodeMeta schemas from `P002_sadb/10_docs/`
-- [x] Move taxonomy files from `P002_sadb/30_config` and `30_taxonomy` into `taxonomies/`
+- [x] Consolidate DocMeta/CodeMeta schemas from `C002_sadb/10_docs/` (formerly P002)
+- [x] Move taxonomy files from `C002_sadb/30_config` and `30_taxonomy` into `taxonomies/` (formerly P002)
 - [x] Link/import Betty Protocol (`WORKSPACE_BETTY_PROTOCOL.md`, `P001_bettymirror/CLAUDE.md`)
 - [x] Create validator scaffolds (5 Houston validators + orchestration harness)
 - [x] Rename P210 → C010_standards
@@ -42,7 +42,7 @@ scripts/      # Bootstrap scripts (bootstrap_ruff.sh)
 ## References
 - Workspace protocol: `/Users/jeremybradford/SyncedProjects/WORKSPACE_BETTY_PROTOCOL.md`
 - Enforcement repo: `/Users/jeremybradford/SyncedProjects/P001_bettymirror`
-- Document schemas & taxonomies: `/Users/jeremybradford/SyncedProjects/P002_sadb`
+- Document schemas & taxonomies: `/Users/jeremybradford/SyncedProjects/C002_sadb` (formerly P002)
 - Schema consumer inventory: `notes/SCHEMA_CONSUMERS.md`
 - Houston inference plan: `notes/HOUSTON_INFERENCE.md`
 - Houston retrieval playbook: `notes/AGENT_PLAYBOOK.md`

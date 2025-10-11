@@ -1,13 +1,14 @@
 # Metadata Governance Changelog
 
 ## 2025-10-11
+- **P002 → C002 Migration**: Promoted P002_sadb to C002_sadb as core infrastructure project - knowledge extraction system consumed by Mission Control, validators, and infrastructure projects
 - **P160 → C004 Migration**: Promoted P160 (Open Web UI) to C004_open-web-ui as core infrastructure project
 - **ADR 001 Created**: Documented modularity architecture decision and migration rationale in `notes/ADR/001-modularity-architecture.md`
 - **C005 Proposed**: Proposed C005_mcp-tools as new core project for Model Context Protocol tooling
 - **Repository Organization Updated**: Added comprehensive section on project promotion criteria and git submodule patterns
 - **Division of Responsibilities**: Clarified governance (C010) vs operations (C001) responsibilities
-- Updated PROJECT_MAP.md to reflect C004 migration and C005 proposal
-- Updated Quick Stats to reflect 6 active core projects + 1 proposed
+- Updated PROJECT_MAP.md to reflect C002 and C004 migrations and C005 proposal
+- Updated Quick Stats to reflect 7 active core projects + 1 proposed
 
 ## 2025-10-04
 - **Phase 2 Complete**: Implemented all 5 Houston validators with full validation logic (exit 0/1 instead of stub 99)

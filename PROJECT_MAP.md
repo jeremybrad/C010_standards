@@ -44,7 +44,7 @@
 ### SADB & Knowledge Systems
 | Project | Purpose | Status |
 |---------|---------|--------|
-| P002_sadb | Self-Aware Database project | Active |
+| C002_sadb | Self-Aware Database project (formerly P002) | **MIGRATED 2025-10-11** |
 | P110_knowledge-synthesis-tool | KST development | Active |
 | P159_memory-system | Memory architecture | Active |
 | P170_memory-cathedral | Advanced memory architecture | Active |
@@ -96,6 +96,7 @@
 ### Archived/Deprecated
 | Project | Purpose | Status |
 |---------|---------|--------|
+| ~~P002_sadb~~ | ~~Self-Aware Database~~ | **MIGRATED → C002_sadb (2025-10-11)** |
 | ~~P160_open-webui-ollama-setup~~ | ~~Open WebUI + Ollama~~ | **MIGRATED → C004_open-web-ui (2025-10-11)** |
 | ~~P210_metadata-governance~~ | ~~Old name for C010_standards~~ | **DELETED 2025-10-08** |
 
@@ -111,7 +112,7 @@
 
 ### In Workspace/ Folder (Should Be Migrated)
 - **P001_bettymirror** - Duplicate of root-level project
-- **P002_sadb** - Duplicate of root-level project
+- **C002_sadb** - Duplicate of root-level project (formerly P002)
 - **P005_mybuddy** - Duplicate of root-level project
 - **P070_midi-gesture** - Unique, needs to be moved to root
 
@@ -128,8 +129,8 @@
 | Workspace | **DEPRECATED** - migrate projects out | 🔄 Migrate then remove |
 
 ## Quick Stats
-- **Core Projects:** 6 active + 1 proposed (C004 migrated from P160, C005 proposed)
-- **Personal Projects:** 39 active (P160 migrated to C004)
+- **Core Projects:** 7 active + 1 proposed (C002 migrated from P002, C004 migrated from P160, C005 proposed)
+- **Personal Projects:** 38 active (P002 → C002, P160 → C004)
 - **Work Projects:** 3 (plus 1 unclassified)
 - **Projects to Migrate:** 4
 - **Naming Issues:** 1

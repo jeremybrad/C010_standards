@@ -214,7 +214,7 @@ def cli(argv: List[str] | None = None) -> int:
 
 ### Consuming Projects
 - **Mission Control** (`C001_mission-control`): Consumes via git submodule at `external/standards`
-- **SADB** (`P002_sadb`): DocMeta/CodeMeta templates, taxonomy lookups
+- **SADB** (`C002_sadb`): DocMeta/CodeMeta templates, taxonomy lookups
 - **Betty Mirror** (`P001_bettymirror`): Protocol enforcement, lint rules
 - **Infrastructure** (various): Standard taxonomies for tagging via Ruff bootstrap
 
