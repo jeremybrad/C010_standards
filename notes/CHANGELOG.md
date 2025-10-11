@@ -1,5 +1,14 @@
 # Metadata Governance Changelog
 
+## 2025-10-11
+- **P160 → C004 Migration**: Promoted P160 (Open Web UI) to C004_open-web-ui as core infrastructure project
+- **ADR 001 Created**: Documented modularity architecture decision and migration rationale in `notes/ADR/001-modularity-architecture.md`
+- **C005 Proposed**: Proposed C005_mcp-tools as new core project for Model Context Protocol tooling
+- **Repository Organization Updated**: Added comprehensive section on project promotion criteria and git submodule patterns
+- **Division of Responsibilities**: Clarified governance (C010) vs operations (C001) responsibilities
+- Updated PROJECT_MAP.md to reflect C004 migration and C005 proposal
+- Updated Quick Stats to reflect 6 active core projects + 1 proposed
+
 ## 2025-10-04
 - **Phase 2 Complete**: Implemented all 5 Houston validators with full validation logic (exit 0/1 instead of stub 99)
 - Implemented `check_houston_features.py`: JSON schema validation, phase consistency, safety controls, autonomous deployment permissions
