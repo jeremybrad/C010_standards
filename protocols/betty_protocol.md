@@ -43,7 +43,7 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 - Single canonical README at repo root. Secondary READMEs are stubs that point to root.
 - Required files: README.md, rules_now.md, RELATIONS.yaml
 - Data policy: no data or artifacts in repo. Use $SADB_DATA_DIR with optional `50_data -> ../.links/SADB_Data` symlink for compatibility.
-- RELATIONS.yaml links the repo to P002_sadb as the truth source.
+- RELATIONS.yaml links the repo to C002_sadb as the truth source.
 
 ## Guardrails
 - Pre-commit hook blocks: new top-level dirs, files > 10 MB (allowlist .sqlite|.db)
