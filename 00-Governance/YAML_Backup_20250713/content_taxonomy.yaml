@@ -24,7 +24,7 @@ content_types:
       - "architecture designs"
       - "debugging sessions"
       - "technical documentation"
-    
+
   reflective:
     tag: "reflective"
     definition: "Self-examination, meaning-making, personal insight"
@@ -37,7 +37,7 @@ content_types:
       - "life lessons"
       - "personal growth insights"
       - "meditation notes"
-    
+
   relational:
     tag: "relational"
     definition: "Interpersonal dynamics, social connections, relationships"
@@ -50,7 +50,7 @@ content_types:
       - "social dynamics"
       - "communication patterns"
       - "interpersonal conflicts"
-    
+
   creative:
     tag: "creative"
     definition: "Artistic expression, imaginative work, generative content"
@@ -63,7 +63,7 @@ content_types:
       - "musical compositions"
       - "visual concepts"
       - "creative writing"
-    
+
   biographical:
     tag: "biographical"
     definition: "Life events, factual history, personal timeline"
@@ -77,7 +77,7 @@ content_types:
       - "personal history"
       - "important dates"
       - "factual records"
-    
+
   logistical:
     tag: "logistical"
     definition: "Planning, organizing, task management, coordination"

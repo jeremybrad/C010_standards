@@ -141,10 +141,10 @@
    ```bash
    # Check if truly duplicates first
    diff -r Workspace/P001_bettymirror P001_bettymirror
-   
+
    # If unique, move
    mv Workspace/P070_midi-gesture ./
-   
+
    # Remove duplicates after verification
    rm -rf Workspace/P001_bettymirror  # if confirmed duplicate
    ```

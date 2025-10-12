@@ -25,7 +25,7 @@ new_emotions:
     arousal: "high"
     color_association: "#FFD700"
     typical_contexts: ["problem solving", "eureka moments", "creative breakthroughs", "technical insights"]
-    
+
   flow:
     tag: "flow"
     definition: "Deep state of productive engagement"
@@ -33,7 +33,7 @@ new_emotions:
     arousal: "medium"
     color_association: "#00CED1"
     typical_contexts: ["coding", "writing", "creative work", "optimal performance"]
-    
+
   clarity:
     tag: "clarity"
     definition: "Mental sharpness and clear understanding"
@@ -41,7 +41,7 @@ new_emotions:
     arousal: "medium"
     color_association: "#87CEEB"
     typical_contexts: ["decision making", "problem analysis", "strategic thinking"]
-    
+
   urgency:
     tag: "urgency"
     definition: "Time pressure and need for rapid action"
@@ -49,7 +49,7 @@ new_emotions:
     arousal: "high"
     color_association: "#FF4500"
     typical_contexts: ["deadlines", "crisis management", "rapid iteration"]
-    
+
   persistence:
     tag: "persistence"
     definition: "Determined continuation despite obstacles"
@@ -57,7 +57,7 @@ new_emotions:
     arousal: "medium"
     color_association: "#8B4513"
     typical_contexts: ["debugging", "long-term projects", "skill building"]
-    
+
   overwhelm:
     tag: "overwhelm"
     definition: "Feeling swamped by complexity or volume"
@@ -74,7 +74,7 @@ new_emotions:
     arousal: "low"
     color_association: "#DDA0DD"
     typical_contexts: ["spiritual moments", "deep connection", "reverent experiences", "meaningful encounters"]
-    
+
   velvet:
     tag: "velvet"
     definition: "Soft, luxurious emotional texture"
@@ -82,7 +82,7 @@ new_emotions:
     arousal: "low"
     color_association: "#8B008B"
     typical_contexts: ["sensual experiences", "comfort", "gentle intimacy", "rich textures"]
-    
+
   electric:
     tag: "electric"
     definition: "Charged energy and aliveness"
@@ -179,7 +179,7 @@ cross_corpus_patterns:
       - "Code references"
       - "System architecture"
       - "Problem-solving context"
-      
+
   betty_register:
     description: "Creative metaphorical register"
     usage_characteristics:
@@ -200,12 +200,12 @@ term_disambiguation:
     claude_meaning: "Fixing code errors and system issues"
     betty_meaning: "Untangling creative blocks and personal obstacles"
     disambiguation_rule: "Check for code/system references vs personal/creative references"
-    
+
   integration:
     claude_meaning: "API connections and system interoperability"
     betty_meaning: "Personal wholeness and synthesis of life aspects"
     disambiguation_rule: "Check for technical system context vs personal development context"
-    
+
   architecture:
     claude_meaning: "System design and technical structure"
     betty_meaning: "Life structure and personal framework design"
@@ -238,12 +238,12 @@ universal_terms_additions:
     synonyms: ["troubleshooting", "fixing", "resolving"]
     claude_context: "code_technical"
     betty_context: "creative_personal"
-    
-  - canonical: "integration" 
+
+  - canonical: "integration"
     synonyms: ["connecting", "merging", "unifying"]
     claude_context: "system_api"
     betty_context: "personal_wholeness"
-    
+
   - canonical: "architecture"
     synonyms: ["structure", "framework", "design"]
     claude_context: "technical_system"
@@ -254,8 +254,8 @@ work_emotions:
   cluster_name: "professional_flow"
   emotions: ["breakthrough", "flow", "clarity", "urgency", "persistence", "overwhelm"]
   typical_usage: "Technical conversations, problem-solving sessions, project work"
-  
-# Sacred emotions cluster  
+
+# Sacred emotions cluster
 sacred_emotions:
   cluster_name: "spiritual_creative"
   emotions: ["sacred", "velvet", "electric", "reverent", "tender"]
@@ -267,7 +267,7 @@ changelog:
     scope: "493 conversations, 7,883 patterns"
     discoveries: "15 new emotions, 3 new content types, disambiguation rules"
     status: "ANALYSIS_COMPLETE"
-    
+
   - date: "2025-09-15"
     action: "Archaeological recovery"
     scope: "Documentation reconstruction"

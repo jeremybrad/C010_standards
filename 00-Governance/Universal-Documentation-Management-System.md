@@ -123,11 +123,11 @@ udid: [AUTO-GENERATED]
 title: ""
 created: {{date}}
 modified: {{date}}
-type: 
+type:
 project: []
 tags: []
 related: []
-source: 
+source:
 status: draft
 version: 1.0
 ---
@@ -139,7 +139,7 @@ version: 1.0
 ## Content
 
 ## Related Documents
-- 
+-
 
 ## Change Log
 - v1.0 ({{date}}): Initial creation
@@ -172,7 +172,7 @@ version: 1.0
 
 Your "Lead Data Doc" would become:
 
-**Current**: 
+**Current**:
 - Lead Data Doc.md (which version?)
 
 **With UDMS**:

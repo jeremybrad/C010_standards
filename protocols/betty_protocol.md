@@ -1,7 +1,7 @@
 # Betty Protocol — Workspace Edition (v2025-09-07)
 
-**Source:** `/Users/jeremybradford/SyncedProjects/WORKSPACE_BETTY_PROTOCOL.md`  
-**Consolidated into P210:** 2025-09-21  
+**Source:** `/Users/jeremybradford/SyncedProjects/WORKSPACE_BETTY_PROTOCOL.md`
+**Consolidated into P210:** 2025-09-21
 **Notes:** Text below mirrors the workspace canonical version without modification.
 
 
@@ -19,7 +19,7 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 - Update `.stignore` to prevent re-sync
 - Create receipt in `_receipts/workspace_wave1_*.txt`
 
-#### Wave 2: Classification & Cleanup  
+#### Wave 2: Classification & Cleanup
 - Remove virtual environments (node_modules, *-env, .venv)
 - Move conversation exports to `$SADB_DATA_DIR/conversation-exports/`
 - Move ChromaDB stores to `$SADB_DATA_DIR/chromadb-archives/`

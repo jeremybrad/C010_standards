@@ -10,7 +10,7 @@ category: general
 ---
 # Stream Deck Configuration Preview
 
-**Profile:** Obsidian Projects  
+**Profile:** Obsidian Projects
 **Grid:** 5x5 (25 buttons)
 
 ## Button Layout

@@ -112,34 +112,34 @@ def categorize_file(filename):
     """Determine which category a file belongs to"""
     # Remove .md extension for matching
     name_without_ext = filename.replace('.md', '').replace('.pdf', '')
-    
+
     for category, info in CATEGORIZATION.items():
         for pattern in info['files']:
             if pattern.lower() in name_without_ext.lower():
                 return category, info['destination']
-    
+
     # Default to mixed review if not categorized
     return "uncategorized", OBSIDIAN_VAULT / "00-Inbox" / "Canvas-Migration" / "Mixed-Review"
 
 def migrate_files(dry_run=True):
     """Migrate files to their appropriate locations"""
     migration_log = []
-    
+
     # Get all files
     files = list(SOURCE_DIR.glob("*.md")) + list(SOURCE_DIR.glob("*.pdf"))
-    
+
     print(f"Found {len(files)} files to process")
-    
+
     for file_path in files:
         filename = file_path.name
         category, destination = categorize_file(filename)
-        
+
         # Clean the filename
         clean_name = clean_filename(filename)
-        
+
         # Determine destination path
         dest_path = destination / clean_name
-        
+
         # Log the action
         action = {
             'original': filename,
@@ -149,11 +149,11 @@ def migrate_files(dry_run=True):
             'destination': str(dest_path),
             'exists': dest_path.exists()
         }
-        
+
         if not dry_run:
             # Create destination directory if needed
             destination.mkdir(parents=True, exist_ok=True)
-            
+
             # Copy file (don't move, in case we need to re-run)
             if not dest_path.exists():
                 shutil.copy2(file_path, dest_path)
@@ -162,10 +162,10 @@ def migrate_files(dry_run=True):
                 action['status'] = 'skipped - exists'
         else:
             action['status'] = 'dry run'
-        
+
         migration_log.append(action)
         print(f"{category:20} | {clean_name}")
-    
+
     return migration_log
 
 def generate_report(migration_log):
@@ -178,48 +178,48 @@ Total Files: {len(migration_log)}
 
 ## By Category:
 """
-    
+
     # Count by category
     categories = {}
     for entry in migration_log:
         cat = entry['category']
         categories[cat] = categories.get(cat, 0) + 1
-    
+
     for cat, count in sorted(categories.items()):
         report += f"- {cat}: {count}\n"
-    
+
     report += "\n## Detailed Migration Log\n\n"
     report += "| Original File | Category | Destination | Status |\n"
     report += "|--------------|----------|-------------|--------|\n"
-    
+
     for entry in migration_log:
         report += f"| {entry['cleaned']} | {entry['category']} | {entry['destination'].split('Canvas-Migration/')[-1] if 'Canvas-Migration' in entry['destination'] else 'Betty Library'} | {entry['status']} |\n"
-    
+
     return report
 
 if __name__ == "__main__":
     print("Canvas Migration Script")
     print("======================")
-    
+
     # First, do a dry run
     print("\nDRY RUN - Showing what would happen:")
     print("-" * 50)
     log = migrate_files(dry_run=True)
-    
+
     # Generate report
     report = generate_report(log)
-    
+
     # Save report
     report_path = OBSIDIAN_VAULT / "00-Inbox" / "Canvas-Migration" / "migration-report-2025-07-11.md"
     report_path.write_text(report)
     print(f"\nReport saved to: {report_path}")
-    
+
     # Ask for confirmation
     response = input("\nProceed with actual migration? (yes/no): ")
     if response.lower() == 'yes':
         print("\nMigrating files...")
         log = migrate_files(dry_run=False)
-        
+
         # Update report with actual results
         report = generate_report(log)
         report_path.write_text(report)

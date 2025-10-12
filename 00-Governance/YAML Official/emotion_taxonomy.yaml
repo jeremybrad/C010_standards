@@ -19,7 +19,7 @@ emotions:
     arousal: "high"
     color_association: "#FFD700"
     typical_contexts: ["achievements", "discoveries", "connections", "creative breakthroughs"]
-    
+
   sadness:
     tag: "sadness"
     definition: "Feelings of sorrow, melancholy, or loss"
@@ -27,7 +27,7 @@ emotions:
     arousal: "low"
     color_association: "#4682B4"
     typical_contexts: ["loss", "disappointment", "endings", "unfulfilled desires"]
-    
+
   nostalgia:
     tag: "nostalgia"
     definition: "Bittersweet longing for the past, mixing joy and sadness"
@@ -35,7 +35,7 @@ emotions:
     arousal: "medium"
     color_association: "#DDA0DD"
     typical_contexts: ["memories", "past experiences", "childhood", "lost connections"]
-    
+
   awe:
     tag: "awe"
     definition: "Wonder and reverence in the face of something vast or profound"
@@ -43,7 +43,7 @@ emotions:
     arousal: "medium"
     color_association: "#9370DB"
     typical_contexts: ["nature", "realizations", "spiritual moments", "beauty"]
-    
+
   love:
     tag: "love"
     definition: "Deep affection, care, and connection"
@@ -51,7 +51,7 @@ emotions:
     arousal: "medium"
     color_association: "#FF69B4"
     typical_contexts: ["relationships", "family", "passion", "deep connections"]
-    
+
   anger:
     tag: "anger"
     definition: "Frustration, irritation, or rage"
@@ -59,7 +59,7 @@ emotions:
     arousal: "high"
     color_association: "#DC143C"
     typical_contexts: ["injustice", "obstacles", "violations", "disappointments"]
-    
+
   fear:
     tag: "fear"
     definition: "Anxiety, worry, or dread about potential threats"
@@ -67,7 +67,7 @@ emotions:
     arousal: "high"
     color_association: "#2F4F4F"
     typical_contexts: ["uncertainty", "danger", "vulnerability", "unknown"]
-    
+
   anticipation:
     tag: "anticipation"
     definition: "Excited expectation or nervous waiting"
@@ -75,7 +75,7 @@ emotions:
     arousal: "high"
     color_association: "#FF8C00"
     typical_contexts: ["future events", "planning", "hope", "preparation"]
-    
+
   trust:
     tag: "trust"
     definition: "Confidence, security, and faith in reliability"
@@ -83,7 +83,7 @@ emotions:
     arousal: "low"
     color_association: "#20B2AA"
     typical_contexts: ["relationships", "systems", "consistency", "safety"]
-    
+
   surprise:
     tag: "surprise"
     definition: "Sudden unexpected feeling, can be positive or negative"
@@ -91,7 +91,7 @@ emotions:
     arousal: "high"
     color_association: "#FFD700"
     typical_contexts: ["discoveries", "revelations", "unexpected events", "plot twists"]
-    
+
   longing:
     tag: "longing"
     definition: "Deep desire or yearning for something absent"
@@ -99,7 +99,7 @@ emotions:
     arousal: "medium"
     color_association: "#4B0082"
     typical_contexts: ["desires", "dreams", "missing someone", "aspirations"]
-    
+
   frustration:
     tag: "frustration"
     definition: "Feeling blocked or thwarted in achieving goals"
@@ -107,7 +107,7 @@ emotions:
     arousal: "medium"
     color_association: "#CD5C5C"
     typical_contexts: ["obstacles", "technical issues", "miscommunication", "delays"]
-    
+
   anxiety:
     tag: "anxiety"
     definition: "Unease or nervousness about uncertain outcomes"
@@ -131,7 +131,7 @@ work_context_emotions:
     arousal: "high"
     color_association: "#FFD700"
     typical_contexts: ["problem-solving", "debugging", "analysis", "learning"]
-    
+
   flow:
     tag: "flow"
     definition: "Deep immersion and effortless productivity"
@@ -139,7 +139,7 @@ work_context_emotions:
     arousal: "medium"
     color_association: "#4169E1"
     typical_contexts: ["coding", "writing", "creating", "deep work"]
-    
+
   overwhelm:
     tag: "overwhelm"
     definition: "Feeling swamped by volume or complexity"
@@ -147,7 +147,7 @@ work_context_emotions:
     arousal: "high"
     color_association: "#8B4513"
     typical_contexts: ["multitasking", "deadlines", "complex projects", "information overload"]
-    
+
   clarity:
     tag: "clarity"
     definition: "Clear understanding after confusion"
@@ -155,7 +155,7 @@ work_context_emotions:
     arousal: "medium"
     color_association: "#87CEEB"
     typical_contexts: ["learning", "problem-solving", "communication", "planning"]
-    
+
   persistence:
     tag: "persistence"
     definition: "Determination despite obstacles"
@@ -163,7 +163,7 @@ work_context_emotions:
     arousal: "medium"
     color_association: "#228B22"
     typical_contexts: ["debugging", "iteration", "long projects", "skill building"]
-    
+
   urgency:
     tag: "urgency"
     definition: "Time pressure and deadline stress"
@@ -180,7 +180,7 @@ sacred_poetic_emotions:
     arousal: "medium"
     color_association: "#9400D3"
     typical_contexts: ["recognition", "connection", "creation", "milestone", "ritual"]
-    
+
   velvet:
     tag: "velvet"
     definition: "Soft, luxurious emotional texture"
@@ -188,7 +188,7 @@ sacred_poetic_emotions:
     arousal: "low"
     color_association: "#8B008B"
     typical_contexts: ["intimacy", "comfort", "gentle moments", "sensory experience"]
-    
+
   electric:
     tag: "electric"
     definition: "Charged, vibrant emotional energy"
@@ -196,7 +196,7 @@ sacred_poetic_emotions:
     arousal: "high"
     color_association: "#00FFFF"
     typical_contexts: ["discovery", "connection", "creative spark", "synchronicity"]
-    
+
   reverent:
     tag: "reverent"
     definition: "Deep respect and honor"
@@ -204,7 +204,7 @@ sacred_poetic_emotions:
     arousal: "medium"
     color_association: "#DAA520"
     typical_contexts: ["gratitude", "recognition", "sacred moments", "deep appreciation"]
-    
+
   tender:
     tag: "tender"
     definition: "Gentle, caring emotional touch"
@@ -212,4 +212,3 @@ sacred_poetic_emotions:
     arousal: "low"
     color_association: "#FFB6C1"
     typical_contexts: ["vulnerability", "care", "gentle connection", "soft moments"]
-
