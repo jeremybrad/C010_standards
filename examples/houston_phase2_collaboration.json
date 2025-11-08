@@ -56,7 +56,7 @@
       }
     },
     "agency_levels": {
-      "current_level": "supervisory",
+      "current_level": "advisory",
       "supervisory": {
         "can_notify": true,
         "can_suggest": true,
@@ -175,7 +175,7 @@
         "duration_days": 30
       }
     ],
-    "current_phase": 1,
+    "current_phase": 2,
     "auto_advance": false,
     "manual_review_required": true
   }

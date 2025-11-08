@@ -1,0 +1,91 @@
+# CodeMeta v1.0 Example
+# This is a complete example showing all fields for code artifact metadata
+# Use this for tagging repositories, scripts, libraries, and other code artifacts
+
+schema: "CodeMeta.v1.0"
+
+code:
+  repo: "https://github.com/jeremybrad/C010_standards"
+  language: "python"
+  version: "2.0.0"
+  license: "internal"
+  primary_file: "validators/run_all.py"
+
+  dependencies:
+    - name: "PyYAML"
+      version: ">=6.0"
+      required: true
+      purpose: "YAML parsing for schemas and taxonomies"
+
+    - name: "jsonschema"
+      version: ">=4.17.0"
+      required: true
+      purpose: "Houston features config validation"
+
+    - name: "pytest"
+      version: ">=7.4.0"
+      required: false
+      purpose: "Test framework"
+
+    - name: "mypy"
+      version: ">=1.5.0"
+      required: false
+      purpose: "Static type checking"
+
+  build:
+    type: "none"
+    steps: []
+
+  deployment:
+    method: "git-submodule"
+    target: "C001_mission-control/external/standards"
+    trigger: "manual"
+
+  testing:
+    framework: "pytest"
+    command: "pytest tests/ -v"
+    coverage_command: "pytest tests/ --cov=validators --cov-report=term"
+    min_coverage: 80
+
+  ci:
+    platform: "github-actions"
+    config_file: ".github/workflows/ci.yml"
+    jobs:
+      - "lint"
+      - "type-check"
+      - "test"
+      - "validate"
+
+doc:
+  title: "C010 Standards Repository"
+  description: |
+    Canonical metadata standards, YAML schemas, taxonomies, and Houston
+    validator tooling for the workspace ecosystem.
+  type: "code"
+  created: "2025-09-15"
+  authors:
+    - "Jeremy Bradford"
+  projects:
+    - "C010"
+    - "Mission Control"
+  topics:
+    - "metadata"
+    - "validation"
+    - "standards"
+  entities:
+    products:
+      - "Houston Validators"
+      - "DocMeta Schema"
+      - "CodeMeta Schema"
+
+routing:
+  canonical: true
+  live: true
+  tags:
+    - "source:internal"
+    - "type:infrastructure"
+    - "language:python"
+
+notes: |
+  This repository serves as a git submodule in C001_mission-control.
+  All changes should be validated before updating the submodule reference.

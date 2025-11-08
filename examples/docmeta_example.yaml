@@ -1,0 +1,63 @@
+# DocMeta v1.2 Example
+# This is a complete example showing all fields for document metadata
+# Use this as a template for tagging documents for Houston retrieval and SADB indexing
+
+schema: "DocMeta.v1.2"
+
+doc:
+  sha256: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  title: "Houston Agent Configuration Guide"
+  description: |
+    Complete guide to configuring the Houston Mission Control agent across
+    all three trust-building phases. Covers supervisory observation mode,
+    advisory collaboration mode, and autonomous partnership mode. Includes
+    safety protocols, IDE integration, and troubleshooting procedures.
+  type: "spec"
+  language: "en"
+  created: "2025-11-08"
+  authors:
+    - "Jeremy Bradford"
+  projects:
+    - "Mission Control"
+    - "C010"
+  topics:
+    - "monitoring"
+    - "automation"
+    - "orchestration"
+  keywords:
+    - "houston"
+    - "mission control"
+    - "agent configuration"
+    - "trust building"
+    - "autonomous systems"
+  entities:
+    people:
+      - "Houston (agent)"
+    orgs:
+      - "Mission Control Team"
+    products:
+      - "Houston Agent"
+      - "Mission Control Dashboard"
+  connections:
+    conversations: []
+    related_docs:
+      - "schemas/houston_features.schema.json"
+      - "validators/check_houston_features.py"
+  governance:
+    pii: false
+    confidential: true
+    license: "internal"
+
+routing:
+  canonical: true
+  live: true
+  tags:
+    - "agent:houston"
+    - "sensitivity:internal"
+    - "priority:high"
+    - "category:configuration"
+
+notes: |
+  This document is actively maintained and serves as the authoritative
+  reference for Houston configuration. All changes must be validated
+  using check_houston_features.py before deployment.

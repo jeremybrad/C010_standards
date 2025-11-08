@@ -1,5 +1,5 @@
 # CodeMeta schema canonical template (v1.0)
-# Source: ../P002_sadb/10_docs/CodeMeta_Schema_v1.0.md
+# Source: ../C002_sadb/10_docs/CodeMeta_Schema_v1.0.md (formerly P002_sadb)
 # Attribution: Code metadata schema maintained by Jeremy Bradford for SADB.
 schema: "CodeMeta.v1.0"
 doc:

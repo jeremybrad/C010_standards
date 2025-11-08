@@ -18,15 +18,18 @@ Canonical home for workspace-wide metadata standards, YAML schemas, taxonomies, 
 
 ## Directory Layout
 ```
-schemas/      # YAML/JSON schemas (DocMeta, CodeMeta, future variants)
+schemas/      # YAML/JSON schemas (DocMeta, CodeMeta, Houston features)
 taxonomies/   # Topic, content, emotion taxonomies (consolidated)
 protocols/    # Governance docs (Betty Protocol, Universal Claude Standards)
-prompts/      # LLM prompts for metadata generation
-validators/   # CLI/CI tools for schema enforcement (Phase 2 stubs)
+validators/   # Production-ready validation tools (Phase 2 complete)
+tests/        # Unit tests for validators (pytest)
+examples/     # Example configs and metadata templates
 notes/        # Planning notes (ROADMAP, CHANGELOG, ADRs)
 policy/       # Ruff templates and Python standards
 scripts/      # Bootstrap scripts (bootstrap_ruff.sh)
 30_config/    # Houston features and tool pipeline config
+.github/      # CI/CD workflows (GitHub Actions)
+Archive/      # Archived legacy files
 ```
 
 ## Completed Setup
@@ -56,9 +59,17 @@ scripts/      # Bootstrap scripts (bootstrap_ruff.sh)
 ### Run Validators
 ```bash
 cd ~/SyncedProjects/C010_standards
+
+# Install dependencies first
+pip install -r requirements.txt
+
+# Run all validators
 python validators/run_all.py
+
+# Run with verbose output
+python validators/run_all.py --pass-args --verbose
 ```
-**Expected**: Exit status 99 (not implemented) - Phase 2 stubs signal unimplemented logic
+**Expected**: Exit status 0 (all checks pass) or 1 (validation failures found)
 
 ### Bootstrap Ruff Across Workspace
 ```bash
@@ -72,11 +83,27 @@ cd ~/SyncedProjects/C001_mission-control
 git submodule update --remote --merge
 ```
 
-## Next Steps
-1. Phase 2: Implement validator logic (replace exit 99 with real checks)
-2. Draft migration checklist for repositories adopting canonical schemas
-3. Expose standards in Mission Control UI/docs
-4. Add schema versioning policy (v1.3, v2.0, etc.)
+## Features
+
+**Validators** (Phase 2 Complete):
+- ✅ All 5 Houston validators fully implemented
+- ✅ Comprehensive test suite with 22 tests
+- ✅ GitHub Actions CI/CD pipeline
+- ✅ Type checking with mypy
+- ✅ Linting with Ruff
+
+**What's New**:
+- Common utilities library for validators
+- Example configurations for all Houston phases
+- Contribution guidelines (CONTRIBUTING.md)
+- Unit tests with pytest and coverage reporting
+
+## Next Steps (Phase 3)
+1. Draft migration checklist for repositories adopting canonical schemas
+2. Expose standards in Mission Control UI/docs
+3. Add schema versioning policy document (v1.3, v2.0 guidelines)
+4. Add remaining validator tests (docmeta, tools, models, telemetry)
+5. Generate API documentation for validators
 
 ---
 

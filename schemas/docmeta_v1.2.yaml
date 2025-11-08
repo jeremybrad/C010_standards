@@ -1,5 +1,5 @@
 # DocMeta schema canonical template (v1.2)
-# Source: ../P002_sadb/10_docs/SADB_DocMeta_Schema_v1.2.md
+# Source: ../C002_sadb/10_docs/SADB_DocMeta_Schema_v1.2.md (formerly P002_sadb)
 # Attribution: SADB knowledge base metadata schema maintained by Jeremy Bradford.
 schema: "DocMeta.v1.2"
 doc:
