@@ -1,0 +1,34 @@
+{
+  "features": {
+    "agency_levels": {
+      "current_level": "supervisory",
+      "supervisory": {
+        "can_notify": true,
+        "can_suggest": true,
+        "can_execute": false
+      },
+      "autonomous": {
+        "can_deploy_updates": false
+      }
+    },
+    "ide_integration": {
+      "supported_editors": ["cursor", "vscode"]
+    }
+  },
+  "safety_controls": {
+    "destructive_actions": {
+      "require_password": true
+    }
+  },
+  "gradual_trust_building": {
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Observation",
+        "agency_level": "supervisory"
+      }
+    ],
+    "current_phase": 1,
+    "auto_advance": false
+  }
+}

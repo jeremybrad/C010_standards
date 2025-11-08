@@ -5,6 +5,8 @@ secrets/
 *.secret
 *.key
 *.txt
+!requirements.txt
+!requirements*.txt
 
 # Python
 __pycache__/

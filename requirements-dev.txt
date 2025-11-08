@@ -1,0 +1,17 @@
+# Development dependencies for C010_standards
+# Install: pip install -r requirements.txt -r requirements-dev.txt
+
+# Linting and formatting
+ruff>=0.1.0
+
+# Type checking
+mypy>=1.5.0
+types-PyYAML>=6.0.12
+types-jsonschema>=4.25.0
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Pre-commit hooks
+pre-commit>=3.3.0

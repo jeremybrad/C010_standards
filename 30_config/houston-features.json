@@ -76,7 +76,7 @@
         "can_execute": true,
         "requires_confirmation": false,
         "can_restart_services": true,
-        "can_deploy_updates": true,
+        "can_deploy_updates": false,
         "can_manage_containers": true
       }
     },

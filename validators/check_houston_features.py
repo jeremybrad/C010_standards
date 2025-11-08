@@ -6,9 +6,14 @@ Validates houston-features.json against JSON schema and enforces trust phase req
 from __future__ import annotations
 
 import argparse
-import json
+import sys
 from pathlib import Path
 from typing import Any, List
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from validators.common import load_json_config, report_validation_results, verbose_check
 
 try:
     import jsonschema
@@ -38,15 +43,6 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def load_json(path: Path) -> dict[str, Any]:
-    """Load and parse JSON file."""
-    try:
-        return json.loads(path.read_text())
-    except json.JSONDecodeError as exc:
-        print(f"ERROR: JSON parse error in {path}: {exc}")
-        raise
-
-
 def validate_json_schema(config: dict, schema: dict, verbose: bool = False) -> list[str]:
     """Validate config against JSON schema. Returns list of errors."""
     if not HAS_JSONSCHEMA:
@@ -73,8 +69,8 @@ def validate_supported_editors(config: dict, verbose: bool = False) -> list[str]
         invalid = editors - allowed
         if invalid:
             errors.append(f"Invalid editors in supported_editors: {invalid}. Allowed: {allowed}")
-        elif verbose:
-            print(f"✓ Supported editors valid: {editors}")
+        else:
+            verbose_check(True, f"Supported editors valid: {editors}", verbose)
     except KeyError as e:
         errors.append(f"Missing required field: {e}")
 
@@ -95,8 +91,12 @@ def validate_autonomous_safety(config: dict, verbose: bool = False) -> list[str]
                 "safety_controls.destructive_actions.require_password is false. "
                 "Must be true for autonomous mode."
             )
-        elif verbose:
-            print(f"✓ Autonomous safety check passed (level={current_level}, require_password={require_password})")
+        else:
+            verbose_check(
+                True,
+                f"Autonomous safety check passed (level={current_level}, require_password={require_password})",
+                verbose
+            )
     except KeyError as e:
         errors.append(f"Missing required field for safety check: {e}")
 
@@ -185,8 +185,8 @@ def cli(argv: List[str] | None = None) -> int:
 
     # Load config and schema
     try:
-        config = load_json(args.config)
-        schema = load_json(args.schema)
+        config = load_json_config(args.config)
+        schema = load_json_config(args.schema)
     except Exception as e:
         print(f"ERROR: Failed to load JSON: {e}")
         return 2
@@ -200,31 +200,26 @@ def cli(argv: List[str] | None = None) -> int:
     all_errors.extend(validate_phase_consistency(config, args.changelog, args.verbose))
     all_errors.extend(validate_autonomous_deploy_permission(config, args.verbose))
 
-    # Report results
-    if all_errors:
-        print(f"\n❌ Houston features validation FAILED ({len(all_errors)} issues):\n")
-        for i, error in enumerate(all_errors, 1):
-            print(f"  {i}. {error}")
+    # Build remediation suggestions
+    suggestions = {}
+    if any("autonomous" in e.lower() for e in all_errors):
+        suggestions["autonomous_mode"] = [
+            "Review autonomous mode safety controls",
+            "Ensure current_phase >= 3 before enabling deployment"
+        ]
+    if any("phase" in e.lower() for e in all_errors):
+        suggestions["phase_config"] = [
+            "Update agency_levels.current_level to match phase requirements",
+            "Document phase activation in notes/CHANGELOG.md"
+        ]
+    if any("schema" in e.lower() for e in all_errors):
+        suggestions["schema_validation"] = [
+            "Install jsonschema: pip install jsonschema",
+            "Review config structure against schemas/houston_features.schema.json"
+        ]
 
-        # Suggest remediation
-        print("\n💡 Remediation suggestions:")
-        if any("autonomous" in e.lower() for e in all_errors):
-            print("  - Review autonomous mode safety controls")
-            print("  - Ensure current_phase >= 3 before enabling deployment")
-        if any("phase" in e.lower() for e in all_errors):
-            print("  - Update agency_levels.current_level to match phase requirements")
-            print("  - Document phase activation in notes/CHANGELOG.md")
-        if any("schema" in e.lower() for e in all_errors):
-            print("  - Install jsonschema: pip install jsonschema")
-            print("  - Review config structure against schemas/houston_features.schema.json")
-
-        return 1
-    else:
-        if args.verbose:
-            print("\n✅ All Houston features validation checks passed")
-        else:
-            print("✅ Houston features validation passed")
-        return 0
+    # Report results using common utility
+    return report_validation_results("Houston features", all_errors, suggestions, args.verbose)
 
 
 if __name__ == "__main__":
