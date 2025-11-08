@@ -1,0 +1,182 @@
+{
+  "features": {
+    "audio": {
+      "enabled": true,
+      "theme": "mission_control",
+      "effects": {
+        "radio_static": true,
+        "space_ambience": true,
+        "confirmation_sounds": true,
+        "warning_alerts": true,
+        "presence_howl": true
+      },
+      "voice": {
+        "personality": "southern_ops",
+        "processing_effects": [
+          "radio_static",
+          "slight_distortion"
+        ],
+        "volume": 0.7,
+        "tts_engine": "local"
+      }
+    },
+    "visual": {
+      "dashboard_theme": "retro_panel",
+      "effects": {
+        "crt_scanlines": true,
+        "led_indicators": true,
+        "orbital_visualizer": true,
+        "telemetry_stream": true,
+        "status_lights": true
+      },
+      "presence": {
+        "idle_animation": "breathing_light",
+        "active_animation": "pulsing_orbit",
+        "error_state": "red_alert"
+      }
+    },
+    "ide_integration": {
+      "enabled": true,
+      "supported_editors": [
+        "cursor",
+        "vscode",
+        "jetbrains"
+      ],
+      "features": {
+        "context_awareness": true,
+        "code_explanation": true,
+        "standard_reminders": true,
+        "refactoring_suggestions": true,
+        "build_validation": true
+      },
+      "hotkeys": {
+        "ask_houston": "Cmd+Shift+H",
+        "explain_code": "Cmd+Shift+E",
+        "check_standards": "Cmd+Shift+S"
+      }
+    },
+    "agency_levels": {
+      "current_level": "supervisory",
+      "supervisory": {
+        "can_notify": true,
+        "can_suggest": true,
+        "can_execute": false,
+        "requires_confirmation": true
+      },
+      "advisory": {
+        "can_notify": true,
+        "can_suggest": true,
+        "can_execute": true,
+        "requires_confirmation": true,
+        "can_restart_services": true
+      },
+      "autonomous": {
+        "can_notify": true,
+        "can_suggest": true,
+        "can_execute": true,
+        "requires_confirmation": false,
+        "can_restart_services": true,
+        "can_deploy_updates": false,
+        "can_manage_containers": true
+      }
+    },
+    "monitoring": {
+      "system_health": {
+        "enabled": true,
+        "check_interval_seconds": 30,
+        "critical_services": [
+          "docker",
+          "vault",
+          "nginx"
+        ],
+        "notification_thresholds": {
+          "warning": 5,
+          "critical": 15
+        }
+      },
+      "proactive_alerts": {
+        "enabled": true,
+        "types": [
+          "service_down",
+          "high_cpu",
+          "disk_space",
+          "network_issues"
+        ],
+        "urgency_levels": [
+          "info",
+          "warning",
+          "critical"
+        ]
+      }
+    },
+    "memory_integration": {
+      "sadb_access": {
+        "enabled": true,
+        "scope": "technical",
+        "auto_sync": true,
+        "sync_interval_minutes": 5
+      },
+      "coding_standards": {
+        "always_in_context": true,
+        "reminder_frequency": "high",
+        "integration_points": [
+          "ide",
+          "cli",
+          "dashboard"
+        ]
+      }
+    }
+  },
+  "safety_controls": {
+    "destructive_actions": {
+      "require_password": true,
+      "require_voice_confirmation": false,
+      "log_all_actions": true,
+      "rollback_capability": true
+    },
+    "emergency_protocols": {
+      "panic_button": true,
+      "auto_shutdown_threshold": 90,
+      "graceful_degradation": true
+    }
+  },
+  "gradual_trust_building": {
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Observation",
+        "agency_level": "supervisory",
+        "features_enabled": [
+          "audio.basic",
+          "visual.basic",
+          "monitoring.basic"
+        ],
+        "duration_days": 7
+      },
+      {
+        "phase": 2,
+        "name": "Collaboration",
+        "agency_level": "advisory",
+        "features_enabled": [
+          "ide_integration",
+          "proactive_alerts",
+          "memory_integration"
+        ],
+        "duration_days": 14
+      },
+      {
+        "phase": 3,
+        "name": "Partnership",
+        "agency_level": "autonomous",
+        "features_enabled": [
+          "full_agency",
+          "emergency_protocols"
+        ],
+        "duration_days": 30
+      }
+    ],
+    "current_phase": 1,
+    "auto_advance": false,
+    "manual_review_required": true
+  }
+}
