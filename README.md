@@ -44,6 +44,7 @@ Archive/      # Archived legacy files
 
 ## References
 - Workspace protocol: `/Users/jeremybradford/SyncedProjects/WORKSPACE_BETTY_PROTOCOL.md`
+- **Cross-platform CLAUDE.md protocol**: `protocols/cross_platform_claude_md.md`
 - Enforcement repo: `/Users/jeremybradford/SyncedProjects/P001_bettymirror`
 - Document schemas & taxonomies: `/Users/jeremybradford/SyncedProjects/C002_sadb` (formerly P002)
 - Schema consumer inventory: `notes/SCHEMA_CONSUMERS.md`
@@ -76,6 +77,15 @@ python validators/run_all.py --pass-args --verbose
 bash ~/SyncedProjects/C010_standards/scripts/bootstrap_ruff.sh
 ```
 Adds Ruff config to all git repos in `SyncedProjects/` that don't already have it
+
+### Bootstrap Cross-Platform Awareness
+```bash
+bash ~/SyncedProjects/C010_standards/scripts/bootstrap_claude_crossplatform.sh
+
+# Dry-run mode (preview changes)
+bash ~/SyncedProjects/C010_standards/scripts/bootstrap_claude_crossplatform.sh --dry-run
+```
+Adds cross-platform compatibility section to all CLAUDE.md files, ensuring they work on both macOS and Windows
 
 ### Update Submodule in C001
 ```bash

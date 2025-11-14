@@ -1,5 +1,15 @@
 # Metadata Governance Changelog
 
+## 2025-10-18
+- **Cross-Platform CLAUDE.md Standard**: Created comprehensive protocol (`protocols/cross_platform_claude_md.md`) for writing CLAUDE.md files that work seamlessly across macOS and Windows
+- **Cross-Platform Template**: Added reusable template snippet (`policy/templates/claude_md_crossplatform.template.md`) for inclusion in CLAUDE.md files
+- **Bootstrap Script**: Created `scripts/bootstrap_claude_crossplatform.sh` to automatically add cross-platform awareness to existing CLAUDE.md files across workspace
+- **C010 CLAUDE.md Updated**: Added Platform Compatibility section demonstrating cross-platform best practices
+- **Workspace Sync Support**: Addressed Syncthing-based workspace synchronization between macOS (bash/zsh) and Windows (PowerShell/Git Bash) environments
+- Bootstrap script supports dry-run mode and creates receipts in `00_admin/RECEIPTS/`
+- Protocol includes path conventions, command patterns, virtual environment handling, and shell detection guidance
+- Updated README with cross-platform bootstrap instructions and protocol reference
+
 ## 2025-10-11
 - **P002 → C002 Migration**: Promoted P002_sadb to C002_sadb as core infrastructure project - knowledge extraction system consumed by Mission Control, validators, and infrastructure projects
 - **P160 → C004 Migration**: Promoted P160 (Open Web UI) to C004_open-web-ui as core infrastructure project

@@ -2,7 +2,7 @@
 # Canvas Migration Script - 2025-07-11
 
 SOURCE="/Users/jeremybradford/Downloads/Private & Shared/Canvas (working copy) 1dc9826889d48090aa5fdd543f43e045"
-VAULT="/Users/jeremybradford/SyncedProjects/SharedData/Obsidian-Vault"
+VAULT="/Users/jeremybradford/Obsidian-Vault"
 
 # Betty AI files
 cp "$SOURCE/Betty Ai Companion Setup"*.md "$VAULT/Betty Prompt Library/Canvas-Imports/Betty Ai Companion Setup.md" 2>/dev/null

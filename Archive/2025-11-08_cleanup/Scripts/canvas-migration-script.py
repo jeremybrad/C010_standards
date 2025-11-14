@@ -265,7 +265,7 @@ Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}
 if __name__ == "__main__":
     # Configuration
     NOTION_TOKEN = os.environ.get('NOTION_TOKEN', 'your-token-here')
-    OBSIDIAN_VAULT = "/Users/jeremybradford/SyncedProjects/SharedData/Obsidian-Vault"
+    OBSIDIAN_VAULT = "/Users/jeremybradford/Obsidian-Vault"
 
     # Initialize migrator
     migrator = NotionCanvasMigrator(NOTION_TOKEN, OBSIDIAN_VAULT)

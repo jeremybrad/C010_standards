@@ -9,6 +9,64 @@ C010_standards is the canonical source of truth for workspace-wide metadata stan
 **Location**: `~/SyncedProjects/C010_standards`
 **Consumed by**: C001_mission-control (as git submodule at `external/standards`)
 
+## Platform Compatibility
+
+This workspace syncs between macOS and Windows via Syncthing. Commands are provided in cross-platform format where possible.
+
+**Environment**:
+- **macOS/Linux**: `~/SyncedProjects` paths, bash/zsh shells
+- **Windows**: `C:\Users\jerem\SyncedProjects` paths, PowerShell (primary) or Git Bash
+
+**Path Conventions**:
+- Python and most modern tools accept forward slashes (`/`) on all platforms
+- Examples use forward slashes by default - works on Windows PowerShell and macOS/Linux
+- Backslash (`\`) alternatives noted only when specifically required
+
+**Command Compatibility**:
+- Use `python` (not `python3`) - works cross-platform
+- Prefer `python -m module.command` for tool execution
+- Shell scripts (`.sh`) require bash - native on macOS/Linux, needs Git Bash on Windows
+- PowerShell scripts (`.ps1`) are Windows-only
+
+**Virtual Environments**:
+```bash
+# Create (cross-platform)
+python -m venv venv
+
+# Activate (platform-specific)
+source venv/bin/activate              # macOS/Linux/Git Bash
+venv\Scripts\Activate.ps1             # Windows PowerShell
+```
+
+**Common Paths**:
+```bash
+# Project root (absolute)
+~/SyncedProjects/C010_standards           # macOS/Linux/Git Bash
+C:\Users\jerem\SyncedProjects\C010_standards  # Windows PowerShell
+
+# Prefer relative paths when already in workspace:
+cd C010_standards                     # Works everywhere from workspace root
+```
+
+**Tool Preferences**:
+- File operations: Use Claude Code built-in tools (Read/Edit/Write) rather than shell commands (cat/sed/echo)
+- Search: Use Grep tool rather than grep/rg commands
+- Find files: Use Glob tool rather than find command
+
+**Service Management**:
+```bash
+# Docker (cross-platform)
+docker ps
+docker start service-name
+
+# Process inspection (platform-specific)
+ps aux | grep name                    # macOS/Linux
+Get-Process | Where-Object {$_.Name -like "*name*"}  # PowerShell
+```
+
+---
+**Note**: This project follows the [Cross-Platform CLAUDE.md Standard](protocols/cross_platform_claude_md.md) from C010_standards.
+
 ## Architecture
 
 ### Core Components
@@ -32,16 +90,28 @@ C010_standards is the canonical source of truth for workspace-wide metadata stan
 - `check_houston_telemetry.py` - Ensure telemetry freshness, latency, and fallback loops
 - `run_all.py` - Orchestration harness (stops on first failure)
 
+**Available Validators** (registered in `validators/__init__.py`):
+- `houston_docmeta` - Document metadata validation
+- `houston_features` - Feature configuration validation
+- `houston_tools` - Tool pipeline validation
+- `houston_models` - Model deployment validation
+- `houston_telemetry` - Telemetry health validation
+
 **Houston Config (`30_config/`)** - Mission Control agent configuration:
 - `houston-features.json` - Feature toggles, agency levels, trust building phases
 - `houston-tools.json` - Tool pipelines, capability flags, phase gating
+
+**Governance (`00-Governance/`)** - Historical backups and migration tooling:
+- `YAML Official/` - Official taxonomy versions
+- `YAML_Backup_20250713/` - Backup snapshots from July 2025
+- `Scripts/` - Canvas migration and sorting utilities for Notion migration
 
 ## Common Commands
 
 ### Running Validators
 
 ```bash
-# Run all validators
+# Run all validators (platform-agnostic - recommended)
 python validators/run_all.py
 
 # Run specific validators
@@ -56,6 +126,11 @@ python validators/check_houston_docmeta.py --json-output 70_evidence/docmeta_res
 # Telemetry with custom staleness threshold
 python validators/check_houston_telemetry.py --max-age 600  # 10 minutes
 ```
+
+**Platform Notes**:
+- Commands work on Windows (PowerShell/cmd), macOS, and Linux
+- Use forward slashes (`validators/run_all.py`) - Python handles path conversion
+- On Windows with backslash preference: `python validators\run_all.py` also works
 
 **Current State**: All 5 validators are fully implemented (Phase 2 complete). They exit 0 on pass, 1 on validation failure, 2 on config errors. Include verbose mode, JSON output, and remediation suggestions.
 
@@ -83,18 +158,42 @@ When modifying taxonomies:
 C010_standards provides workspace-wide Python linting standards:
 
 ```bash
-# Bootstrap Ruff config to all repos in workspace
+# Bootstrap Ruff config to all repos in workspace (Unix/macOS)
 bash scripts/bootstrap_ruff.sh
 
-# Bootstrap to specific directory
+# Bootstrap to specific directory (Unix/macOS)
 bash scripts/bootstrap_ruff.sh /path/to/workspace
+
+# Windows (Git Bash recommended)
+bash scripts/bootstrap_ruff.sh
+# Or specify Windows path
+bash scripts/bootstrap_ruff.sh C:/Users/username/SyncedProjects
 ```
 
 **Template location**: `policy/python/pyproject.ruff.template.toml`
 **What it does**: Adds Ruff configuration to any git repo in SyncedProjects that doesn't already have `[tool.ruff]` section
 **Receipt tracking**: Creates timestamped receipt in `00_admin/RECEIPTS/ruff_*.txt`
 
-**Note**: Assumes Ruff is already installed (`brew install ruff` or `pipx install ruff`)
+**Note**: Assumes Ruff is already installed (`brew install ruff` on macOS, `pipx install ruff` cross-platform)
+
+### Submodule Management
+
+C010_standards is consumed by Mission Control as a git submodule. When making changes to schemas or validators:
+
+```bash
+# In Mission Control repository
+cd ~/SyncedProjects/C001_mission-control           # macOS/Linux
+cd C:\Users\jerem\SyncedProjects\C001_mission-control  # Windows
+
+# Update submodule to latest C010_standards
+git submodule update --remote --merge
+
+# Commit the submodule pointer update
+git add external/standards
+git commit -m "chore: update standards submodule"
+```
+
+**CI Integration**: Mission Control's `.github/workflows/standards.yml` automatically runs C010 validators on PRs
 
 ## Houston Configuration Guidelines
 
@@ -247,6 +346,89 @@ See `notes/ROADMAP.md` for detailed task breakdown.
 - **Taxonomy changes are breaking**: Update consuming projects when modifying controlled vocabularies
 - **Validators are production-ready**: Exit 0 on pass, 1 on fail - use in CI workflows
 - **Dependencies optional**: Validators warn if PyYAML/jsonschema missing but still function
+
+## Troubleshooting
+
+### Import Errors When Running Validators
+
+**Symptom**: `ModuleNotFoundError` or import failures
+
+**Solution**: Ensure you're running validators from the repository root:
+
+```bash
+# Navigate to repo root first
+cd ~/SyncedProjects/C010_standards           # macOS/Linux
+cd C:\Users\jerem\SyncedProjects\C010_standards  # Windows
+
+# Then run validators
+python validators/run_all.py
+```
+
+Validators automatically add the repo root to `sys.path`, but must be run from the correct directory.
+
+### Missing Dependencies
+
+**Symptom**: Warnings about missing `pyyaml` or `jsonschema`
+
+**Solution**: Install optional dependencies:
+
+```bash
+pip install pyyaml jsonschema
+```
+
+Note: Validators will still run without these (with warnings), but validation will be limited.
+
+### YAML Syntax Errors
+
+**Symptom**: `yaml.scanner.ScannerError` when modifying taxonomies
+
+**Solution**: Validate YAML syntax before running validators:
+
+```bash
+# Quick syntax check
+python -c "import yaml; yaml.safe_load(open('taxonomies/topic_taxonomy.yaml'))"
+
+# If successful, no output = valid YAML
+```
+
+Common YAML issues:
+- Inconsistent indentation (use spaces, not tabs)
+- Missing quotes around values with special characters
+- Trailing spaces on lines
+
+### Validator Exit Codes
+
+- **0**: All checks passed
+- **1**: Validation failure (check output for specific errors)
+- **2**: Configuration/parse error (file not found, invalid JSON/YAML)
+- **99**: Not implemented (Phase 2 stub - should not occur in current version)
+
+### Path Issues on Windows
+
+**Symptom**: File not found errors on Windows
+
+**Solution**: Python accepts forward slashes on Windows:
+
+```bash
+# These both work on Windows
+python validators/run_all.py          # Recommended (cross-platform)
+python validators\run_all.py          # Also valid
+```
+
+### Schema Version Mismatches
+
+**Symptom**: Documents fail validation after schema updates
+
+**Solution**: Check which schema version is in use:
+
+```bash
+# View schema consumers and versions
+cat notes/SCHEMA_CONSUMERS.md
+
+# Update consuming projects to match new schema version
+```
+
+See "Integration Points > Schema Consumers" for affected projects.
 
 ## Betty Protocol Compliance
 

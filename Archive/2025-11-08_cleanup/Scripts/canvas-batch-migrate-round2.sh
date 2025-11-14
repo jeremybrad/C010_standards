@@ -2,7 +2,7 @@
 # Canvas Migration Script - Round 2 - 2025-07-11
 
 SOURCE="/Users/jeremybradford/Downloads/Private & Shared 2/Canvas 1d99826889d480148b55cc78bde4058b"
-VAULT="/Users/jeremybradford/SyncedProjects/SharedData/Obsidian-Vault"
+VAULT="/Users/jeremybradford/Obsidian-Vault"
 
 # Process the named files first
 echo "Processing named Canvas files..."

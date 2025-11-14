@@ -12,7 +12,7 @@ from datetime import datetime
 
 # Define paths
 SOURCE_DIR = Path("/Users/jeremybradford/Downloads/Private & Shared/Canvas (working copy) 1dc9826889d48090aa5fdd543f43e045")
-OBSIDIAN_VAULT = Path("/Users/jeremybradford/SyncedProjects/SharedData/Obsidian-Vault")
+OBSIDIAN_VAULT = Path("/Users/jeremybradford/Obsidian-Vault")
 
 # Define categorization
 CATEGORIZATION = {

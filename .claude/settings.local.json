@@ -11,7 +11,14 @@
       "Bash(git checkout:*)",
       "Bash(git grep:*)",
       "Bash(xargs sed:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git stash push:*)",
+      "Bash(chmod:*)",
+      "Bash(crontab -l:*)",
+      "Bash(if [ -f /Users/jeremybradford/SyncedProjects/known_projects.sh ])",
+      "Bash(then head -20 /Users/jeremybradford/SyncedProjects/known_projects.sh)",
+      "Bash(fi)",
+      "Bash(./scripts/update-registry.sh:*)"
     ],
     "deny": [],
     "ask": []

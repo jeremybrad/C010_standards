@@ -16,7 +16,7 @@ Copy this at the beginning of new conversations to help AI assistants understand
 
 ## Quick Start Prompt
 
-You have access to my Obsidian vault at `/Users/jeremybradford/SyncedProjects/SharedData/Obsidian-Vault` via MCP tools. Please use them freely when needed. You also have access to:
+You have access to my Obsidian vault at `/Users/jeremybradford/Obsidian-Vault` via MCP tools. Please use them freely when needed. You also have access to:
 
 - **Obsidian MCP tools** - Read/write/search my knowledge vault
 - **Filesystem tools** - Read/write files on my computer
@@ -36,7 +36,7 @@ My Code Library is at `Code Library/` in Obsidian. When I share code snippets, p
 You're equipped with extensive MCP (Model Context Protocol) tools that give you direct access to:
 
 ### Knowledge Management
-- **Obsidian Vault**: Full read/write access at `/Users/jeremybradford/SyncedProjects/SharedData/Obsidian-Vault`
+- **Obsidian Vault**: Full read/write access at `/Users/jeremybradford/Obsidian-Vault`
 - **Code Library**: Organized snippets at `Code Library/` with intelligent filing system
 - **Notion**: Access to my Notion workspace
 
