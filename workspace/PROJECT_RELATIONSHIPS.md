@@ -10,7 +10,8 @@ This document maps how data flows through Jeremy's memory, knowledge, and work s
 ## Quick Navigation
 
 - [Memory System Architecture](#memory-system-architecture) - SADB → CBFS → MyBuddy pipeline
-- [Additional Memory Systems](#additional-memory-systems) - P190, Terminal Insights, MCP Memory
+- [Visual Diagrams](MEMORY_ARCHITECTURE_DIAGRAMS.md) - **🎨 See Mermaid flowcharts and system maps**
+- [Additional Memory Systems](#additional-memory-systems) - P159, P190, Terminal Insights, MCP Memory
 - [Work Systems Integration](#work-systems-integration) - How memory feeds into analytics
 - [Critical Dependencies](#critical-dependencies) - What depends on what
 - [For LLMs: Finding Canonical Versions](#for-llms-finding-canonical-versions) - How to avoid grabbing old files
@@ -197,6 +198,62 @@ This is the core data flow for processing conversations into structured knowledg
 ---
 
 ## Additional Memory Systems
+
+### P159_memory-system (Real-Time Conversation Memory)
+
+**Status:** Active (last updated 2025-11-17)
+**Purpose:** Real-time Claude conversation memory and session management
+
+```
+Live Claude Conversations
+    ↓
+CLAUDE_SESSION.md (auto-rotates @ 100KB)
+    ↓
+CLAUDE_CONTEXT.md (curated context)
+    ↓
+ChromaDB Vector Database
+    ↓
+MCP Memory Server (Docker)
+    ↓
+Obsidian Vault (knowledge management)
+```
+
+**What Makes This Different from SADB:**
+
+| Feature | SADB (C002/C003) | P159_memory-system |
+|---------|------------------|-------------------|
+| **Purpose** | Historical batch processing | Real-time conversation memory |
+| **Data Source** | Past conversation exports | Current Claude sessions |
+| **Storage** | SQLite + structured facts | ChromaDB vector database |
+| **Use Case** | Extract biographical facts | Maintain session continuity |
+| **Update Frequency** | Batch runs (periodic) | Live (every conversation) |
+| **Integration** | Feeds CBFS and MyBuddy | Provides context for work |
+
+**Key Features:**
+- **Automatic Session Rotation** - CLAUDE_SESSION.md rotates at 100KB
+- **Semantic Search** - ChromaDB enables "What did I say about X?" queries
+- **MCP Integration** - Docker-based memory server for persistence
+- **Obsidian Integration** - Central knowledge vault with QA verification
+- **Context Promotion** - Important decisions promoted to CLAUDE_CONTEXT.md
+
+**Architecture Components:**
+- Session management (CLAUDE_SESSION.md, CLAUDE_CONTEXT.md)
+- ChromaDB vector databases (local + shared references)
+- MCP memory server (Docker-based, persistent)
+- Obsidian vault (structured knowledge management)
+- QA verification system (Playwright-based testing)
+- Claude rotation scripts (Python automation)
+
+**Why This Exists:**
+SADB processes historical conversations in batches to extract structured facts. P159 handles real-time memory during active conversations, enabling Claude to remember context across sessions without requiring manual exports and batch processing.
+
+**Integration Points:**
+- Feeds context to C002_sadb for batch processing
+- Provides real-time context for W009_context_library queries
+- Complements P005_mybuddy's vector search capabilities
+- Future: May integrate with C009_mcp-memory-http
+
+**Location:** `/Users/jeremybradford/SyncedProjects/P159_memory-system/`
 
 ### P190_conversation-exports-web (Metadata Extraction Pipeline)
 
