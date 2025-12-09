@@ -1,0 +1,129 @@
+# Makefile.testing.template
+# Standard test targets for SyncedProjects
+# Include in your project Makefile or copy relevant targets
+#
+# Usage:
+#   include path/to/Makefile.testing.template
+#   # OR copy targets into existing Makefile
+
+# ==============================================================================
+# Testing Targets
+# ==============================================================================
+
+# Primary test command - runs full suite with coverage
+.PHONY: test
+test:
+	@echo "Running full test suite with coverage..."
+	pytest
+
+# Fast tests only - skip slow and network tests
+.PHONY: test-fast
+test-fast:
+	@echo "Running fast tests (skipping slow and network)..."
+	pytest -m "not slow and not network"
+
+# Unit tests only
+.PHONY: test-unit
+test-unit:
+	@echo "Running unit tests only..."
+	pytest -m "unit"
+
+# Integration tests only
+.PHONY: test-integration
+test-integration:
+	@echo "Running integration tests only..."
+	pytest -m "integration"
+
+# Smoke tests - quick sanity check
+.PHONY: test-smoke
+test-smoke:
+	@echo "Running smoke tests..."
+	pytest -m "smoke" --tb=short
+
+# Run tests with verbose output and no coverage (faster for debugging)
+.PHONY: test-debug
+test-debug:
+	@echo "Running tests in debug mode..."
+	pytest -v --no-cov --tb=long -x
+
+# Watch mode (requires pytest-watch)
+.PHONY: test-watch
+test-watch:
+	@echo "Running tests in watch mode..."
+	ptw -- -m "not slow and not network"
+
+# ==============================================================================
+# Coverage Targets
+# ==============================================================================
+
+# Generate coverage report
+.PHONY: coverage
+coverage:
+	@echo "Generating coverage report..."
+	pytest --cov-report=html
+	@echo "Coverage report: htmlcov/index.html"
+
+# Open coverage report in browser (macOS)
+.PHONY: coverage-open
+coverage-open: coverage
+	open htmlcov/index.html
+
+# Coverage report to terminal only
+.PHONY: coverage-term
+coverage-term:
+	pytest --cov-report=term-missing --no-cov-on-fail
+
+# ==============================================================================
+# CI/CD Support
+# ==============================================================================
+
+# CI test command - strict, no interactive
+.PHONY: test-ci
+test-ci:
+	@echo "Running CI test suite..."
+	pytest --tb=short -q --strict-markers
+
+# Check if tests pass without running full suite
+.PHONY: test-check
+test-check:
+	@echo "Quick test check..."
+	pytest --collect-only -q
+
+# ==============================================================================
+# Cleanup
+# ==============================================================================
+
+# Clean test artifacts
+.PHONY: test-clean
+test-clean:
+	@echo "Cleaning test artifacts..."
+	rm -rf .pytest_cache htmlcov .coverage coverage.xml
+	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+	find . -type f -name "*.pyc" -delete 2>/dev/null || true
+
+# ==============================================================================
+# Help
+# ==============================================================================
+
+.PHONY: test-help
+test-help:
+	@echo "Test Targets:"
+	@echo "  test            - Run full test suite with coverage"
+	@echo "  test-fast       - Skip slow and network tests"
+	@echo "  test-unit       - Run only unit tests"
+	@echo "  test-integration- Run only integration tests"
+	@echo "  test-smoke      - Quick sanity checks"
+	@echo "  test-debug      - Verbose output, stop on first failure"
+	@echo "  test-watch      - Watch mode (requires pytest-watch)"
+	@echo ""
+	@echo "Coverage Targets:"
+	@echo "  coverage        - Generate HTML coverage report"
+	@echo "  coverage-open   - Generate and open report (macOS)"
+	@echo "  coverage-term   - Terminal coverage report"
+	@echo ""
+	@echo "CI/CD Targets:"
+	@echo "  test-ci         - Strict CI test run"
+	@echo "  test-check      - Verify test collection"
+	@echo ""
+	@echo "Cleanup:"
+	@echo "  test-clean      - Remove test artifacts"

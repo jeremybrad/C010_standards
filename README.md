@@ -117,10 +117,13 @@ C000_info-center/
 │
 ├── scripts/                      # 🛠️ Bootstrap & utilities
 │   ├── bootstrap_ruff.sh        # Add Ruff to all repos
+│   ├── bootstrap_testing.sh     # Add test standards to repos
 │   └── bootstrap_claude_crossplatform.sh
 │
 ├── tests/                        # 🧪 Validator tests
-├── policy/                       # Python/Ruff standards
+├── policy/                       # Standards & templates
+│   ├── python/                  # Ruff configuration
+│   └── testing/                 # Test infrastructure templates
 ├── 30_config/                    # Houston configuration
 ├── notes/                        # Planning & ADRs
 └── Archive/                      # Archived legacy files
@@ -219,6 +222,15 @@ This repo defines standards used across all projects:
 - **Ruff** - Linting configuration (policy/python/)
 - Code style enforcement across all Python projects
 - Bootstrap script: `scripts/bootstrap_ruff.sh`
+
+### 6. Testing Standards
+- **pytest.ini** - Python test configuration (policy/testing/)
+- **jest.config.js** - Node.js test configuration (policy/testing/)
+- **70% coverage minimum** - Workspace standard threshold
+- **Standard markers**: `unit`, `integration`, `slow`, `network`, `smoke`
+- Bootstrap script: `scripts/bootstrap_testing.sh`
+
+See [policy/testing/README.md](policy/testing/README.md) for full documentation.
 
 ---
 

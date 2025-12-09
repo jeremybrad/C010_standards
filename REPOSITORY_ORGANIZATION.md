@@ -53,7 +53,22 @@ Projects directly related to work at Huawei - day job analytics and reporting.
 - Should be clearly separated from personal projects
 - May have different backup/security requirements
 
-### Special Folders
+#### **U (Utility Projects)**
+External tools configured but not actively developed. These are third-party applications or frameworks that Jeremy uses and may customize, but does not push to GitHub.
+
+**Numbering**: U01-U99
+**Examples:**
+- U01_comfyUI: ComfyUI installation with custom workflows
+
+**Key Characteristics:**
+- External tools, not Jeremy's original code
+- NO GitHub remote (not pushed to version control)
+- Configuration and customization only
+- May have large dependencies (node_modules, models, etc.)
+- Excluded from workspace audits and health checks
+
+### Special Folders (Meta-Folders)
+All workspace-level meta-folders use underscore prefix (`_`) to group them together at the top of directory listings and distinguish them from project folders.
 
 #### **_receipts/**
 Audit trail and log directory for automated systems
@@ -62,19 +77,25 @@ Audit trail and log directory for automated systems
 - Should NOT be manually modified
 - Historical record of automated operations
 
-#### **SharedData/**
+#### **_SharedData/**
 Truly shared data that doesn't fit into any single project
 - Cross-project resources
-- Obsidian vault
-- AI models
-- Analytics dashboards
+- Obsidian vault symlink
+- ChromaDB stores
+- Registry and documentation
 - Should remain at root level as special case
 
-#### **Archive/**
+#### **_Archive/**
 Historical content and deprecated projects
 - Projects no longer active
-- Timestamped archive folders
+- Timestamped archive folders (e.g., `cleanup_20251130/`)
 - Should be reviewed periodically for deletion
+
+#### **_scripts/**
+Workspace-level automation scripts
+- Health checks and registry updates
+- Workspace cleanup and autocontainment
+- Cross-project utilities
 
 #### **Workspace/** (Deprecated)
 ⚠️ **SHOULD BE MIGRATED**: Contains duplicate P-projects that should be at root level

@@ -1,0 +1,73 @@
+/**
+ * jest.config.js.template
+ * Standard Jest configuration for SyncedProjects Node.js projects
+ * Copy to project root as jest.config.js
+ *
+ * Features:
+ *   - 70% coverage threshold (workspace standard)
+ *   - Node test environment
+ *   - Standard test discovery patterns
+ *   - HTML + text coverage reports
+ */
+
+module.exports = {
+  // Test environment
+  testEnvironment: 'node',
+
+  // Test file patterns
+  testMatch: [
+    '**/tests/**/*.test.js',
+    '**/tests/**/*.spec.js',
+    '**/__tests__/**/*.js',
+    '**/*.test.js',
+    '**/*.spec.js',
+  ],
+
+  // Ignore patterns
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/dist/',
+    '/build/',
+    '/90_archive/',
+    '/Archive/',
+  ],
+
+  // Coverage configuration
+  collectCoverage: true,
+  coverageDirectory: 'coverage',
+  coverageReporters: ['text', 'text-summary', 'html', 'lcov'],
+
+  // Coverage thresholds (workspace standard: 70%)
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 70,
+      lines: 70,
+      statements: 70,
+    },
+  },
+
+  // Files to collect coverage from
+  collectCoverageFrom: [
+    '**/*.js',
+    '!**/node_modules/**',
+    '!**/tests/**',
+    '!**/coverage/**',
+    '!**/dist/**',
+    '!**/build/**',
+    '!jest.config.js',
+    '!**/*.config.js',
+  ],
+
+  // Verbose output
+  verbose: true,
+
+  // Timeout for each test (10 seconds)
+  testTimeout: 10000,
+
+  // Clear mocks between tests
+  clearMocks: true,
+
+  // Restore mocks after each test
+  restoreMocks: true,
+};
