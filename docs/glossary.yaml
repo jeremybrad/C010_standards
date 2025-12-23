@@ -1,0 +1,133 @@
+schema: glossary.v1
+repo_id: C010_standards
+updated_at: "2025-12-22"
+terms:
+  - term: "Info Center"
+    aliases: ["C000_info-center", "C010_standards", "Workspace Hub"]
+    definition: "Canonical source of truth for workspace organization, standards, navigation, schemas, taxonomies, and validation tools. Renamed from C010_standards for visibility."
+    scope: universal
+    tags: ["core-system", "standards", "hub"]
+    examples: ["workspace/KNOWN_PROJECTS.md", "protocols/betty_protocol.md"]
+    related: ["Betty Protocol", "DocMeta", "Validators"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "Your Workspace Orientation & Standards Hub... canonical source of truth for workspace organization, standards, and navigation"
+        locator: "Header section"
+
+  - term: "Betty Protocol"
+    aliases: ["BEDI", "Betty's Evidence-Driven Integrity"]
+    definition: "Mandatory governance protocol requiring receipts for changes, no self-certification, accurate READMEs, verification before done, and transparency over impressiveness."
+    scope: universal
+    tags: ["governance", "protocol", "rules"]
+    examples: ["protocols/betty_protocol.md", "20_receipts/ directory"]
+    related: ["Info Center", "Validators"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "Betty Protocol is non-negotiable - read protocols/betty_protocol.md"
+        locator: "For AI Agents section"
+
+  - term: "DocMeta"
+    aliases: ["DocMeta v1.2", "Document Metadata Schema"]
+    definition: "YAML schema defining document metadata structure with routing tags, governance, topics, and entity tracking for AI agent retrieval."
+    scope: universal
+    tags: ["schema", "metadata", "yaml"]
+    examples: ["schemas/docmeta_v1.2.yaml", "doc.topics, routing.tags"]
+    related: ["CodeMeta", "Houston Features"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "DocMeta v1.2 - Document metadata (schemas/docmeta_v1.2.yaml)"
+        locator: "Metadata Schemas section"
+
+  - term: "CodeMeta"
+    aliases: ["CodeMeta v1.0", "Code Metadata Schema"]
+    definition: "YAML schema for code artifact metadata including repo URLs, language, dependencies, and technical specifications."
+    scope: universal
+    tags: ["schema", "metadata", "code"]
+    examples: ["schemas/codemeta_v1.0.yaml"]
+    related: ["DocMeta"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "CodeMeta v1.0 - Code metadata (schemas/codemeta_v1.0.yaml)"
+        locator: "Metadata Schemas section"
+
+  - term: "Houston Features"
+    aliases: ["Houston Features Schema"]
+    definition: "JSON schema defining Houston agent capabilities, agency levels, trust phases, and safety controls for Mission Control integration."
+    scope: repo
+    tags: ["schema", "houston", "json"]
+    examples: ["schemas/houston_features.schema.json"]
+    related: ["Houston Validators", "DocMeta"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "Houston Features - AI agent capabilities (schemas/houston_features.schema.json)"
+        locator: "Metadata Schemas section"
+
+  - term: "Topic Taxonomy"
+    aliases: ["topic_taxonomy.yaml"]
+    definition: "YAML controlled vocabulary for content classification including monitoring, deployment, infra, automation, and other technical topics."
+    scope: universal
+    tags: ["taxonomy", "topics", "classification"]
+    examples: ["taxonomies/topic_taxonomy.yaml"]
+    related: ["Emotion Taxonomy", "DocMeta"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "Topics - Content classification (taxonomies/topic_taxonomy.yaml)"
+        locator: "Taxonomies section"
+
+  - term: "Validators"
+    aliases: ["Houston Validators", "Validation Tools"]
+    definition: "Production-ready Python validation tools for Houston compliance: docmeta, features, models, telemetry, and tools validators."
+    scope: repo
+    tags: ["validation", "tools", "python"]
+    examples: ["validators/run_all.py", "python validators/check_houston_docmeta.py"]
+    related: ["Betty Protocol", "Houston Features"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "Five validators ensure compliance with Houston agent protocols"
+        locator: "Houston Validators section"
+
+  - term: "KNOWN_PROJECTS.md"
+    aliases: ["Project Registry", "Project Inventory"]
+    definition: "Auto-generated nightly inventory of all 66 projects showing status, last modified, and descriptions in workspace/KNOWN_PROJECTS.md."
+    scope: universal
+    tags: ["registry", "inventory", "automation"]
+    examples: ["python workspace/scripts/generate_project_registry.py"]
+    related: ["PROJECT_RELATIONSHIPS.md"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "Auto-generated nightly inventory of all 66 projects"
+        locator: "New to This Workspace section"
+
+  - term: "PROJECT_RELATIONSHIPS.md"
+    aliases: ["Data Flow Architecture"]
+    definition: "Documentation of data flow between systems, memory pipeline architecture (SADB → CBFS → MyBuddy), critical dependencies, and execution order."
+    scope: universal
+    tags: ["documentation", "architecture", "dependencies"]
+    examples: ["workspace/PROJECT_RELATIONSHIPS.md"]
+    related: ["KNOWN_PROJECTS.md", "Info Center"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "How data flows between systems, Memory pipeline architecture (SADB → CBFS → MyBuddy)"
+        locator: "New to This Workspace section"
+
+  - term: "AGENT_START_HERE.md"
+    aliases: ["Agent Pre-flight Checklist"]
+    definition: "Required reading for AI agents explaining how to find canonical files, common LLM mistakes, memory system architecture, and decision trees."
+    scope: universal
+    tags: ["documentation", "agents", "guidance"]
+    examples: ["AGENT_START_HERE.md"]
+    related: ["Betty Protocol", "PROJECT_RELATIONSHIPS.md"]
+    status: active
+    provenance:
+      - source: "README.md"
+        evidence: "STOP AND READ THIS FIRST: AGENT_START_HERE.md... required pre-flight checklist"
+        locator: "For AI Agents section"

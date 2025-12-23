@@ -1,0 +1,251 @@
+schema: glossary.universal.v1
+generated_at: "2025-12-22"
+source_repos:
+  - C001_mission-control
+  - C002_sadb
+  - C003_sadb_canonical
+  - C004_star-extraction
+  - C005_mybuddy
+  - C006_revelator
+  - C007_the_cavern_club
+  - C008_CBFS
+  - C009_mcp-memory-http
+  - C010_standards
+  - C011_agents
+  - C015_local-tts
+  - C016_prompt-engine
+  - C017_brain-on-tap
+  - C018_terminal-insights
+  - C019_docs-site
+  - C020_pavlok
+total_repos: 17
+total_terms: 168
+
+# Universal terms with multi-repo presence
+universal_terms:
+
+  - term: "Betty Protocol"
+    aliases_union: ["BEDI", "Betty's Evidence-Driven Integrity"]
+    scope: universal
+    tags_union: ["protocol", "governance", "quality", "rules"]
+    status: active
+    variants:
+      - repo_id: C001_mission-control
+        definition: "Evidence-driven development protocol requiring receipts for all operations, no self-certification, audit trails in 70_evidence/, and transparent blocker reporting."
+      - repo_id: C010_standards
+        definition: "Mandatory governance protocol requiring receipts for changes, no self-certification, accurate READMEs, verification before done, and transparency over impressiveness."
+
+  - term: "Houston"
+    aliases_union: ["Houston AI", "Houston Agent", "Mission Control Coordinator"]
+    scope: universal
+    tags_union: ["ai-agent", "assistant", "infrastructure", "coordinator", "orchestration"]
+    status: active
+    variants:
+      - repo_id: C001_mission-control
+        definition: "AI infrastructure assistant and copilot for technical domains - repos, Docker, infrastructure, AI agents, launch commands, vaults, and health states."
+      - repo_id: C011_agents
+        definition: "Coordinator agent that orchestrates multi-agent workflows, routes requests to specialized agents, and manages agent state and health monitoring."
+
+  - term: "Twin Feed"
+    aliases_union: ["twin_feed_v1", "twin_feed_v1.ndjson"]
+    scope: universal
+    tags_union: ["export", "integration", "data-format", "ingestion"]
+    status: active
+    variants:
+      - repo_id: C002_sadb
+        definition: "Export format containing only approved facts and preferences (excludes decisions) in NDJSON format for downstream integration."
+      - repo_id: C005_mybuddy
+        definition: "NDJSON export from CBFS containing approved facts that MyBuddy ingests for semantic indexing."
+
+  - term: "ChromaDB"
+    aliases_union: ["Chroma Vector Store", "ChromaDB Memory"]
+    scope: universal
+    tags_union: ["vector-store", "embeddings", "retrieval", "memory", "chromadb"]
+    status: active
+    variants:
+      - repo_id: C005_mybuddy
+        definition: "Vector database storing embedded biographical facts for semantic retrieval with sentence-transformers embeddings."
+      - repo_id: C007_the_cavern_club
+        definition: "Integration prepared for MirrorLab memories stored in ChromaDB to enhance Open WebUI responses automatically."
+
+  - term: "Semantic Chunking"
+    aliases_union: []
+    scope: universal
+    tags_union: ["processing", "enrichment", "text"]
+    status: active
+    variants:
+      - repo_id: C002_sadb
+        definition: "Text segmentation using 1500 tokens with 400 overlap for extraction, or 800-1200 tokens with 12% overlap for RAG."
+      - repo_id: C003_sadb_canonical
+        definition: "S2 Enrich process that segments conversation text into semantically coherent chunks for embedding generation and retrieval."
+
+  - term: "BERTopic"
+    aliases_union: []
+    scope: universal
+    tags_union: ["nlp", "topic-modeling", "enrichment", "clustering"]
+    status: active
+    variants:
+      - repo_id: C003_sadb_canonical
+        definition: "Topic modeling library used in S2 Enrich stage for automatic topic labeling of conversation chunks."
+      - repo_id: C005_mybuddy
+        definition: "Optional clustering upgrade path for topic taxonomy classification."
+
+  - term: "HITL"
+    aliases_union: ["Human-in-the-Loop", "Human Review Loop", "HIL Pause Node"]
+    scope: universal
+    tags_union: ["workflow", "approval", "verification", "hitl"]
+    status: active
+    variants:
+      - repo_id: C002_sadb
+        definition: "Approval workflow requiring human verification before extracted data enters the canonical SQLite store."
+      - repo_id: C008_CBFS
+        definition: "Workflow where human reviews batches of extracted facts via HTML reviewer before facts enter the canonical store."
+      - repo_id: C018_terminal-insights
+        definition: "Workflow node enabling human-in-the-loop pause and manual resume functionality in the LangGraph pipeline."
+
+  - term: "Orpheus"
+    aliases_union: ["Orpheus Agent", "Creative Assistant"]
+    scope: universal
+    tags_union: ["agent", "music", "composition", "creative"]
+    status: active
+    variants:
+      - repo_id: C001_mission-control
+        definition: "Specialized agent for mission playlists and music composition."
+      - repo_id: C011_agents
+        definition: "Creative and music assistant agent handling music generation and theory, voice synthesis coordination, and creative writing."
+
+  - term: "Scribe"
+    aliases_union: ["Scribe Agent", "Documentation Specialist"]
+    scope: universal
+    tags_union: ["agent", "transcription", "condensation", "documentation", "writing"]
+    status: active
+    variants:
+      - repo_id: C001_mission-control
+        definition: "Agent that condenses transcripts, writing receipts to 20_receipts/agents/."
+      - repo_id: C011_agents
+        definition: "Documentation specialist agent for automated documentation generation, conversation summarization, and code documentation updates."
+
+  - term: "Archivist"
+    aliases_union: ["Archivist Agent", "SADB Query Manager"]
+    scope: universal
+    tags_union: ["agent", "sadb", "ingestion", "retrieval"]
+    status: active
+    variants:
+      - repo_id: C001_mission-control
+        definition: "Agent that ingests SADB snapshots into Mission Control."
+      - repo_id: C011_agents
+        definition: "SADB query manager agent for structured artifact retrieval, evidence and receipt management, and historical data analysis."
+
+  - term: "RAG"
+    aliases_union: ["RAG Support", "RAG Pipeline", "Retrieval-Augmented Generation"]
+    scope: universal
+    tags_union: ["rag", "documents", "embeddings", "pipeline", "retrieval"]
+    status: active
+    variants:
+      - repo_id: C007_the_cavern_club
+        definition: "Document upload feature for PDFs, text files supporting retrieval-augmented generation with local embeddings."
+      - repo_id: C019_docs-site
+        definition: "Complete retrieval pipeline including corpus export, FAISS indexing, and query server on port 8123."
+
+  - term: "Topic Taxonomy"
+    aliases_union: ["topic_taxonomy.yaml", "Heuristic Topics"]
+    scope: universal
+    tags_union: ["taxonomy", "topics", "classification"]
+    status: active
+    variants:
+      - repo_id: C005_mybuddy
+        definition: "YAML-based topic classification system for predictable filtering of facts, with optional BERTopic clustering upgrade path."
+      - repo_id: C010_standards
+        definition: "YAML controlled vocabulary for content classification including monitoring, deployment, infra, automation, and other technical topics."
+
+  - term: "Voice Commands"
+    aliases_union: ["Speech-to-Text Bridge", "Voice Input", "Voice Integration"]
+    scope: universal
+    tags_union: ["voice", "input", "whisper", "tts", "personality"]
+    status: active
+    variants:
+      - repo_id: C007_the_cavern_club
+        definition: "Text-to-speech system with personality-aware voices for Betty."
+      - repo_id: C016_prompt-engine
+        definition: "Natural language voice interface using Super Whispers (Mac) or Flow (Windows) to convert speech into structured LLM prompts."
+      - repo_id: C017_brain-on-tap
+        definition: "Natural language input adapter being ported from C016."
+
+  - term: "Query Playbooks"
+    aliases_union: ["Playbooks", "Profiles", "Query Plans"]
+    scope: universal
+    tags_union: ["playbooks", "yaml", "queries", "context"]
+    status: active
+    variants:
+      - repo_id: C017_brain-on-tap
+        definition: "YAML configuration files specifying which sources to query, how to render results, and when to invoke."
+      - repo_id: C016_prompt-engine
+        definition: "Voice command and prompt compilation features being ported to Python as part of Brain on Tap's query playbooks architecture."
+
+  - term: "Validators"
+    aliases_union: ["Houston Validators", "Validation Tools", "Generic Validator"]
+    scope: universal
+    tags_union: ["validation", "tools", "python", "schema", "quality"]
+    status: active
+    variants:
+      - repo_id: C004_star-extraction
+        definition: "Validation component using JSON Schema and Pydantic models for story data quality assurance."
+      - repo_id: C010_standards
+        definition: "Production-ready Python validation tools for Houston compliance: docmeta, features, models, telemetry, and tools validators."
+
+  - term: "DocMeta"
+    aliases_union: ["DocMeta v1.2", "Document Metadata Schema"]
+    scope: universal
+    tags_union: ["schema", "metadata", "yaml"]
+    status: active
+    variants:
+      - repo_id: C010_standards
+        definition: "YAML schema defining document metadata structure with routing tags, governance, topics, and entity tracking for AI agent retrieval."
+
+  - term: "Rehydrator"
+    aliases_union: ["Rehydrator 1.1", "Rehydrator Adapter"]
+    scope: repo
+    tags_union: ["rehydration", "context", "briefs"]
+    status: active
+    variants:
+      - repo_id: C018_terminal-insights
+        definition: "Context reconstruction system that generates briefs from timeline events with summary-plus format including terminal highlights."
+
+# Repo-specific term counts
+term_counts:
+  C001_mission-control: 20
+  C002_sadb: 20
+  C003_sadb_canonical: 9
+  C004_star-extraction: 10
+  C005_mybuddy: 9
+  C006_revelator: 9
+  C007_the_cavern_club: 8
+  C008_CBFS: 11
+  C009_mcp-memory-http: 9
+  C010_standards: 10
+  C011_agents: 10
+  C015_local-tts: 6
+  C016_prompt-engine: 7
+  C017_brain-on-tap: 9
+  C018_terminal-insights: 10
+  C019_docs-site: 8
+  C020_pavlok: 10
+
+# Universal scope terms (appear in 2+ repos with consistent meaning)
+universal_scope_terms:
+  - Betty Protocol
+  - Houston
+  - Twin Feed
+  - ChromaDB
+  - Semantic Chunking
+  - BERTopic
+  - HITL
+  - Orpheus
+  - Scribe
+  - Archivist
+  - RAG
+  - Topic Taxonomy
+  - Voice Commands
+  - Query Playbooks
+  - Validators
+  - DocMeta
