@@ -44,6 +44,7 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 - Required files: README.md, rules_now.md, RELATIONS.yaml
 - Data policy: no data or artifacts in repo. Use $SADB_DATA_DIR with optional `50_data -> ../.links/SADB_Data` symlink for compatibility.
 - Easy buttons: `00_run/` contains double-clickable launchers (`.command` for macOS, `.ps1` for Windows) for common operations.
+- **Series-aware enforcement**: `00_run/` is **mandatory** for C-series (Core) and W-series (Work) repos; **optional** for P-series (Projects) and U-series (Utility) repos.
 - RELATIONS.yaml links the repo to C002_sadb as the truth source.
 
 ## Guardrails

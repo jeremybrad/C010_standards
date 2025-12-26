@@ -14,7 +14,7 @@ secrets/
 # Generated outputs (regenerated on demand)
 # Keep directories via .gitkeep, ignore generated content
 # - Standards Pulse: Standards_Pulse.xlsx, Standards_Inventory.csv
-# - Folder Audit: folder_structure_audit_*.csv
+# - Folder Audit: folder_structure_audit_*.csv, folder_structure_actions_*.csv
 70_evidence/exports/*.xlsx
 70_evidence/exports/*.csv
 
