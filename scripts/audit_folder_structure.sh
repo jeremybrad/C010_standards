@@ -143,7 +143,7 @@ This file points to the canonical Betty Protocol rules.
 ---
 *This stub was auto-generated. Update with project-specific rules as needed.*
 STUB
-    echo "    [AUTOFIX] Created rules_now.md"
+    echo "    [AUTOFIX] Created rules_now.md" >&2
     fixed=$((fixed + 1))
   fi
 
@@ -169,7 +169,7 @@ data_sources: []
 # Canonical truth source for personal knowledge
 truth_source: C002_sadb
 STUB
-    echo "    [AUTOFIX] Created RELATIONS.yaml"
+    echo "    [AUTOFIX] Created RELATIONS.yaml" >&2
     fixed=$((fixed + 1))
   fi
 
@@ -195,7 +195,7 @@ Add launchers for common operations in this repo, such as:
 ---
 This stub was auto-generated. Add launchers as needed.
 STUB
-    echo "    [AUTOFIX] Created 00_run/ with README.txt"
+    echo "    [AUTOFIX] Created 00_run/ with README.txt" >&2
     fixed=$((fixed + 1))
   fi
 
