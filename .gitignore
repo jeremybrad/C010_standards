@@ -11,13 +11,15 @@ secrets/
 # macOS
 .DS_Store
 
-# Standards Pulse generated outputs (regenerated on demand)
+# Generated outputs (regenerated on demand)
 # Keep directories via .gitkeep, ignore generated content
+# - Standards Pulse: Standards_Pulse.xlsx, Standards_Inventory.csv
+# - Folder Audit: folder_structure_audit_*.csv
 70_evidence/exports/*.xlsx
 70_evidence/exports/*.csv
 
-# Audit receipts are auto-generated
-20_receipts/folder_audit_*.txt
+# Audit receipts are auto-generated (gitignored for cleanliness)
+20_receipts/folder_audit_*.md
 
 # Python
 __pycache__/

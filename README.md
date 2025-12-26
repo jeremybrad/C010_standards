@@ -86,7 +86,9 @@ C000_info-center/
 │
 ├── 00_run/                       # 🖱️ Easy Buttons (double-click launchers)
 │   ├── standards_pulse.command  # macOS: Generate standards inventory
-│   └── standards_pulse.ps1      # Windows: Generate standards inventory
+│   ├── standards_pulse.ps1      # Windows: Generate standards inventory
+│   ├── audit_syncedprojects.command  # macOS: Audit folder structure
+│   └── audit_syncedprojects.ps1      # Windows: Audit folder structure
 │
 ├── workspace/                    # 📊 Workspace-level organization
 │   ├── KNOWN_PROJECTS.md        # Auto-generated project inventory
@@ -144,11 +146,14 @@ The `00_run/` directory contains double-click launchers for common operations. N
 **Standards Pulse** - Generate a complete inventory of all standards:
 - **macOS**: Double-click `00_run/standards_pulse.command`
 - **Windows**: Right-click `00_run/standards_pulse.ps1` → Run with PowerShell
+- **Output**: `70_evidence/exports/Standards_Pulse.xlsx`, `Standards_Inventory.csv`
 
-**What it produces:**
-- `70_evidence/exports/Standards_Pulse.xlsx` - Multi-sheet workbook (Protocols, Schemas, Taxonomies, Validators, Scripts)
-- `70_evidence/exports/Standards_Inventory.csv` - Flat CSV for automation
-- `20_receipts/standards_pulse_YYYYMMDD_HHMMSS.md` - Timestamped receipt
+**Folder Structure Audit** - Check all repos for Betty Protocol compliance:
+- **macOS**: Double-click `00_run/audit_syncedprojects.command`
+- **Windows**: Right-click `00_run/audit_syncedprojects.ps1` → Run with PowerShell
+- **Output**: `70_evidence/exports/folder_structure_audit_latest.csv`
+
+The CSV includes columns for pivoting: `repo_name`, `repo_series`, `compliant`, `missing_required_files`, `invalid_top_level_dirs`, `has_00_run`, `exceptions_applied`.
 
 **Note**: Generated files are gitignored. Regenerate on-demand with the launchers above.
 
