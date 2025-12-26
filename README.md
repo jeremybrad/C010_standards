@@ -84,6 +84,10 @@ C000_info-center/
 ├── AGENT_START_HERE.md          # ⭐ Required reading for AI agents
 ├── README.md                     # This file - your starting point
 │
+├── 00_run/                       # 🖱️ Easy Buttons (double-click launchers)
+│   ├── standards_pulse.command  # macOS: Generate standards inventory
+│   └── standards_pulse.ps1      # Windows: Generate standards inventory
+│
 ├── workspace/                    # 📊 Workspace-level organization
 │   ├── KNOWN_PROJECTS.md        # Auto-generated project inventory
 │   ├── PROJECT_RELATIONSHIPS.md # Data flow & system architecture
@@ -132,6 +136,23 @@ C000_info-center/
 ---
 
 ## Common Tasks
+
+### Easy Buttons (00_run/)
+
+The `00_run/` directory contains double-click launchers for common operations. No terminal required.
+
+**Standards Pulse** - Generate a complete inventory of all standards:
+- **macOS**: Double-click `00_run/standards_pulse.command`
+- **Windows**: Right-click `00_run/standards_pulse.ps1` → Run with PowerShell
+
+**What it produces:**
+- `70_evidence/exports/Standards_Pulse.xlsx` - Multi-sheet workbook (Protocols, Schemas, Taxonomies, Validators, Scripts)
+- `70_evidence/exports/Standards_Inventory.csv` - Flat CSV for automation
+- `20_receipts/standards_pulse_YYYYMMDD_HHMMSS.md` - Timestamped receipt
+
+**Note**: Generated files are gitignored. Regenerate on-demand with the launchers above.
+
+---
 
 ### 1. Find a Project
 

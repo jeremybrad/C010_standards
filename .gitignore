@@ -8,6 +8,17 @@ secrets/
 !requirements.txt
 !requirements*.txt
 
+# macOS
+.DS_Store
+
+# Standards Pulse generated outputs (regenerated on demand)
+# Keep directories via .gitkeep, ignore generated content
+70_evidence/exports/*.xlsx
+70_evidence/exports/*.csv
+
+# Audit receipts are auto-generated
+20_receipts/folder_audit_*.txt
+
 # Python
 __pycache__/
 *.py[cod]
