@@ -20,6 +20,10 @@ secrets/
 
 # Audit receipts are auto-generated (gitignored for cleanliness)
 20_receipts/folder_audit_*.md
+20_receipts/*_standards_pulse.md
+
+# Local Claude Code settings (machine-specific permissions)
+.claude/settings.local.json
 
 # Python
 __pycache__/
