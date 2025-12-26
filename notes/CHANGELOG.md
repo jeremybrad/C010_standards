@@ -1,5 +1,24 @@
 # Metadata Governance Changelog
 
+## 2025-12-26
+- **Folder Structure Standard Update**: Updated Betty Protocol Canon to include `00_run` and `50_data` as allowed top-level directories
+- **Easy Buttons Standard**: Added `00_run/` folder convention for double-clickable launchers (`.command` for macOS, `.ps1` for Windows)
+- **Folder Structure Audit Script**: Created `scripts/audit_folder_structure.sh` with:
+  - Checks for non-compliant numbered directories
+  - Required files validation (README.md, rules_now.md, RELATIONS.yaml)
+  - Per-repo exceptions via `00_admin/audit_exceptions.yaml`
+  - Receipt generation in `20_receipts/`
+- **Standards Pulse Generator**: Created `00_run/` easy buttons and `tools/export_standards_pulse.py`:
+  - Generates `70_evidence/exports/Standards_Pulse.xlsx` (multi-sheet workbook)
+  - Generates `70_evidence/exports/Standards_Inventory.csv` (flat inventory)
+  - Creates receipts in `20_receipts/`
+  - Cross-platform launchers (macOS .command, Windows .ps1)
+- **Standards Guide**: Created `10_docs/STANDARDS_GUIDE.md` documenting:
+  - Where standards live (protocols/, schemas/, taxonomies/)
+  - The process for adding new standards
+  - How to confirm standards are in place
+  - The Define → Document → Bootstrap → Validate lifecycle
+
 ## 2025-10-18
 - **Cross-Platform CLAUDE.md Standard**: Created comprehensive protocol (`protocols/cross_platform_claude_md.md`) for writing CLAUDE.md files that work seamlessly across macOS and Windows
 - **Cross-Platform Template**: Added reusable template snippet (`policy/templates/claude_md_crossplatform.template.md`) for inclusion in CLAUDE.md files

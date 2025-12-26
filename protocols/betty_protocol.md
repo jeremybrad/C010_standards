@@ -39,10 +39,11 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 ```
 
 ## Canon (per repo)
-- Allowed top level: 00_admin, 10_docs, 20_receipts, 30_config, 40_src, 70_evidence, 90_archive
+- Allowed top level: 00_admin, 00_run, 10_docs, 20_receipts, 30_config, 40_src, 50_data, 70_evidence, 90_archive
 - Single canonical README at repo root. Secondary READMEs are stubs that point to root.
 - Required files: README.md, rules_now.md, RELATIONS.yaml
 - Data policy: no data or artifacts in repo. Use $SADB_DATA_DIR with optional `50_data -> ../.links/SADB_Data` symlink for compatibility.
+- Easy buttons: `00_run/` contains double-clickable launchers (`.command` for macOS, `.ps1` for Windows) for common operations.
 - RELATIONS.yaml links the repo to C002_sadb as the truth source.
 
 ## Guardrails
