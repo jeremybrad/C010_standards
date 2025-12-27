@@ -103,4 +103,32 @@ ls -la _receipts/workspace_wave*
 ```
 
 ---
+
+<!-- BOT:operator_standards_brief:start -->
+## Operator Standards Brief
+
+**Purpose**: Queryable slice for dynamic injection into operator primers and closeouts.
+
+### Folder structure (top-level)
+Allowed only:
+`00_admin`, `00_run`, `10_docs`, `20_receipts`, `20_approvals`, `20_inbox`, `30_config`, `40_src`, `50_data`, `70_evidence`, `80_evidence_packages`, `90_archive`
+
+### Local-only artifacts (never commit)
+- `.claude/settings.local.json`
+- `.DS_Store`
+- `exports/`, `logs/`, temp outputs unless explicitly routed to `70_evidence/`
+
+### Move discipline
+- Use `git mv` for tracked files (preserves history)
+- Use `mv`/`rm` for untracked artifacts
+- If bypassing a guardrail, leave a receipt in `20_receipts/`
+
+### Session hygiene expectation
+- Before declaring done: `git status` is empty (or acceptably clean)
+- Receipts written for non-trivial operations
+- Pushes synced where upstream exists
+- Stash or document any WIP explicitly
+<!-- BOT:operator_standards_brief:end -->
+
+---
 *Protocol validated 2025-09-07: 6.6GB recovered from 8.0GB test cleanup*
