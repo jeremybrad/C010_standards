@@ -11,7 +11,8 @@ Created a queryable Repo Registry so consuming repos (especially C017 Brain on T
 ## Files Created
 
 1. `registry/repos.yaml` - Main registry file with repo metadata
-2. `registry/README.md` - Schema documentation and usage guide
+2. `registry/README.md` - Usage guide
+3. `registry/schema.md` - Schema specification with field definitions and examples
 
 ## Files Modified
 
