@@ -57,9 +57,10 @@ CSV_LATEST="$CSV_DIR/folder_structure_audit_latest.csv"
 ACTIONS_FILE="$CSV_DIR/folder_structure_actions_${STAMP}.csv"
 ACTIONS_LATEST="$CSV_DIR/folder_structure_actions_latest.csv"
 
-# Betty Protocol Canon - allowed top-level numbered directories
+# Betty Protocol Canon - allowed top-level directories
 # Source: protocols/betty_protocol.md
-ALLOWED_DIRS="00_admin|00_run|10_docs|20_receipts|30_config|40_src|50_data|70_evidence|90_archive"
+# Updated 2025-12-27: Added 20_inbox, 20_approvals, 80_evidence_packages
+ALLOWED_DIRS="00_admin|00_run|10_docs|20_receipts|20_approvals|20_inbox|30_config|40_src|50_data|70_evidence|80_evidence_packages|90_archive"
 
 # Required files per Betty Protocol (default)
 # Can be overridden per-repo via 00_admin/audit_exceptions.yaml
@@ -318,19 +319,22 @@ for repo in "$ROOT"/*/; do
   # Check if exceptions file exists/applied
   exceptions_applied=$(has_exceptions_file "$repo")
 
-  # Check 1: Find numbered directories that aren't in the allowed list
+  # Check 1: Find ALL top-level directories that aren't in the allowed list
+  # Fixed 2025-12-27: Now checks ALL non-hidden dirs, not just numbered ones
+  # This catches violations like bin/, ci/, docs/, --version/, python3/, etc.
   non_compliant_dirs=""
   non_compliant_dirs_csv=""
-  while IFS= read -r dir; do
-    [ -z "$dir" ] && continue
-    dirname=$(basename "$dir")
+  # Enumerate all non-hidden top-level directories
+  top_dirs=$(ls -F "$repo" 2>/dev/null | awk '/\/$/ {print substr($0,1,length($0)-1)}' | grep -v '^\.' || true)
+  for dirname in $top_dirs; do
+    [ -z "$dirname" ] && continue
     if ! echo "$dirname" | grep -qE "^($ALLOWED_DIRS)$"; then
       non_compliant_dirs="$non_compliant_dirs$dirname "
       [[ -n "$non_compliant_dirs_csv" ]] && non_compliant_dirs_csv="$non_compliant_dirs_csv;"
       non_compliant_dirs_csv="$non_compliant_dirs_csv$dirname"
       repo_violations=$((repo_violations + 1))
     fi
-  done < <(find "$repo" -maxdepth 1 -type d -name '[0-9][0-9]_*' 2>/dev/null)
+  done
 
   # Check 2: Required files (with per-repo exceptions)
   REQUIRED_FILES=$(load_repo_exceptions "$repo")
