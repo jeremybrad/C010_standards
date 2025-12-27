@@ -162,4 +162,29 @@ Allowed only:
 <!-- BOT:operator_standards_brief:end -->
 
 ---
+
+<!-- BOT:repo_registry_usage:start -->
+## Repo Registry
+
+**Location**: `C010_standards/registry/repos.yaml`
+
+The canonical Repo Registry provides structured metadata about repos in the workspace. Consuming tools (e.g., C017_brain-on-tap primers) read this file to render repo context.
+
+### Usage
+- Read `repos.yaml` at runtime—do not duplicate content elsewhere
+- Filter by `repo_id` to get relevant entry
+- Render: purpose, contracts, interfaces, status
+
+### Schema (required fields)
+- `repo_id`: Unique identifier (e.g., `C017_brain-on-tap`)
+- `name`: Human-readable name
+- `purpose`: One-sentence purpose statement
+- `authoritative_sources`: Paths to canonical content
+- `contracts`: Commitments (APIs, formats, protocols)
+- `status`: `active` | `deprecated` | `archived`
+
+See `registry/README.md` for full schema documentation.
+<!-- BOT:repo_registry_usage:end -->
+
+---
 *Protocol validated 2025-09-07: 6.6GB recovered from 8.0GB test cleanup*

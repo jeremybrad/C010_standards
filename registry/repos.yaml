@@ -1,0 +1,124 @@
+# Canonical Repo Registry for SyncedProjects Workspace
+# Maintained in: C010_standards/registry/repos.yaml
+# Schema: See README.md in this directory
+#
+# Usage: Consuming repos (e.g., C017_brain-on-tap) read this file
+#        to render repo context without relying on chat history.
+
+repos:
+  - repo_id: C010_standards
+    name: Standards & Governance Hub
+    purpose: Canonical source of truth for workspace-wide metadata standards, YAML schemas, taxonomies, and protocol definitions.
+    philosophy: Data-first definitions. Normative specs live here; consuming repos read and apply them.
+    authoritative_sources:
+      - schemas/           # DocMeta, CodeMeta, Houston schemas
+      - taxonomies/        # Controlled vocabularies (topics, emotions, terms)
+      - protocols/         # Betty Protocol, operator standards, stash policy
+      - validators/        # Production validation tooling
+    contracts:
+      - Betty Protocol compliance (all repos)
+      - DocMeta v1.2 schema for document metadata
+      - CodeMeta v1.0 schema for code artifacts
+      - Houston feature/tool config validation
+    interfaces:
+      - Git submodule consumption (C001_mission-control → external/standards)
+      - BOT slice markers for inject-able standards content
+    status: active
+    tags:
+      - governance
+      - standards
+      - schemas
+      - validation
+
+  - repo_id: C017_brain-on-tap
+    name: Brain on Tap
+    purpose: Real-time context generation with query playbooks. Provides dynamic primer injection for Claude Code sessions.
+    philosophy: Context is computed, not stored. Generate what the agent needs at session start.
+    authoritative_sources:
+      - brain_on_tap/profiles/    # Agent profile definitions (advisor/operator)
+      - brain_on_tap/playbooks/   # Query playbooks for context retrieval
+      - brain_on_tap/engine.py    # Core engine for primer generation
+    contracts:
+      - Profile YAML schema (agent_type, slices, inject patterns)
+      - Primer output format (markdown with structured sections)
+      - Playbook execution protocol
+    interfaces:
+      - CLI: bbot primer <profile>
+      - CLI: bbot render <profile>
+      - Python API: brain_on_tap.engine
+    status: active
+    tags:
+      - context-generation
+      - primers
+      - profiles
+      - agent-tooling
+
+  - repo_id: C002_sadb
+    name: Self-As-Database
+    purpose: Personal knowledge extraction system processing conversation exports into structured, queryable data.
+    philosophy: Extract signal from noise. 1.5M+ entries with 100% speaker attribution for Betty/Claude conversations.
+    authoritative_sources:
+      - 40_src/                   # Pipeline source code
+      - 30_config/manifest.yaml   # Manifest-based pipeline config
+      - scripts/                  # Ingestion and processing scripts
+    contracts:
+      - Manifest-based pipeline execution (S0-S2 stages)
+      - Speaker attribution for conversation turns
+      - KV (Knowledge Vault) batch ingestion format
+    interfaces:
+      - CLI: make pipeline (db-init → index → export-twin → stats)
+      - CLI: python 40_src/sadb_q.py stats
+      - SQLite database at $SADB_DATA_DIR
+    status: active
+    tags:
+      - knowledge-extraction
+      - conversations
+      - sqlite
+      - pipeline
+
+  - repo_id: C001_mission-control
+    name: Mission Control
+    purpose: Credential vault system with Houston AI assistant for infrastructure queries.
+    philosophy: Consolidate scattered credentials. Encrypted storage with gradual trust phases.
+    authoritative_sources:
+      - 30_config/houston-features.json   # Feature toggles and trust phases
+      - 30_config/houston-tools.json      # Tool pipelines and phase gating
+      - external/standards/               # C010 submodule
+    contracts:
+      - Encrypted API key storage (AES-256-GCM)
+      - Trust phase progression (Phase 1-3)
+      - Localhost-only API access (port 8820)
+    interfaces:
+      - API: http://localhost:8820/health
+      - CLI: npm run dev
+      - Houston AI assistant
+    status: active
+    tags:
+      - credentials
+      - vault
+      - houston
+      - infrastructure
+
+  - repo_id: W-series
+    name: Work/Analytics Projects
+    purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.
+    philosophy: Rigorous methodology with reproducible analysis. Reports backed by verifiable data.
+    authoritative_sources:
+      - W001_cmo-weekly-reporting/    # CMO weekly reports
+      - W003_analytics/               # Business analytics
+      - W005_*/                       # Various work projects
+      - W006_Abandoned_Cart/          # Abandoned cart A/B test analysis
+    contracts:
+      - Receipt-backed analysis (20_receipts/)
+      - Evidence packages for claims (80_evidence_packages/)
+      - BigQuery data sources documented
+    interfaces:
+      - make build (per-project)
+      - make verify (claims verification)
+      - BigQuery queries via bq CLI
+    status: active
+    tags:
+      - analytics
+      - reporting
+      - bigquery
+      - stakeholder-delivery
