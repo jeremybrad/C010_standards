@@ -1,6 +1,6 @@
 # Repo Registry Schema
 
-**Version**: 1.1
+**Version**: 1.2
 **Location**: `C010_standards/registry/repos.yaml`
 
 ## Structure
@@ -17,7 +17,7 @@ repos:
 
 ## Fields
 
-### Required
+### Required (Card Fields)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -28,13 +28,33 @@ repos:
 | `contracts` | list[string] | Invariants, rules, or commitments this repo makes |
 | `status` | enum | One of: `active`, `deprecated` |
 
-### Optional
+### Optional (Card Fields)
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `philosophy` | string | Design philosophy or guiding principle |
 | `interfaces` | list[string] | How to interact—**must be strings, NOT dicts** |
 | `tags` | list[string] | Searchable keywords for discovery |
+
+### Optional (Onboarding Fields) — v1.2
+
+These fields provide richer context for advisor primers and new agent onboarding.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `story` | string | Why this repo exists, its origin, the problem it solves |
+| `how_it_fits` | string | Relationship to other repos and overall workflow |
+| `architecture` | string | High-level structure and major components |
+| `onboarding` | list[string] | What a new agent should do first |
+| `entry_points` | list[string] | Key paths or commands to start (README, main modules) |
+| `key_concepts` | list[string] | Domain terms that appear in this repo |
+| `common_tasks` | list[string] | Most frequent work patterns |
+| `gotchas` | list[string] | Sharp edges, common mistakes |
+| `integration_points` | list[string] | Interfaces with other repos/tools |
+| `commands` | list[string] | Canonical CLI commands (copy-pasteable) |
+| `glossary_refs` | list[string] | Pointers to glossary if it exists elsewhere |
+
+**Truncation**: Consumers rendering short cards should truncate `purpose` to ~80 chars. Full context available in onboarding fields.
 
 ### Interface Format (Important)
 

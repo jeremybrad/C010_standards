@@ -1,6 +1,6 @@
 # Canonical Repo Registry for SyncedProjects Workspace
 # Maintained in: C010_standards/registry/repos.yaml
-# Schema: See README.md in this directory
+# Schema: See schema.md (v1.2)
 #
 # Usage: Consuming repos (e.g., C017_brain-on-tap) read this file
 #        to render repo context without relying on chat history.
@@ -10,19 +10,65 @@ repos:
     name: Standards & Governance Hub
     purpose: Canonical source of truth for workspace-wide metadata standards, YAML schemas, taxonomies, and protocol definitions.
     philosophy: Data-first definitions. Normative specs live here; consuming repos read and apply them.
+    story: |
+      Created to consolidate scattered standards across 40+ repos. Before C010, each repo
+      defined its own conventions, leading to drift and inconsistency. C010 is the single
+      source of truth that other repos consume via submodule or direct reference.
+    how_it_fits: |
+      C010 anchors the entire workspace. C001_mission-control consumes it as a git submodule.
+      C017_brain-on-tap reads registry and BOT slices for primer injection. All repos follow
+      Betty Protocol defined here.
+    architecture: |
+      - schemas/: Versioned YAML schemas (DocMeta, CodeMeta, Houston)
+      - taxonomies/: Controlled vocabularies (topics, terms, emotions)
+      - protocols/: Betty Protocol, operator standards, stash policy
+      - validators/: Production validation scripts
+      - registry/: Repo registry (this file) and validator
     authoritative_sources:
-      - schemas/           # DocMeta, CodeMeta, Houston schemas
-      - taxonomies/        # Controlled vocabularies (topics, emotions, terms)
-      - protocols/         # Betty Protocol, operator standards, stash policy
-      - validators/        # Production validation tooling
+      - schemas/
+      - taxonomies/
+      - protocols/
+      - validators/
+      - registry/
     contracts:
       - Betty Protocol compliance (all repos)
       - DocMeta v1.2 schema for document metadata
       - CodeMeta v1.0 schema for code artifacts
       - Houston feature/tool config validation
     interfaces:
-      - Git submodule consumption (C001_mission-control → external/standards)
-      - BOT slice markers for inject-able standards content
+      - "Submodule: git submodule add (C001 uses external/standards)"
+      - "BOT slices: <!-- BOT:name:start --> markers for injection"
+    onboarding:
+      - "Read protocols/betty_protocol.md for workspace conventions"
+      - "Review registry/repos.yaml for repo inventory"
+      - "Check schemas/ for metadata templates"
+    entry_points:
+      - "README.md"
+      - "protocols/betty_protocol.md"
+      - "registry/repos.yaml"
+      - "validators/run_all.py"
+    key_concepts:
+      - "Betty Protocol"
+      - "BOT slice markers"
+      - "DocMeta/CodeMeta schemas"
+      - "Controlled taxonomies"
+    common_tasks:
+      - "Add new BOT slice to betty_protocol.md"
+      - "Update taxonomy with new terms"
+      - "Run validators before commit"
+      - "Update registry when repo status changes"
+    gotchas:
+      - "YAML colons parse as dicts—quote interface strings"
+      - "BOT markers must be exact HTML comments"
+      - "Schema changes affect all consuming repos"
+    integration_points:
+      - "C001_mission-control: submodule at external/standards"
+      - "C017_brain-on-tap: reads registry and BOT slices"
+      - "All repos: Betty Protocol compliance"
+    commands:
+      - "python validators/run_all.py"
+      - "python registry/validate_registry.py"
+      - "python registry/validate_registry.py --strict"
     status: active
     tags:
       - governance
@@ -34,10 +80,23 @@ repos:
     name: Brain on Tap
     purpose: Real-time context generation with query playbooks. Provides dynamic primer injection for Claude Code sessions.
     philosophy: Context is computed, not stored. Generate what the agent needs at session start.
+    story: |
+      Born from the need to give Claude Code sessions rich, consistent context without
+      maintaining stale documentation. Instead of static docs, BBOT computes primers
+      from live repo state, registry data, and playbooks.
+    how_it_fits: |
+      BBOT is the context layer for all Claude Code sessions. It reads C010 standards,
+      queries C002 SADB for knowledge, and renders profiles for different agent types
+      (advisor vs operator).
+    architecture: |
+      - brain_on_tap/engine.py: Core primer generation
+      - brain_on_tap/profiles/: Agent profile YAML definitions
+      - brain_on_tap/playbooks/: Query playbooks for context retrieval
+      - brain_on_tap/validation.py: Profile and playbook validation
     authoritative_sources:
-      - brain_on_tap/profiles/    # Agent profile definitions (advisor/operator)
-      - brain_on_tap/playbooks/   # Query playbooks for context retrieval
-      - brain_on_tap/engine.py    # Core engine for primer generation
+      - brain_on_tap/profiles/
+      - brain_on_tap/playbooks/
+      - brain_on_tap/engine.py
     contracts:
       - Profile YAML schema (agent_type, slices, inject patterns)
       - Primer output format (markdown with structured sections)
@@ -46,6 +105,38 @@ repos:
       - "CLI: bbot primer <profile>"
       - "CLI: bbot render <profile>"
       - "Python: brain_on_tap.engine"
+    onboarding:
+      - "Run bbot render session.primer.operator to see primer output"
+      - "Read brain_on_tap/profiles/ to understand profile structure"
+      - "Check docs/COMMANDS.md for all CLI commands"
+    entry_points:
+      - "README.md"
+      - "brain_on_tap/engine.py"
+      - "brain_on_tap/profiles/"
+    key_concepts:
+      - "Primer"
+      - "Profile"
+      - "Playbook"
+      - "Slice injection"
+      - "agent_type (advisor/operator)"
+    common_tasks:
+      - "Create new profile for specific workflow"
+      - "Add playbook for new data source"
+      - "Inject C010 standards slice into primer"
+      - "Debug primer generation issues"
+    gotchas:
+      - "Profiles must have agent_type not role"
+      - "Playbook queries may fail silently—check logs"
+      - "Profile paths are relative to repo root"
+    integration_points:
+      - "C010_standards: reads registry and BOT slices"
+      - "C002_sadb: queries for knowledge context"
+      - "Claude Code: consumes rendered primers"
+    commands:
+      - "bbot primer <profile>"
+      - "bbot render <profile>"
+      - "bbot list"
+      - "python -m pytest tests/"
     status: active
     tags:
       - context-generation
@@ -57,10 +148,23 @@ repos:
     name: Self-As-Database
     purpose: Personal knowledge extraction system processing conversation exports into structured, queryable data.
     philosophy: Extract signal from noise. 1.5M+ entries with 100% speaker attribution for Betty/Claude conversations.
+    story: |
+      Jeremy's conversations with AI are a knowledge asset. SADB extracts, normalizes, and
+      indexes them so they can be queried. What started as a simple import grew into a
+      full pipeline with speaker attribution, enrichment, and twin export.
+    how_it_fits: |
+      SADB is the knowledge base. C017 queries it for context. C005_mybuddy uses it
+      for personal assistant features. It processes exports from ChatGPT, Claude, and
+      other sources into a unified SQLite database.
+    architecture: |
+      - 40_src/: Pipeline stages (S0 ingest, S1 normalize, S2 enrich)
+      - 30_config/manifest.yaml: Pipeline configuration
+      - scripts/: Ingestion and processing utilities
+      - 50_data/ -> $SADB_DATA_DIR: Symlink to data directory
     authoritative_sources:
-      - 40_src/                   # Pipeline source code
-      - 30_config/manifest.yaml   # Manifest-based pipeline config
-      - scripts/                  # Ingestion and processing scripts
+      - 40_src/
+      - 30_config/manifest.yaml
+      - scripts/
     contracts:
       - Manifest-based pipeline execution (S0-S2 stages)
       - Speaker attribution for conversation turns
@@ -69,6 +173,38 @@ repos:
       - "CLI: make pipeline"
       - "CLI: python 40_src/sadb_q.py stats"
       - "Data: SQLite at $SADB_DATA_DIR"
+    onboarding:
+      - "Set SADB_DATA_DIR environment variable"
+      - "Run make health to check setup"
+      - "Run make pipeline to process data"
+    entry_points:
+      - "README.md"
+      - "40_src/sadb_q.py"
+      - "30_config/manifest.yaml"
+    key_concepts:
+      - "Manifest-based pipeline"
+      - "Speaker attribution"
+      - "KV batch ingestion"
+      - "S0/S1/S2 stages"
+      - "Twin export"
+    common_tasks:
+      - "Ingest new ChatGPT exports"
+      - "Run full pipeline after new data"
+      - "Query stats for entry counts"
+      - "Export twin feed for external consumption"
+    gotchas:
+      - "SADB_DATA_DIR must be set before running"
+      - "Large ingests can take hours—use preflight checks"
+      - "Speaker attribution requires specific export format"
+    integration_points:
+      - "C017_brain-on-tap: queries for context"
+      - "C005_mybuddy: personal assistant features"
+      - "$SADB_DATA_DIR: external data storage"
+    commands:
+      - "make health"
+      - "make pipeline"
+      - "python 40_src/sadb_q.py stats"
+      - "bash scripts/ingest_chatgpt_downloads.sh"
     status: active
     tags:
       - knowledge-extraction
@@ -80,10 +216,23 @@ repos:
     name: Mission Control
     purpose: Credential vault system with Houston AI assistant for infrastructure queries.
     philosophy: Consolidate scattered credentials. Encrypted storage with gradual trust phases.
+    story: |
+      Jeremy's API keys were scattered across Chrome, Norton, Windows keychain, and random
+      files. Mission Control consolidates them into encrypted storage with a local-only API.
+      Houston is the AI assistant that helps manage infrastructure.
+    how_it_fits: |
+      Mission Control is the credential layer. All repos that need API keys request them
+      through the vault API. Houston provides natural language infrastructure queries.
+      C010 is consumed as a submodule for standards compliance.
+    architecture: |
+      - 30_config/houston-features.json: Feature toggles and trust phases
+      - 30_config/houston-tools.json: Tool pipelines and phase gating
+      - external/standards/: C010 submodule
+      - vault/: Encrypted credential storage (AES-256-GCM)
     authoritative_sources:
-      - 30_config/houston-features.json   # Feature toggles and trust phases
-      - 30_config/houston-tools.json      # Tool pipelines and phase gating
-      - external/standards/               # C010 submodule
+      - 30_config/houston-features.json
+      - 30_config/houston-tools.json
+      - external/standards/
     contracts:
       - Encrypted API key storage (AES-256-GCM)
       - Trust phase progression (Phase 1-3)
@@ -92,6 +241,37 @@ repos:
       - "API: http://localhost:8820/health"
       - "CLI: npm run dev"
       - "Agent: Houston AI assistant"
+    onboarding:
+      - "Run npm install to set up dependencies"
+      - "Run npm run dev to start vault server"
+      - "Check http://localhost:8820/health for status"
+    entry_points:
+      - "README.md"
+      - "30_config/houston-features.json"
+      - "package.json"
+    key_concepts:
+      - "Credential vault"
+      - "Trust phases (Phase 1-3)"
+      - "Houston agent"
+      - "AES-256-GCM encryption"
+    common_tasks:
+      - "Start vault server for API access"
+      - "Add new credential to vault"
+      - "Update trust phase configuration"
+      - "Sync C010 submodule for latest standards"
+    gotchas:
+      - "Port 8820 localhost only—no remote access"
+      - "Trust phases gate which operations Houston can perform"
+      - "Submodule must be updated manually"
+    integration_points:
+      - "C010_standards: submodule at external/standards"
+      - "All repos: credential requests via vault API"
+      - "Houston: infrastructure queries"
+    commands:
+      - "npm run dev"
+      - "curl http://localhost:8820/health"
+      - "git submodule update --remote external/standards"
+      - "make health"
     status: active
     tags:
       - credentials
@@ -103,19 +283,59 @@ repos:
     name: Work/Analytics Projects
     purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.
     philosophy: Rigorous methodology with reproducible analysis. Reports backed by verifiable data.
+    story: |
+      W-series projects handle business analytics that need to be delivered to stakeholders.
+      Each project has its own evidence trail, receipts, and claims verification. The abandoned
+      cart A/B test (W006) is the most complex example with full statistical rigor.
+    how_it_fits: |
+      W-series is separate from core infrastructure. These are time-bounded work projects
+      that produce deliverables. They follow Betty Protocol but have additional requirements
+      for evidence packages and claims verification.
+    architecture: |
+      - W001_cmo-weekly-reporting/: CMO weekly reports
+      - W003_analytics/: Business analytics
+      - W006_Abandoned_Cart/: A/B test analysis with full evidence trail
+      - Each project: 20_receipts/, 80_evidence_packages/
     authoritative_sources:
-      - W001_cmo-weekly-reporting/    # CMO weekly reports
-      - W003_analytics/               # Business analytics
-      - W005_*/                       # Various work projects
-      - W006_Abandoned_Cart/          # Abandoned cart A/B test analysis
+      - W001_cmo-weekly-reporting/
+      - W003_analytics/
+      - W006_Abandoned_Cart/
     contracts:
       - Receipt-backed analysis (20_receipts/)
       - Evidence packages for claims (80_evidence_packages/)
       - BigQuery data sources documented
     interfaces:
-      - make build (per-project)
-      - make verify (claims verification)
-      - BigQuery queries via bq CLI
+      - "CLI: make build (per-project)"
+      - "CLI: make verify (claims verification)"
+      - "BigQuery: bq query"
+    onboarding:
+      - "Read specific W project README for context"
+      - "Check 20_receipts/ for analysis history"
+      - "Review 80_evidence_packages/ for claim support"
+    entry_points:
+      - "W006_Abandoned_Cart/README.md (example)"
+      - "W001_cmo-weekly-reporting/README.md"
+    key_concepts:
+      - "Evidence packages"
+      - "Claims verification"
+      - "Receipt-backed analysis"
+      - "BigQuery sources"
+    common_tasks:
+      - "Run analysis pipeline for new data"
+      - "Verify claims with make verify"
+      - "Generate stakeholder report"
+      - "Archive completed analysis"
+    gotchas:
+      - "Evidence packages must be complete before stakeholder delivery"
+      - "BigQuery costs—use dry-run first"
+      - "Receipts required for all non-trivial analysis"
+    integration_points:
+      - "BigQuery: data source for analysis"
+      - "Stakeholders: report consumers"
+    commands:
+      - "make build"
+      - "make verify"
+      - "bq query --dry_run"
     status: active
     tags:
       - analytics

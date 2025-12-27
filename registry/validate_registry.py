@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """
-Validate registry/repos.yaml against schema v1.1.
+Validate registry/repos.yaml against schema v1.2.
 
 Usage:
     python registry/validate_registry.py
     python registry/validate_registry.py --verbose
+    python registry/validate_registry.py --strict  # require onboarding fields for active repos
 
 Exit codes:
     0 - Valid
@@ -25,17 +26,36 @@ except ImportError:
     print("ERROR: PyYAML required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(2)
 
-# Schema definition
+# Schema definition v1.2
 REQUIRED_FIELDS = {"repo_id", "name", "purpose", "authoritative_sources", "contracts", "status"}
-OPTIONAL_FIELDS = {"philosophy", "interfaces", "tags"}
+OPTIONAL_CARD_FIELDS = {"philosophy", "interfaces", "tags"}
+OPTIONAL_ONBOARDING_FIELDS = {
+    "story", "how_it_fits", "architecture",
+    "onboarding", "entry_points", "key_concepts",
+    "common_tasks", "gotchas", "integration_points",
+    "commands", "glossary_refs"
+}
+OPTIONAL_FIELDS = OPTIONAL_CARD_FIELDS | OPTIONAL_ONBOARDING_FIELDS
+
 VALID_STATUS = {"active", "deprecated"}
-LIST_STRING_FIELDS = {"authoritative_sources", "contracts", "interfaces", "tags"}
+
+# Type enforcement
+LIST_STRING_FIELDS = {
+    "authoritative_sources", "contracts", "interfaces", "tags",
+    "onboarding", "entry_points", "key_concepts", "common_tasks",
+    "gotchas", "integration_points", "commands", "glossary_refs"
+}
+STRING_FIELDS = {"story", "how_it_fits", "architecture", "philosophy", "purpose", "name", "repo_id"}
+
+# Strict mode requirements
+STRICT_REQUIRED_FOR_ACTIVE = {"onboarding", "entry_points"}
 
 
-def validate_entry(entry: dict, verbose: bool = False) -> list[str]:
+def validate_entry(entry: dict, verbose: bool = False, strict: bool = False) -> list[str]:
     """Validate a single repo entry. Returns list of error messages."""
     errors = []
     repo_id = entry.get("repo_id", "<unknown>")
+    status = entry.get("status")
 
     # Check required fields
     for field in REQUIRED_FIELDS:
@@ -43,9 +63,22 @@ def validate_entry(entry: dict, verbose: bool = False) -> list[str]:
             errors.append(f"[{repo_id}] Missing required field: {field}")
 
     # Check status enum
-    status = entry.get("status")
     if status and status not in VALID_STATUS:
         errors.append(f"[{repo_id}] Invalid status '{status}'. Must be one of: {VALID_STATUS}")
+
+    # Strict mode: require onboarding fields for active repos
+    if strict and status == "active":
+        for field in STRICT_REQUIRED_FOR_ACTIVE:
+            if field not in entry:
+                errors.append(f"[{repo_id}] Strict mode: missing '{field}' for active repo")
+
+    # Check string fields are actually strings
+    for field in STRING_FIELDS:
+        value = entry.get(field)
+        if value is None:
+            continue
+        if not isinstance(value, str):
+            errors.append(f"[{repo_id}] Field '{field}' must be string, got {type(value).__name__}")
 
     # Check list[string] fields are actually list[str]
     for field in LIST_STRING_FIELDS:
@@ -74,6 +107,7 @@ def validate_entry(entry: dict, verbose: bool = False) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     argv = argv or sys.argv[1:]
     verbose = "--verbose" in argv or "-v" in argv
+    strict = "--strict" in argv
 
     # Locate registry file
     script_dir = Path(__file__).resolve().parent
@@ -108,7 +142,7 @@ def main(argv: list[str] | None = None) -> int:
             all_errors.append(f"Entry is not a dict: {entry!r}")
             continue
         repo_ids.append(entry.get("repo_id", "<unknown>"))
-        errors = validate_entry(entry, verbose)
+        errors = validate_entry(entry, verbose, strict)
         all_errors.extend(errors)
 
     # Check for duplicate repo_ids

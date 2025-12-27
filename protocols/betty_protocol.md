@@ -187,4 +187,32 @@ See `registry/README.md` for full schema documentation.
 <!-- BOT:repo_registry_usage:end -->
 
 ---
+
+<!-- BOT:command_discoverability:start -->
+## Command Discoverability
+
+**Policy**: CLI commands and "cheat sheet" guidance must be written to persistent locations.
+
+### Requirements
+- New CLI commands go in `docs/COMMANDS.md` (or equivalent)
+- Commands must be renderable via BBOT help/commands profile
+- Avoid leaving commands only in chat—they will be lost
+
+### Persistent Locations
+- Registry: `C010_standards/registry/repos.yaml` → `commands` field
+- Per-repo: `docs/COMMANDS.md` or equivalent
+- BBOT: Playbooks that query command documentation
+
+### Anti-pattern
+```
+# BAD: Command exists only in chat history
+"Run `python scripts/special_tool.py --flag` to do the thing"
+
+# GOOD: Command documented in registry or docs
+commands:
+  - "python scripts/special_tool.py --flag"
+```
+<!-- BOT:command_discoverability:end -->
+
+---
 *Protocol validated 2025-09-07: 6.6GB recovered from 8.0GB test cleanup*
