@@ -1,7 +1,7 @@
-# Session Closeout Protocol v1.0
+# Session Closeout Protocol v1.1
 
 **Source:** `C010_standards/protocols/session_closeout_protocol.md`
-**Version:** 1.0
+**Version:** 1.1
 **Last Updated:** 2025-12-27
 
 ## Purpose
@@ -74,28 +74,50 @@ git rm --cached <file>
 
 ---
 
-### Step 4: Stash vs WIP Commit Decision
+### Step 4: Stash Triage (MANDATORY)
 
-**Decision tree:**
+**⚠️ Zero-stash default:** Do not use `git stash` for "clean closeout" or to avoid decisions.
 
-```
-Is the work incomplete?
-├── YES: Is it worth preserving?
-│   ├── YES: Create WIP commit or stash
-│   │   ├── Staying on branch → git stash push -m "WIP: <description>"
-│   │   └── Switching context → git commit -m "WIP: <description>"
-│   └── NO: Restore changes → git restore .
-└── NO: Commit properly (see Step 5)
-```
-
-**Stash hygiene:**
+**First, always check:**
 ```bash
-# List existing stashes
 git stash list
+```
 
-# If stash@{0} is from current work, leave it
-# If stash@{0} is old/orphaned, consider dropping after review:
-git stash show -p stash@{0} | head -50
+**If stash list is non-empty, you MUST resolve each before declaring clean:**
+
+| Resolution | Command | When to Use |
+|------------|---------|-------------|
+| Convert to WIP branch | `git stash branch wip/<topic> stash@{N}` | Work worth keeping |
+| Apply and commit | `git stash show -p stash@{N}` then `git stash pop` | Ready to finish |
+| Drop with receipt | `git stash drop stash@{N}` | Obsolete/superseded work |
+
+**Stash decision tree:**
+
+```
+git stash list output?
+├── EMPTY: ✅ Proceed to Step 5
+└── NON-EMPTY: For each stash:
+    ├── Is this work still relevant?
+    │   ├── YES: Convert to branch → git stash branch wip/<topic> stash@{N}
+    │   └── NO: Is it superseded by committed work?
+    │       ├── YES: Drop it → git stash drop stash@{N} (write receipt)
+    │       └── NO: Review contents → git stash show -p stash@{N}
+    └── Create receipt documenting decision
+```
+
+**If you must stash new work (emergency only):**
+```bash
+# Always name it with context
+git stash push -m "<repo> <why> <YYYY-MM-DD>" -u
+
+# Example:
+git stash push -m "W001 blocked-by-rebase 2025-12-27" -u
+```
+
+**Preferred alternative (instead of stash):**
+```bash
+git switch -c wip/<topic>
+git add -A && git commit -m "WIP: <description> (do not merge)"
 ```
 
 ---

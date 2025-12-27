@@ -70,6 +70,37 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 - Work on short-lived branches: stabilize/*, feat/*, fix/*
 - Tag rollback points before structure changes
 
+<!-- BOT:git_stash_policy:start -->
+## Git Stash Policy (Zero-stash default)
+
+**Default:** Do not use `git stash` for "clean closeout" or to avoid decisions.
+
+### Approved uses (rare)
+Use stash only for immediate context switching when Git blocks you (checkout/pull/rebase) and you must switch tasks now.
+
+### Mandatory rules when stash is used
+1) **Name it.** Always: `git stash push -m "<repo> <why> <date>" -u` (use `-u` only if needed).
+2) **Triage immediately.** Same session or next session, no exceptions.
+3) **Preferred resolution: stash → branch.**
+   - `git stash branch wip/<topic> stash@{N}`
+4) **Never let stashes age silently.**
+   - If a stash exists, create a receipt that includes:
+     - stash id (stash@{N})
+     - summary of contents (files)
+     - decision: branch/apply/drop
+     - commands executed
+
+### Closeout gate
+If `git stash list` is non-empty at closeout, the session is **not "clean"** until:
+- stashes are converted to WIP branches, or
+- explicitly dropped with a receipt explaining why.
+
+### Preferred alternative (instead of stash)
+Use a WIP branch with a WIP commit:
+- `git switch -c wip/<topic>`
+- `git add -A && git commit -m "WIP: <what this is> (do not merge)"`
+<!-- BOT:git_stash_policy:end -->
+
 ## Chroma policies (optional)
 - Seed a minimal `sadb_policies` collection stored under `$SADB_DATA_DIR/chroma_policies`
 - Include only: root README, rules_now.md, and optional Do_Dont.md, RELATIONS.yaml
