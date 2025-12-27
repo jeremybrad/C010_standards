@@ -43,9 +43,9 @@ repos:
       - Primer output format (markdown with structured sections)
       - Playbook execution protocol
     interfaces:
-      - CLI: bbot primer <profile>
-      - CLI: bbot render <profile>
-      - Python API: brain_on_tap.engine
+      - "CLI: bbot primer <profile>"
+      - "CLI: bbot render <profile>"
+      - "Python: brain_on_tap.engine"
     status: active
     tags:
       - context-generation
@@ -66,9 +66,9 @@ repos:
       - Speaker attribution for conversation turns
       - KV (Knowledge Vault) batch ingestion format
     interfaces:
-      - CLI: make pipeline (db-init → index → export-twin → stats)
-      - CLI: python 40_src/sadb_q.py stats
-      - SQLite database at $SADB_DATA_DIR
+      - "CLI: make pipeline"
+      - "CLI: python 40_src/sadb_q.py stats"
+      - "Data: SQLite at $SADB_DATA_DIR"
     status: active
     tags:
       - knowledge-extraction
@@ -89,9 +89,9 @@ repos:
       - Trust phase progression (Phase 1-3)
       - Localhost-only API access (port 8820)
     interfaces:
-      - API: http://localhost:8820/health
-      - CLI: npm run dev
-      - Houston AI assistant
+      - "API: http://localhost:8820/health"
+      - "CLI: npm run dev"
+      - "Agent: Houston AI assistant"
     status: active
     tags:
       - credentials

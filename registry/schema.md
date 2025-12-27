@@ -1,6 +1,6 @@
 # Repo Registry Schema
 
-**Version**: 1.0
+**Version**: 1.1
 **Location**: `C010_standards/registry/repos.yaml`
 
 ## Structure
@@ -33,8 +33,29 @@ repos:
 | Field | Type | Description |
 |-------|------|-------------|
 | `philosophy` | string | Design philosophy or guiding principle |
-| `interfaces` | list[string] | How to interact (CLI commands, API endpoints, etc.) |
+| `interfaces` | list[string] | How to interact—**must be strings, NOT dicts** |
 | `tags` | list[string] | Searchable keywords for discovery |
+
+### Interface Format (Important)
+
+The `interfaces` field must be a **list of strings**, not a list of dicts. This avoids YAML parsing ambiguity.
+
+**Correct** (string format):
+```yaml
+interfaces:
+  - "CLI: bbot render <profile>"
+  - "Python: brain_on_tap.engine"
+  - "API: http://localhost:8820/health"
+```
+
+**Wrong** (dict format—will cause parsing issues):
+```yaml
+interfaces:
+  - type: CLI
+    command: bbot render <profile>
+```
+
+Use the pattern `"<type>: <value>"` as a single string.
 
 ## Examples
 
