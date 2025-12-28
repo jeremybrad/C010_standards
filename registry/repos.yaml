@@ -674,27 +674,37 @@ repos:
     pool: work
     bot_active: true
     path_rel: W005_BigQuery
+
+  - repo_id: W006_Abandoned_Cart
+    name: Abandoned Cart Analysis
+    purpose: A/B testing and analytics for abandoned cart SMS initiatives with evidence-backed stakeholder claims.
+    philosophy: Rigorous measurement with explicit date ranges and verified claims.
+    pool: work
+    bot_active: true
+    path_rel: W006_Abandoned_Cart
     story: |
-      Central hub for BigQuery operations supporting W-series analytics projects.
-      Manages ingestion pipelines, monitoring, and view definitions that feed
-      into business intelligence reports.
+      Comprehensive analysis of abandoned cart SMS interventions including pre/post UX changes,
+      multi-period comparisons, and full experiment lifecycle tracking. All claims backed by
+      evidence packages with explicit methodology.
     authoritative_sources:
-      - 01_Ingestion/
-      - 04_Views/
-      - 30_config/
+      - 40_src/
+      - 20_receipts/
+      - 80_evidence_packages/
     contracts:
-      - Receipt-backed data changes (20_receipts/)
+      - Receipt-backed analysis (20_receipts/)
       - Evidence packages for stakeholder claims (80_evidence_packages/)
-      - BigQuery data sources documented in DATA_SOURCES.md
+      - Data sources documented in DATA_SOURCES.md
+      - Verify entry point for claims validation
     interfaces:
-      - "CLI: bq query"
-      - "CLI: bq load"
+      - "CLI: make verify"
+      - "CLI: make build"
     commands:
       - "make verify"
-      - "bq query --dry_run"
+      - "make build"
+      - "00_run/verify.command"
     status: active
     tags:
-      - bigquery
       - analytics
-      - data-pipeline
+      - ab-testing
+      - sms
       - work-pool
