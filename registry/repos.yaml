@@ -287,6 +287,111 @@ repos:
       - houston
       - infrastructure
 
+  - repo_id: C003_sadb_canonical
+    name: SADB Canonical Pipeline
+    purpose: Locked, canonical SADB pipeline (S0-S2) with deterministic ingestion, normalization, and enrichment.
+    philosophy: Immutable pipeline stages. Changes require versioned migration.
+    bot_active: true
+    path_rel: C003_sadb_canonical
+    authoritative_sources:
+      - pipeline/
+      - 30_config/
+    contracts:
+      - Deterministic S0-S2 pipeline
+      - Locked stage contracts
+    status: active
+    tags:
+      - pipeline
+      - sadb
+      - canonical
+
+  - repo_id: C004_star-extraction
+    name: STAR Extraction System
+    purpose: Structured extraction of situation-task-action-result patterns from conversations.
+    philosophy: Extract actionable knowledge from conversation history.
+    bot_active: true
+    path_rel: C004_star-extraction
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - STAR pattern extraction
+      - Confidence scoring
+    status: active
+    tags:
+      - extraction
+      - star-pattern
+      - knowledge
+
+  - repo_id: C006_revelator
+    name: Revelator
+    purpose: Personal biography and story capture system for preserving life narratives.
+    philosophy: Stories matter. Capture them before they're lost.
+    bot_active: true
+    path_rel: C006_revelator
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - Story capture workflow
+      - Timeline preservation
+    status: active
+    tags:
+      - biography
+      - stories
+      - narrative
+
+  - repo_id: C007_the_cavern_club
+    name: The Cavern Club
+    purpose: Open WebUI + Ollama setup for local LLM interaction.
+    philosophy: Local-first AI. Your models, your data.
+    bot_active: true
+    path_rel: C007_the_cavern_club
+    authoritative_sources:
+      - docker-compose.yml
+      - 30_config/
+    contracts:
+      - Docker-based deployment
+      - Ollama model management
+    status: active
+    tags:
+      - ollama
+      - open-webui
+      - local-llm
+
+  - repo_id: C009_mcp-memory-http
+    name: MCP Memory HTTP
+    purpose: HTTP-based MCP memory server for persistent context across sessions.
+    philosophy: Memory as a service. Stateless clients, stateful server.
+    bot_active: true
+    path_rel: C009_mcp-memory-http
+    authoritative_sources:
+      - server/
+      - 40_src/
+    contracts:
+      - MCP protocol compliance
+      - HTTP API for memory operations
+    status: active
+    tags:
+      - mcp
+      - memory
+      - http-server
+
+  - repo_id: P110_knowledge-synthesis-tool
+    name: Knowledge Synthesis Tool
+    purpose: Tool for synthesizing knowledge from multiple sources into coherent summaries.
+    philosophy: Connect the dots. Transform fragments into understanding.
+    bot_active: true
+    path_rel: P110_knowledge-synthesis-tool
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - Multi-source synthesis
+      - Citation tracking
+    status: active
+    tags:
+      - synthesis
+      - knowledge
+      - summarization
+
   - repo_id: W-series
     name: Work/Analytics Projects
     purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.
