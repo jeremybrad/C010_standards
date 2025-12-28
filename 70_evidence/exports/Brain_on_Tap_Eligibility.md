@@ -1,14 +1,14 @@
 # Brain on Tap Eligibility Report
 
-**Generated**: 2025-12-28 01:40:44
+**Generated**: 2025-12-28 01:48:31
 **Registry**: `repos.yaml`
 
 ## Summary
 
 | Status | Count |
 |--------|-------|
-| PASS (eligible) | 26 |
-| FAIL (not eligible) | 1 |
+| PASS (eligible) | 27 |
+| FAIL (not eligible) | 0 |
 | N/A (excluded) | 1 |
 | **Total** | **28** |
 
@@ -39,15 +39,10 @@
 | `P167_dj-claude-mcp` | `P167_dj-claude-mcp` |
 | `P212_band-in-a-box-ai` | `P212_band-in-a-box-ai` |
 | `W005_BigQuery` | `W005_BigQuery` |
+| `W006_Abandoned_Cart` | `W006_Abandoned_Cart` |
 | `W008_QQ` | `W008_QQ` |
 | `W009_context_library` | `W009_context_library` |
 | `W011_peer-review` | `W011_peer-review` |
-
-## Failed Repos
-
-| Repo ID | Errors |
-|---------|--------|
-| `W006_Abandoned_Cart` | README: Missing headings: What this repo is, What it is not, When to use it, Entry points, Core architecture, Interfaces and contracts, Common workflows, Footguns and gotchas, Related repos, Provenance |
 
 ## Excluded Repos (bot_active=false)
 
