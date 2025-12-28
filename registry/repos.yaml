@@ -666,3 +666,35 @@ repos:
       - ai
       - samples
       - ableton
+
+  - repo_id: W005_BigQuery
+    name: BigQuery Infrastructure
+    purpose: BigQuery data ingestion, monitoring, and analytics infrastructure for business intelligence workflows.
+    philosophy: Evidence-backed analytics with rigorous data source documentation.
+    pool: work
+    bot_active: true
+    path_rel: W005_BigQuery
+    story: |
+      Central hub for BigQuery operations supporting W-series analytics projects.
+      Manages ingestion pipelines, monitoring, and view definitions that feed
+      into business intelligence reports.
+    authoritative_sources:
+      - 01_Ingestion/
+      - 04_Views/
+      - 30_config/
+    contracts:
+      - Receipt-backed data changes (20_receipts/)
+      - Evidence packages for stakeholder claims (80_evidence_packages/)
+      - BigQuery data sources documented in DATA_SOURCES.md
+    interfaces:
+      - "CLI: bq query"
+      - "CLI: bq load"
+    commands:
+      - "make verify"
+      - "bq query --dry_run"
+    status: active
+    tags:
+      - bigquery
+      - analytics
+      - data-pipeline
+      - work-pool
