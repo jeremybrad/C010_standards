@@ -10,6 +10,8 @@ repos:
     name: Standards & Governance Hub
     purpose: Canonical source of truth for workspace-wide metadata standards, YAML schemas, taxonomies, and protocol definitions.
     philosophy: Data-first definitions. Normative specs live here; consuming repos read and apply them.
+    bot_active: true
+    path_rel: C010_standards
     story: |
       Created to consolidate scattered standards across 40+ repos. Before C010, each repo
       defined its own conventions, leading to drift and inconsistency. C010 is the single
@@ -80,6 +82,8 @@ repos:
     name: Brain on Tap
     purpose: Real-time context generation with query playbooks. Provides dynamic primer injection for Claude Code sessions.
     philosophy: Context is computed, not stored. Generate what the agent needs at session start.
+    bot_active: true
+    path_rel: C017_brain-on-tap
     story: |
       Born from the need to give Claude Code sessions rich, consistent context without
       maintaining stale documentation. Instead of static docs, BBOT computes primers
@@ -148,6 +152,8 @@ repos:
     name: Self-As-Database
     purpose: Personal knowledge extraction system processing conversation exports into structured, queryable data.
     philosophy: Extract signal from noise. 1.5M+ entries with 100% speaker attribution for Betty/Claude conversations.
+    bot_active: true
+    path_rel: C002_sadb
     story: |
       Jeremy's conversations with AI are a knowledge asset. SADB extracts, normalizes, and
       indexes them so they can be queried. What started as a simple import grew into a
@@ -216,6 +222,8 @@ repos:
     name: Mission Control
     purpose: Credential vault system with Houston AI assistant for infrastructure queries.
     philosophy: Consolidate scattered credentials. Encrypted storage with gradual trust phases.
+    bot_active: true
+    path_rel: C001_mission-control
     story: |
       Jeremy's API keys were scattered across Chrome, Norton, Windows keychain, and random
       files. Mission Control consolidates them into encrypted storage with a local-only API.
@@ -283,6 +291,8 @@ repos:
     name: Work/Analytics Projects
     purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.
     philosophy: Rigorous methodology with reproducible analysis. Reports backed by verifiable data.
+    bot_active: false
+    path_rel: W-series
     story: |
       W-series projects handle business analytics that need to be delivered to stakeholders.
       Each project has its own evidence trail, receipts, and claims verification. The abandoned
