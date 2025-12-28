@@ -20,5 +20,6 @@ AVAILABLE_VALIDATORS: Dict[str, str] = {
     "houston_tools": "check_houston_tools",
     "houston_models": "check_houston_models",
     "houston_telemetry": "check_houston_telemetry",
+    "repo_contract": "check_repo_contract",
 }
 """Mapping between CLI-friendly validator names and module suffixes."""
