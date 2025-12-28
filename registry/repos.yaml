@@ -392,6 +392,45 @@ repos:
       - knowledge
       - summarization
 
+  - repo_id: C018_terminal-insights
+    name: Terminal Insights
+    purpose: Curated, evidence-based library of terminal notes, command patterns, troubleshooting receipts, and repeatable CLI workflows.
+    philosophy: Notes + receipts organized for retrieval. Record what actually worked.
+    bot_active: true
+    path_rel: C018_terminal-insights
+    authoritative_sources:
+      - docs/
+      - 20_receipts/
+    contracts:
+      - Receipts must be reproducible and include commands/run context
+      - Notes prefer canonical commands and explicit assumptions
+    status: active
+    tags:
+      - terminal
+      - cli
+      - troubleshooting
+      - receipts
+
+  - repo_id: C005_mybuddy
+    name: MyBuddy
+    purpose: Personal buddy system exploring agent behavior, memory scaffolding, and interaction patterns. ChromaDB semantic search over CBFS canonical facts.
+    philosophy: Local-first digital twin with retrieval and provenance.
+    bot_active: true
+    path_rel: C005_mybuddy
+    authoritative_sources:
+      - 40_src/
+      - 30_config/
+    contracts:
+      - FastAPI service on port 8000
+      - Semantic search with provenance
+      - CBFS fact indexing
+    status: active
+    tags:
+      - buddy
+      - digital-twin
+      - chromadb
+      - semantic-search
+
   - repo_id: W-series
     name: Work/Analytics Projects
     purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.

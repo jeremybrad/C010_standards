@@ -1,16 +1,16 @@
 # Brain on Tap Eligibility Report
 
-**Generated**: 2025-12-27 22:48:23
+**Generated**: 2025-12-27 23:42:58
 **Registry**: `repos.yaml`
 
 ## Summary
 
 | Status | Count |
 |--------|-------|
-| PASS (eligible) | 10 |
+| PASS (eligible) | 12 |
 | FAIL (not eligible) | 0 |
 | N/A (excluded) | 1 |
-| **Total** | **11** |
+| **Total** | **13** |
 
 ## Eligible Repos
 
@@ -20,11 +20,13 @@
 | `C002_sadb` | `C002_sadb` |
 | `C003_sadb_canonical` | `C003_sadb_canonical` |
 | `C004_star-extraction` | `C004_star-extraction` |
+| `C005_mybuddy` | `C005_mybuddy` |
 | `C006_revelator` | `C006_revelator` |
 | `C007_the_cavern_club` | `C007_the_cavern_club` |
 | `C009_mcp-memory-http` | `C009_mcp-memory-http` |
 | `C010_standards` | `C010_standards` |
 | `C017_brain-on-tap` | `C017_brain-on-tap` |
+| `C018_terminal-insights` | `C018_terminal-insights` |
 | `P110_knowledge-synthesis-tool` | `P110_knowledge-synthesis-tool` |
 
 ## Excluded Repos (bot_active=false)
