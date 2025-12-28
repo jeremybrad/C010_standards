@@ -473,6 +473,86 @@ repos:
       - houston
       - orchestration
 
+  - repo_id: C008_CBFS
+    name: Canonical Bio Facts System
+    purpose: Schema-driven, provenance-first profile system for AI agents. Human review loop, Mirror integration, MyBuddy indexing.
+    philosophy: Every fact is evidence requiring source attribution, confidence scoring, and human verification.
+    bot_active: true
+    path_rel: C008_CBFS
+    authoritative_sources:
+      - 50_canonical/
+      - 30_config/
+      - 40_src/
+    contracts:
+      - CBFS v1.3 schema (Pydantic validated)
+      - Human review loop via Mirror
+      - Provenance tracking (PROV-O inspired)
+    status: active
+    tags:
+      - facts
+      - provenance
+      - biography
+      - canonical
+
+  - repo_id: C015_local-tts
+    name: LocalTTS
+    purpose: Zero-cost, high-quality text-to-speech running entirely on local hardware. Replaces Eleven Labs.
+    philosophy: Local-first, commercial-quality TTS without API costs.
+    bot_active: true
+    path_rel: C015_local-tts
+    authoritative_sources:
+      - api/
+      - scripts/
+    contracts:
+      - OpenAI-compatible API endpoints
+      - Kokoro-82M (primary) + Maya1 (emotional)
+    status: active
+    tags:
+      - tts
+      - voice
+      - local
+      - kokoro
+
+  - repo_id: C019_docs-site
+    name: Docs Site
+    purpose: Documentation site with RAG support. MkDocs + FAISS vector index for retrieval-augmented generation.
+    philosophy: Documentation that answers questions, not just stores text.
+    bot_active: true
+    path_rel: C019_docs-site
+    authoritative_sources:
+      - docs/
+      - _audits/rag/
+    contracts:
+      - RAG server on port 8123
+      - FAISS vector index
+      - Ragas evaluation
+    status: active
+    tags:
+      - documentation
+      - rag
+      - mkdocs
+      - faiss
+
+  - repo_id: C020_pavlok
+    name: Guardian Angel (Pavlok)
+    purpose: Smart notification service with Pavlok haptic escalation. Monitors Teams/Slack during rest, escalates based on urgency.
+    philosophy: Support system for boundaries, not punishment. Opt-in, gentle escalation.
+    bot_active: true
+    path_rel: C020_pavlok
+    authoritative_sources:
+      - 40_src/
+      - 30_config/
+    contracts:
+      - Progressive escalation (log → vibrate → zap)
+      - Rate limiting and safety guards
+      - Windows-MCP + Betty integration
+    status: experimental
+    tags:
+      - pavlok
+      - haptic
+      - notifications
+      - experimental
+
   - repo_id: W-series
     name: Work/Analytics Projects
     purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.
