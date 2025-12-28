@@ -66,6 +66,8 @@ python validators/check_repo_contract.py
 
 Validators work on Windows, macOS, and Linux. Unicode characters (checkmarks, etc.) automatically fall back to ASCII equivalents on Windows consoles that don't support UTF-8.
 
+See [`protocols/cross_platform_hooks.md`](../protocols/cross_platform_hooks.md) for enforcement and hook guidance.
+
 ## Dependencies
 
 Optional but recommended:
