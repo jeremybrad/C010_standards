@@ -7,8 +7,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any, List
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from validators.common import safe_print
 
 TOOLS_PATH = Path("30_config/houston-tools.json")
 FEATURES_PATH = Path("30_config/houston-features.json")
@@ -62,7 +68,7 @@ def validate_phase_consistency(
                 "Tool permissions cannot exceed trust phase."
             )
         elif verbose and tools_phase is not None:
-            print(f"✓ Phase consistency check passed (tools={tools_phase}, features={features_phase})")
+            safe_print(f"✓ Phase consistency check passed (tools={tools_phase}, features={features_phase})")
 
     except KeyError as e:
         errors.append(f"Missing required field for phase validation: {e}")
@@ -96,7 +102,7 @@ def validate_dangerous_operations(tools_config: dict, verbose: bool = False) -> 
                 )
 
     if verbose and not errors:
-        print("✓ Dangerous operations check passed")
+        safe_print("✓ Dangerous operations check passed")
 
     return errors
 
@@ -115,7 +121,7 @@ def validate_vps_endpoint(tools_config: dict, verbose: bool = False) -> list[str
             "Provide real VPS endpoint before enabling."
         )
     elif verbose:
-        print(f"✓ VPS endpoint check passed (enabled={enabled}, endpoint={endpoint})")
+        safe_print(f"✓ VPS endpoint check passed (enabled={enabled}, endpoint={endpoint})")
 
     return errors
 
@@ -152,21 +158,21 @@ def cli(argv: List[str] | None = None) -> int:
 
     # Report results
     if all_errors:
-        print(f"\n❌ Houston tools validation FAILED ({len(all_errors)} issues):\n")
+        safe_print(f"\n❌ Houston tools validation FAILED ({len(all_errors)} issues):\n")
         for i, error in enumerate(all_errors, 1):
-            print(f"  {i}. {error}")
+            safe_print(f"  {i}. {error}")
 
-        print("\n💡 Remediation suggestions:")
-        print("  - Align phase_settings.current_phase with gradual_trust_building.current_phase")
-        print("  - Restrict dangerous operations (kill_processes, system_shutdown) to phase 3+")
-        print("  - Provide real VPS endpoint before enabling remote tool access")
+        safe_print("\n💡 Remediation suggestions:")
+        safe_print("  - Align phase_settings.current_phase with gradual_trust_building.current_phase")
+        safe_print("  - Restrict dangerous operations (kill_processes, system_shutdown) to phase 3+")
+        safe_print("  - Provide real VPS endpoint before enabling remote tool access")
 
         return 1
     else:
         if args.verbose:
-            print("\n✅ All Houston tools validation checks passed")
+            safe_print("\n✅ All Houston tools validation checks passed")
         else:
-            print("✅ Houston tools validation passed")
+            safe_print("✅ Houston tools validation passed")
         return 0
 
 

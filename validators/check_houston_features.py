@@ -13,7 +13,7 @@ from typing import Any, List
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from validators.common import load_json_config, report_validation_results, verbose_check
+from validators.common import load_json_config, report_validation_results, verbose_check, safe_print
 
 try:
     import jsonschema
@@ -54,7 +54,7 @@ def validate_json_schema(config: dict, schema: dict, verbose: bool = False) -> l
         errors.append(f"Schema validation error at {'.'.join(str(p) for p in error.path)}: {error.message}")
 
     if verbose and not errors:
-        print("✓ JSON schema validation passed")
+        safe_print("✓ JSON schema validation passed")
 
     return errors
 
@@ -129,7 +129,7 @@ def validate_phase_consistency(config: dict, changelog_path: Path, verbose: bool
                     f"but current_level is '{actual_level}'"
                 )
             elif verbose:
-                print(f"✓ Phase {current_phase} agency level matches: {actual_level}")
+                safe_print(f"✓ Phase {current_phase} agency level matches: {actual_level}")
 
         # Check for manual approval in changelog if auto_advance is false
         if not auto_advance and current_phase > 1 and changelog_path.exists():
@@ -142,9 +142,9 @@ def validate_phase_consistency(config: dict, changelog_path: Path, verbose: bool
                     "Manual approval should be documented."
                 )
             elif verbose:
-                print(f"✓ Phase {current_phase} activation found in changelog")
+                safe_print(f"✓ Phase {current_phase} activation found in changelog")
         elif verbose and auto_advance:
-            print(f"✓ Auto-advance enabled, changelog check skipped")
+            safe_print(f"✓ Auto-advance enabled, changelog check skipped")
 
     except KeyError as e:
         errors.append(f"Missing required field for phase validation: {e}")
@@ -167,7 +167,7 @@ def validate_autonomous_deploy_permission(config: dict, verbose: bool = False) -
                 "Deployment permission requires phase >= 3."
             )
         elif verbose:
-            print(f"✓ Deploy permissions check passed (can_deploy={can_deploy}, phase={current_phase})")
+            safe_print(f"✓ Deploy permissions check passed (can_deploy={can_deploy}, phase={current_phase})")
     except KeyError as e:
         errors.append(f"Missing required field for deploy permission check: {e}")
 

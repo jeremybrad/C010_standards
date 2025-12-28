@@ -1,5 +1,12 @@
 # Metadata Governance Changelog
 
+## 2025-12-28
+- **Windows Console Compatibility**: Added `safe_print()` function to `validators/common.py` for cross-platform Unicode handling
+- Validators now gracefully fall back to ASCII equivalents (e.g., `[OK]`, `[FAIL]`, `[TIP]`) when Windows console encoding doesn't support Unicode characters
+- Updated all 5 validators and `run_all.py` to use `safe_print()` for consistent output across platforms
+- Updated `validators/README.md` to reflect Phase 2 completion and document platform compatibility
+- Verified all validators pass on Windows with Python 3.13.4
+
 ## 2025-12-26
 - **Folder Structure Standard Update**: Updated Betty Protocol Canon to include `00_run` and `50_data` as allowed top-level directories
 - **Easy Buttons Standard**: Added `00_run/` folder convention for double-clickable launchers (`.command` for macOS, `.ps1` for Windows)

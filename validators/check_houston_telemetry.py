@@ -7,9 +7,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any, List
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from validators.common import safe_print
 
 DEFAULT_TELEMETRY = Path("70_evidence/houston_telemetry.jsonl")
 
@@ -87,7 +93,7 @@ def validate_freshness(entries: list[dict], max_age_seconds: int, verbose: bool 
                 f"Timestamp: {timestamp_str}"
             )
         elif verbose:
-            print(f"✓ Freshness check passed (age={int(age)}s, max={max_age_seconds}s)")
+            safe_print(f"✓ Freshness check passed (age={int(age)}s, max={max_age_seconds}s)")
 
     except (ValueError, TypeError) as e:
         errors.append(f"Invalid timestamp format: {timestamp_str} ({e})")
@@ -112,7 +118,7 @@ def validate_required_fields(entries: list[dict], verbose: bool = False) -> list
             f"First entry example: {list(missing_fields_per_entry.values())[0]}"
         )
     elif verbose:
-        print(f"✓ Required fields check passed ({len(entries)} entries)")
+        safe_print(f"✓ Required fields check passed ({len(entries)} entries)")
 
     return errors
 
@@ -142,7 +148,7 @@ def validate_latency_thresholds(entries: list[dict], verbose: bool = False) -> l
                 f"Average latency over last {len(latencies)} entries is {int(avg_latency)}ms (>5s threshold)"
             )
         elif verbose:
-            print(f"✓ Latency check passed (avg={int(avg_latency)}ms over {len(latencies)} entries)")
+            safe_print(f"✓ Latency check passed (avg={int(avg_latency)}ms over {len(latencies)} entries)")
 
     if warnings and verbose:
         for warning in warnings[:3]:  # Show first 3 warnings
@@ -164,7 +170,7 @@ def validate_fallback_loops(entries: list[dict], verbose: bool = False) -> list[
             )
 
     if not errors and verbose:
-        print("✓ Fallback loop check passed")
+        safe_print("✓ Fallback loop check passed")
 
     return errors
 
@@ -179,7 +185,7 @@ def cli(argv: List[str] | None = None) -> int:
     # Parse telemetry file
     if not args.telemetry.exists():
         print(f"NOTE: Telemetry file not found: {args.telemetry}")
-        print("✅ Houston telemetry validation passed (no telemetry to validate)")
+        safe_print("✅ Houston telemetry validation passed (no telemetry to validate)")
         return 0
 
     entries = parse_jsonl(args.telemetry)
@@ -211,22 +217,22 @@ def cli(argv: List[str] | None = None) -> int:
 
     # Report results
     if all_errors:
-        print(f"\n❌ Houston telemetry validation FAILED ({len(all_errors)} issues):\n")
+        safe_print(f"\n❌ Houston telemetry validation FAILED ({len(all_errors)} issues):\n")
         for i, error in enumerate(all_errors, 1):
-            print(f"  {i}. {error}")
+            safe_print(f"  {i}. {error}")
 
-        print("\n💡 Remediation suggestions:")
-        print("  - Ensure telemetry collection is running")
-        print("  - Check Mission Control health monitoring service")
-        print("  - Review fallback chain configuration if loops detected")
-        print("  - Investigate latency spikes in model inference")
+        safe_print("\n💡 Remediation suggestions:")
+        safe_print("  - Ensure telemetry collection is running")
+        safe_print("  - Check Mission Control health monitoring service")
+        safe_print("  - Review fallback chain configuration if loops detected")
+        safe_print("  - Investigate latency spikes in model inference")
 
         return 1
     else:
         if args.verbose:
-            print(f"\n✅ All Houston telemetry validation checks passed")
+            safe_print(f"\n✅ All Houston telemetry validation checks passed")
         else:
-            print("✅ Houston telemetry validation passed")
+            safe_print("✅ Houston telemetry validation passed")
         return 0
 
 

@@ -17,6 +17,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from validators import AVAILABLE_VALIDATORS, load_validator
+from validators.common import safe_print
 
 
 def parse_args(argv: List[str]) -> argparse.Namespace:
@@ -49,12 +50,12 @@ def main(argv: List[str] | None = None) -> int:
     for target in args.targets:
         module_name = AVAILABLE_VALIDATORS[target]
         cli = load_validator(module_name)
-        print(f"▶ Running {target} ({module_name})")
+        safe_print(f"▶ Running {target} ({module_name})")
         result = cli(extra_args)
         if result != 0:
-            print(f"✖ {target} exited with status {result}", file=sys.stderr)
+            safe_print(f"✖ {target} exited with status {result}", file=sys.stderr)
             return result
-        print(f"✔ {target} passed (stub)")
+        safe_print(f"✔ {target} passed")
 
     return 0
 

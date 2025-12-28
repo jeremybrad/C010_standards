@@ -7,8 +7,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any, List
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from validators.common import safe_print
 
 DEFAULT_FEATURES = Path("30_config/houston-features.json")
 
@@ -56,7 +62,7 @@ def validate_phase_deployment_consistency(config: dict, verbose: bool = False) -
                 "Requires phase >= 3."
             )
         elif verbose:
-            print(f"✓ Deployment permission check passed (phase={current_phase}, can_deploy={can_deploy})")
+            safe_print(f"✓ Deployment permission check passed (phase={current_phase}, can_deploy={can_deploy})")
 
     except KeyError as e:
         errors.append(f"Missing required field for deployment validation: {e}")
@@ -91,20 +97,20 @@ def cli(argv: List[str] | None = None) -> int:
 
     # Report results
     if all_errors:
-        print(f"\n❌ Houston models validation FAILED ({len(all_errors)} issues):\n")
+        safe_print(f"\n❌ Houston models validation FAILED ({len(all_errors)} issues):\n")
         for i, error in enumerate(all_errors, 1):
-            print(f"  {i}. {error}")
+            safe_print(f"  {i}. {error}")
 
-        print("\n💡 Remediation suggestions:")
-        print("  - Ensure current_phase >= 3 before enabling model deployment")
-        print("  - Review gradual_trust_building.phases configuration")
+        safe_print("\n💡 Remediation suggestions:")
+        safe_print("  - Ensure current_phase >= 3 before enabling model deployment")
+        safe_print("  - Review gradual_trust_building.phases configuration")
 
         return 1
     else:
         if args.verbose:
-            print("\n✅ All Houston models validation checks passed")
+            safe_print("\n✅ All Houston models validation checks passed")
         else:
-            print("✅ Houston models validation passed")
+            safe_print("✅ Houston models validation passed")
         return 0
 
 
