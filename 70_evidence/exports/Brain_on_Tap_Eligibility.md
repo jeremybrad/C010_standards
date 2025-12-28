@@ -1,16 +1,16 @@
 # Brain on Tap Eligibility Report
 
-**Generated**: 2025-12-27 23:42:58
+**Generated**: 2025-12-27 23:46:08
 **Registry**: `repos.yaml`
 
 ## Summary
 
 | Status | Count |
 |--------|-------|
-| PASS (eligible) | 12 |
+| PASS (eligible) | 14 |
 | FAIL (not eligible) | 0 |
 | N/A (excluded) | 1 |
-| **Total** | **13** |
+| **Total** | **15** |
 
 ## Eligible Repos
 
@@ -25,6 +25,8 @@
 | `C007_the_cavern_club` | `C007_the_cavern_club` |
 | `C009_mcp-memory-http` | `C009_mcp-memory-http` |
 | `C010_standards` | `C010_standards` |
+| `C011_agents` | `C011_agents` |
+| `C016_prompt-engine` | `C016_prompt-engine` |
 | `C017_brain-on-tap` | `C017_brain-on-tap` |
 | `C018_terminal-insights` | `C018_terminal-insights` |
 | `P110_knowledge-synthesis-tool` | `P110_knowledge-synthesis-tool` |

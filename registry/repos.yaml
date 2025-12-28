@@ -431,6 +431,48 @@ repos:
       - chromadb
       - semantic-search
 
+  - repo_id: C016_prompt-engine
+    name: Prompt Engine
+    purpose: Universal multi-LLM prompt engine with voice commands (ARCHIVED - consolidated into C017_brain-on-tap).
+    philosophy: Good prompts eliminate confusion. Start sessions with the right context.
+    bot_active: true
+    path_rel: C016_prompt-engine
+    authoritative_sources:
+      - templates/
+      - lib/
+    contracts:
+      - 6 core session types (Build, Debug, Research, Organize, Plan, End)
+      - 5 LLM formats (Claude, Betty, OpenWebUI, Grok, Generic)
+    status: archived
+    tags:
+      - prompts
+      - voice
+      - archived
+      - templates
+
+  - repo_id: C011_agents
+    name: Agents
+    purpose: Canonical agent workspace for Betty AI ecosystem - production-ready agent configurations, personas, and memory bindings.
+    philosophy: Persistent identity, cross-service integration, memory persistence.
+    bot_active: true
+    path_rel: C011_agents
+    authoritative_sources:
+      - 10_houston/
+      - 11_orpheus/
+      - 12_scribe/
+      - 13_archivist/
+      - 01_templates/
+    contracts:
+      - Agent configs with persistent identity
+      - Memory integration (ChromaDB, SADB)
+      - Mission Control launch protocol
+    status: active
+    tags:
+      - agents
+      - personas
+      - houston
+      - orchestration
+
   - repo_id: W-series
     name: Work/Analytics Projects
     purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.
