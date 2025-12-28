@@ -708,3 +708,94 @@ repos:
       - ab-testing
       - sms
       - work-pool
+
+  - repo_id: W008_QQ
+    name: QuestionQueue
+    purpose: Capture, track, and answer ad-hoc questions from stakeholders that would otherwise fall through the cracks.
+    philosophy: Never forget a question. Screenshot → Ticket → Collaborate → Answer → Done.
+    pool: work
+    bot_active: true
+    path_rel: W008_QQ
+    story: |
+      Born from the reality that questions from bosses and colleagues arrive via email, IM,
+      and meetings—and too often get lost. QQ provides a lightweight ticketing system to
+      capture questions as screenshots, track them, and close them with verified answers.
+    authoritative_sources:
+      - 40_src/
+      - 20_receipts/
+    contracts:
+      - Receipt-backed question tracking (20_receipts/)
+      - Evidence packages for stakeholder claims (80_evidence_packages/)
+      - Data sources documented in DATA_SOURCES.md
+    interfaces:
+      - "CLI: 00_run/verify.command"
+    commands:
+      - "00_run/verify.command"
+    status: active
+    tags:
+      - questions
+      - ticketing
+      - stakeholder
+      - work-pool
+
+  - repo_id: W009_context_library
+    name: Context Library
+    purpose: Canonical knowledge base serving humans and agents with up-to-date context capsules.
+    philosophy: Externalized memory. Single-file capsules that restore full context instantly.
+    pool: work
+    bot_active: true
+    path_rel: W009_context_library
+    story: |
+      The Context Library is Jeremy's externalized memory system—the authoritative source
+      for contextualized knowledge across all projects. Context Capsules are evolving,
+      single-file knowledge bases maintained for instant context restoration.
+    authoritative_sources:
+      - 50_capsules/
+      - 00_index/
+    contracts:
+      - Receipt-backed updates (20_receipts/)
+      - Evidence packages for claims (80_evidence_packages/)
+      - Data sources documented in DATA_SOURCES.md
+      - Machine-readable indexes in 00_index/*.json
+    interfaces:
+      - "CLI: 00_run/verify.command"
+      - "API: 00_index/README_FOR_AGENTS.md"
+    commands:
+      - "00_run/verify.command"
+    status: active
+    tags:
+      - knowledge
+      - capsules
+      - context
+      - work-pool
+
+  - repo_id: W011_peer-review
+    name: Peer Review Workflow
+    purpose: Peer review workflow system for code and document review processes.
+    philosophy: Structured review with templates, tracking, and evidence of completion.
+    pool: work
+    bot_active: true
+    path_rel: W011_peer-review
+    story: |
+      Systematic approach to peer review with templates, incoming queue, in-progress
+      tracking, and completed review archives. Ensures nothing slips through and
+      all reviews are documented.
+    authoritative_sources:
+      - 10_templates/
+      - 20_incoming/
+      - 30_in_review/
+      - 40_reviewed/
+    contracts:
+      - Receipt-backed reviews (20_receipts/)
+      - Evidence packages for claims (80_evidence_packages/)
+      - Data sources documented in DATA_SOURCES.md
+    interfaces:
+      - "CLI: 00_run/verify.command"
+    commands:
+      - "00_run/verify.command"
+    status: active
+    tags:
+      - peer-review
+      - code-review
+      - workflow
+      - work-pool

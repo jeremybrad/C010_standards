@@ -1,16 +1,16 @@
 # Brain on Tap Eligibility Report
 
-**Generated**: 2025-12-28 00:00:45
+**Generated**: 2025-12-28 01:40:44
 **Registry**: `repos.yaml`
 
 ## Summary
 
 | Status | Count |
 |--------|-------|
-| PASS (eligible) | 22 |
-| FAIL (not eligible) | 0 |
+| PASS (eligible) | 26 |
+| FAIL (not eligible) | 1 |
 | N/A (excluded) | 1 |
-| **Total** | **23** |
+| **Total** | **28** |
 
 ## Eligible Repos
 
@@ -38,6 +38,16 @@
 | `P110_knowledge-synthesis-tool` | `P110_knowledge-synthesis-tool` |
 | `P167_dj-claude-mcp` | `P167_dj-claude-mcp` |
 | `P212_band-in-a-box-ai` | `P212_band-in-a-box-ai` |
+| `W005_BigQuery` | `W005_BigQuery` |
+| `W008_QQ` | `W008_QQ` |
+| `W009_context_library` | `W009_context_library` |
+| `W011_peer-review` | `W011_peer-review` |
+
+## Failed Repos
+
+| Repo ID | Errors |
+|---------|--------|
+| `W006_Abandoned_Cart` | README: Missing headings: What this repo is, What it is not, When to use it, Entry points, Core architecture, Interfaces and contracts, Common workflows, Footguns and gotchas, Related repos, Provenance |
 
 ## Excluded Repos (bot_active=false)
 

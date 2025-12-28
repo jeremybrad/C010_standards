@@ -1,15 +1,15 @@
 # Brain on Tap Work Pool Report
 
-**Generated**: 2025-12-28 00:44:32
+**Generated**: 2025-12-28 01:40:44
 **Registry**: `repos.yaml`
 
 ## Summary
 
 | Status | Count |
 |--------|-------|
-| PASS (eligible) | 2 |
+| PASS (eligible) | 5 |
 | FAIL (not eligible) | 0 |
-| **Total** | **2** |
+| **Total** | **5** |
 
 ## Eligible Repos
 
@@ -17,3 +17,6 @@
 |---------|------|
 | `W005_BigQuery` | `W005_BigQuery` |
 | `W006_Abandoned_Cart` | `W006_Abandoned_Cart` |
+| `W008_QQ` | `W008_QQ` |
+| `W009_context_library` | `W009_context_library` |
+| `W011_peer-review` | `W011_peer-review` |
