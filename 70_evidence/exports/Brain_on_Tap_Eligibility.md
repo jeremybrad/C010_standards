@@ -1,16 +1,16 @@
 # Brain on Tap Eligibility Report
 
-**Generated**: 2025-12-27 23:53:01
+**Generated**: 2025-12-28 00:00:45
 **Registry**: `repos.yaml`
 
 ## Summary
 
 | Status | Count |
 |--------|-------|
-| PASS (eligible) | 18 |
+| PASS (eligible) | 22 |
 | FAIL (not eligible) | 0 |
 | N/A (excluded) | 1 |
-| **Total** | **19** |
+| **Total** | **23** |
 
 ## Eligible Repos
 
@@ -33,7 +33,11 @@
 | `C018_terminal-insights` | `C018_terminal-insights` |
 | `C019_docs-site` | `C019_docs-site` |
 | `C020_pavlok` | `C020_pavlok` |
+| `P050_ableton-mcp` | `P050_ableton-mcp` |
+| `P091_voice-notes-pipeline` | `P091_voice-notes-pipeline` |
 | `P110_knowledge-synthesis-tool` | `P110_knowledge-synthesis-tool` |
+| `P167_dj-claude-mcp` | `P167_dj-claude-mcp` |
+| `P212_band-in-a-box-ai` | `P212_band-in-a-box-ai` |
 
 ## Excluded Repos (bot_active=false)
 

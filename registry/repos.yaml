@@ -618,3 +618,51 @@ repos:
       - reporting
       - bigquery
       - stakeholder-delivery
+
+  - repo_id: P050_ableton-mcp
+    name: Ableton MCP Server
+    purpose: MCP server for Ableton Live integration enabling AI-controlled music production via Orpheus agent.
+    bot_active: true
+    path_rel: P050_ableton-mcp
+    status: incubating
+    tags:
+      - mcp
+      - music
+      - ableton
+      - orpheus
+
+  - repo_id: P091_voice-notes-pipeline
+    name: Voice Notes Pipeline
+    purpose: Pipeline for processing voice notes from SuperWhisper through to Betty AI for intelligent categorization.
+    bot_active: true
+    path_rel: P091_voice-notes-pipeline
+    status: incubating
+    tags:
+      - voice
+      - pipeline
+      - obsidian
+      - betty
+
+  - repo_id: P167_dj-claude-mcp
+    name: DJ Claude
+    purpose: Intelligent playlist generation MCP tool combining LLM intelligence with Spotify control for natural language playlists.
+    bot_active: true
+    path_rel: P167_dj-claude-mcp
+    status: active
+    tags:
+      - mcp
+      - music
+      - spotify
+      - playlist
+
+  - repo_id: P212_band-in-a-box-ai
+    name: Band in a Box AI
+    purpose: AI music generation using Band in a Box sample library (214K+ samples) with intelligent search and Ableton integration.
+    bot_active: true
+    path_rel: P212_band-in-a-box-ai
+    status: incubating
+    tags:
+      - music
+      - ai
+      - samples
+      - ableton
