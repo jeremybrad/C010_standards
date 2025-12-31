@@ -1,6 +1,6 @@
 # Brain on Tap Eligibility Report
 
-**Generated**: 2025-12-28 01:48:31
+**Generated**: 2025-12-28 02:28:21
 **Registry**: `repos.yaml`
 
 ## Summary

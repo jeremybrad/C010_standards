@@ -310,19 +310,67 @@ B1 Braided Timeline (in C003_sadb_canonical)
 
 ### C009_mcp-memory-http (MCP Memory Server)
 
-**Status:** Active
-**Purpose:** Persistent memory for local LLMs via HTTP
+**Status:** 🟢 Production - Deployed on VPS
+**Purpose:** Lightweight HTTP-based persistent key-value storage for AI agents
+
+```
+AI Agents (SADB, Mission Control, Claude Desktop)
+    ↓
+HTTP POST /memory/write or /memory/read
+    ↓
+C009 MCP Memory Server (Docker on VPS)
+    ↓
+memory_store.json (persistent file storage)
+```
+
+**What Makes This Different:**
+
+| Feature | C009 MCP-HTTP | P159 Memory | SADB (C002) |
+|---------|---------------|-------------|-------------|
+| **Purpose** | Shared agent state | Session continuity | Biographical facts |
+| **Storage** | File-based key-value | ChromaDB vectors | SQLite relational |
+| **Access** | HTTP API | Direct ChromaDB | SQL queries |
+| **Use Case** | Preferences, caching | Semantic search | Historical analysis |
+| **Deployment** | VPS production | Local | Local + VPS |
 
 **Architecture:**
 - HTTP-based Model Context Protocol (MCP)
+- Dual API: Simple HTTP endpoints + MCP JSON-RPC
 - Provides `memory_write` and `memory_read` tools
-- Designed for Claude and local LLM integration
-- Lightweight, focused on real-time memory access
+- File-based storage (memory_store.json)
+- Docker deployment on N8N network (internal only)
+- VPS: srv999538.hstgr.cloud:8927
 
-**Use Case:**
-- Real-time memory persistence during conversations
-- Cross-session context retention
-- Complements SADB's batch processing approach
+**Active Integrations:**
+- **C002_sadb (SADB)** - Namespace: `sadb:*` (manifest tracking, extraction state)
+- **C001_mission-control** - Namespaces: `houston:*`, `agents:*`, `services:*`
+- **Claude Desktop** - Via mcp-stdio-bridge (STDIO → HTTP adapter)
+
+**Potential Integrations:**
+- P159_memory-system (shared context across systems)
+- P005_mybuddy (persistent user preferences)
+- P181_terminal-insights (command history bookmarks)
+
+**Why This Exists:**
+- SADB (C002) is for structured biographical facts extraction
+- P159 is for real-time conversational memory with semantic search
+- C009 is for lightweight agent-to-agent state sharing
+- All three serve different memory needs in the ecosystem
+
+**Use Cases:**
+- Agent status tracking (what Houston is doing)
+- Build timestamps (when SADB last ran)
+- User preferences (theme, display settings)
+- Cache data (frequently accessed values)
+- Cross-agent communication (shared state)
+
+**Not Suitable For:**
+- Large data storage (use SADB)
+- Semantic search (use P159 ChromaDB)
+- High-volume transactions (file-based, not optimized for throughput)
+
+**Location:** `/Users/jeremybradford/SyncedProjects/C009_mcp-memory-http/`
+**Production URL:** http://srv999538.hstgr.cloud:8927 (internal N8N network only)
 
 ### P159_memory-system (ChromaDB Memory)
 

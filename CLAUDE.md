@@ -439,3 +439,9 @@ All work follows Betty Protocol evidence-driven development:
 4. Report blockers transparently in validator output
 5. Keep README and CHANGELOG accurate when behavior changes
 6. Run validators before committing Houston config changes
+
+## META.yaml Contract
+
+This repo uses META.yaml for project metadata. See `~/SyncedProjects/C010_standards/protocols/META_YAML_SPEC.md` for full spec.
+
+**Agent responsibility:** Update META.yaml when adding/removing folders or key files, and set `last_reviewed` to today's date.
