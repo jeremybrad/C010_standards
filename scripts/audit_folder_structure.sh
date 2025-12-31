@@ -91,6 +91,25 @@ has_exceptions_file() {
   [[ -f "$repo/00_admin/audit_exceptions.yaml" ]] && echo "true" || echo "false"
 }
 
+# Load allowed_additional_dirs from exceptions file
+# Returns pipe-separated list of additional allowed directories
+load_additional_allowed_dirs() {
+  local repo="$1"
+  local exceptions_file="$repo/00_admin/audit_exceptions.yaml"
+
+  if [[ -f "$exceptions_file" ]]; then
+    # Simple YAML extraction - get allowed_additional_dirs list
+    local additional_dirs
+    additional_dirs=$(grep -A 20 "^allowed_additional_dirs:" "$exceptions_file" 2>/dev/null | \
+                      grep "^  - " | sed 's/^  - //' | tr '\n' '|' | sed 's/|$//')
+    if [[ -n "$additional_dirs" ]]; then
+      echo "$additional_dirs"
+      return
+    fi
+  fi
+  echo ""
+}
+
 # Extract repo series (C/P/W/U) from name
 get_repo_series() {
   local name="$1"
@@ -319,16 +338,25 @@ for repo in "$ROOT"/*/; do
   # Check if exceptions file exists/applied
   exceptions_applied=$(has_exceptions_file "$repo")
 
+  # Load additional allowed dirs if exceptions exist
+  additional_allowed=$(load_additional_allowed_dirs "$repo")
+  if [[ -n "$additional_allowed" ]]; then
+    repo_allowed_dirs="$ALLOWED_DIRS|$additional_allowed"
+  else
+    repo_allowed_dirs="$ALLOWED_DIRS"
+  fi
+
   # Check 1: Find ALL top-level directories that aren't in the allowed list
   # Fixed 2025-12-27: Now checks ALL non-hidden dirs, not just numbered ones
   # This catches violations like bin/, ci/, docs/, --version/, python3/, etc.
+  # Updated 2025-12-30: Now honors per-repo allowed_additional_dirs from exceptions
   non_compliant_dirs=""
   non_compliant_dirs_csv=""
   # Enumerate all non-hidden top-level directories
   top_dirs=$(ls -F "$repo" 2>/dev/null | awk '/\/$/ {print substr($0,1,length($0)-1)}' | grep -v '^\.' || true)
   for dirname in $top_dirs; do
     [ -z "$dirname" ] && continue
-    if ! echo "$dirname" | grep -qE "^($ALLOWED_DIRS)$"; then
+    if ! echo "$dirname" | grep -qE "^($repo_allowed_dirs)$"; then
       non_compliant_dirs="$non_compliant_dirs$dirname "
       [[ -n "$non_compliant_dirs_csv" ]] && non_compliant_dirs_csv="$non_compliant_dirs_csv;"
       non_compliant_dirs_csv="$non_compliant_dirs_csv$dirname"

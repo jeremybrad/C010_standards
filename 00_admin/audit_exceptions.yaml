@@ -1,0 +1,28 @@
+# C010_standards exception declaration
+#
+# C010 is the standards repository that DEFINES folder structure rules.
+# Its structure is intentionally different for these reasons:
+# 1. Core content (schemas/, taxonomies/, protocols/) must be discoverable
+# 2. validators/ is a Python package with internal imports
+# 3. Consumers depend on current paths (submodule references)
+
+exception_type: standards_repository
+reason: |
+  C010_standards defines the Betty Protocol folder structure.
+  Its content directories exist at top-level for discoverability
+  and to serve as canonical reference paths.
+
+allowed_additional_dirs:
+  - schemas
+  - taxonomies
+  - protocols
+  - validators
+  - tests
+  - registry
+  - tools
+  - scripts
+  - prompts
+  - workspace
+
+required_files:
+  - README.md
