@@ -1,0 +1,801 @@
+# Canonical Repo Registry for SyncedProjects Workspace
+# Maintained in: C010_standards/registry/repos.yaml
+# Schema: See schema.md (v1.2)
+#
+# Usage: Consuming repos (e.g., C017_brain-on-tap) read this file
+#        to render repo context without relying on chat history.
+
+repos:
+  - repo_id: C010_standards
+    name: Standards & Governance Hub
+    purpose: Canonical source of truth for workspace-wide metadata standards, YAML schemas, taxonomies, and protocol definitions.
+    philosophy: Data-first definitions. Normative specs live here; consuming repos read and apply them.
+    bot_active: true
+    path_rel: C010_standards
+    story: |
+      Created to consolidate scattered standards across 40+ repos. Before C010, each repo
+      defined its own conventions, leading to drift and inconsistency. C010 is the single
+      source of truth that other repos consume via submodule or direct reference.
+    how_it_fits: |
+      C010 anchors the entire workspace. C001_mission-control consumes it as a git submodule.
+      C017_brain-on-tap reads registry and BOT slices for primer injection. All repos follow
+      Betty Protocol defined here.
+    architecture: |
+      - schemas/: Versioned YAML schemas (DocMeta, CodeMeta, Houston)
+      - taxonomies/: Controlled vocabularies (topics, terms, emotions)
+      - protocols/: Betty Protocol, operator standards, stash policy
+      - validators/: Production validation scripts
+      - registry/: Repo registry (this file) and validator
+    authoritative_sources:
+      - schemas/
+      - taxonomies/
+      - protocols/
+      - validators/
+      - registry/
+    contracts:
+      - Betty Protocol compliance (all repos)
+      - DocMeta v1.2 schema for document metadata
+      - CodeMeta v1.0 schema for code artifacts
+      - Houston feature/tool config validation
+    interfaces:
+      - "Submodule: git submodule add (C001 uses external/standards)"
+      - "BOT slices: <!-- BOT:name:start --> markers for injection"
+    onboarding:
+      - "Read protocols/betty_protocol.md for workspace conventions"
+      - "Review registry/repos.yaml for repo inventory"
+      - "Check schemas/ for metadata templates"
+    entry_points:
+      - "README.md"
+      - "protocols/betty_protocol.md"
+      - "registry/repos.yaml"
+      - "validators/run_all.py"
+    key_concepts:
+      - "Betty Protocol"
+      - "BOT slice markers"
+      - "DocMeta/CodeMeta schemas"
+      - "Controlled taxonomies"
+    common_tasks:
+      - "Add new BOT slice to betty_protocol.md"
+      - "Update taxonomy with new terms"
+      - "Run validators before commit"
+      - "Update registry when repo status changes"
+    gotchas:
+      - "YAML colons parse as dicts—quote interface strings"
+      - "BOT markers must be exact HTML comments"
+      - "Schema changes affect all consuming repos"
+    integration_points:
+      - "C001_mission-control: submodule at external/standards"
+      - "C017_brain-on-tap: reads registry and BOT slices"
+      - "All repos: Betty Protocol compliance"
+    commands:
+      - "python validators/run_all.py"
+      - "python registry/validate_registry.py"
+      - "python registry/validate_registry.py --strict"
+    status: active
+    tags:
+      - governance
+      - standards
+      - schemas
+      - validation
+
+  - repo_id: C017_brain-on-tap
+    name: Brain on Tap
+    purpose: Real-time context generation with query playbooks. Provides dynamic primer injection for Claude Code sessions.
+    philosophy: Context is computed, not stored. Generate what the agent needs at session start.
+    bot_active: true
+    path_rel: C017_brain-on-tap
+    story: |
+      Born from the need to give Claude Code sessions rich, consistent context without
+      maintaining stale documentation. Instead of static docs, BBOT computes primers
+      from live repo state, registry data, and playbooks.
+    how_it_fits: |
+      BBOT is the context layer for all Claude Code sessions. It reads C010 standards,
+      queries C002 SADB for knowledge, and renders profiles for different agent types
+      (advisor vs operator).
+    architecture: |
+      - brain_on_tap/engine.py: Core primer generation
+      - brain_on_tap/profiles/: Agent profile YAML definitions
+      - brain_on_tap/playbooks/: Query playbooks for context retrieval
+      - brain_on_tap/validation.py: Profile and playbook validation
+    authoritative_sources:
+      - brain_on_tap/profiles/
+      - brain_on_tap/playbooks/
+      - brain_on_tap/engine.py
+    contracts:
+      - Profile YAML schema (agent_type, slices, inject patterns)
+      - Primer output format (markdown with structured sections)
+      - Playbook execution protocol
+    interfaces:
+      - "CLI: bbot primer <profile>"
+      - "CLI: bbot render <profile>"
+      - "Python: brain_on_tap.engine"
+    onboarding:
+      - "Run bbot render session.primer.operator to see primer output"
+      - "Read brain_on_tap/profiles/ to understand profile structure"
+      - "Check docs/COMMANDS.md for all CLI commands"
+    entry_points:
+      - "README.md"
+      - "brain_on_tap/engine.py"
+      - "brain_on_tap/profiles/"
+    key_concepts:
+      - "Primer"
+      - "Profile"
+      - "Playbook"
+      - "Slice injection"
+      - "agent_type (advisor/operator)"
+    common_tasks:
+      - "Create new profile for specific workflow"
+      - "Add playbook for new data source"
+      - "Inject C010 standards slice into primer"
+      - "Debug primer generation issues"
+    gotchas:
+      - "Profiles must have agent_type not role"
+      - "Playbook queries may fail silently—check logs"
+      - "Profile paths are relative to repo root"
+    integration_points:
+      - "C010_standards: reads registry and BOT slices"
+      - "C002_sadb: queries for knowledge context"
+      - "Claude Code: consumes rendered primers"
+    commands:
+      - "bbot primer <profile>"
+      - "bbot render <profile>"
+      - "bbot list"
+      - "python -m pytest tests/"
+    status: active
+    tags:
+      - context-generation
+      - primers
+      - profiles
+      - agent-tooling
+
+  - repo_id: C002_sadb
+    name: Self-As-Database
+    purpose: Personal knowledge extraction system processing conversation exports into structured, queryable data.
+    philosophy: Extract signal from noise. 1.5M+ entries with 100% speaker attribution for Betty/Claude conversations.
+    bot_active: true
+    path_rel: C002_sadb
+    story: |
+      Jeremy's conversations with AI are a knowledge asset. SADB extracts, normalizes, and
+      indexes them so they can be queried. What started as a simple import grew into a
+      full pipeline with speaker attribution, enrichment, and twin export.
+    how_it_fits: |
+      SADB is the knowledge base. C017 queries it for context. C005_mybuddy uses it
+      for personal assistant features. It processes exports from ChatGPT, Claude, and
+      other sources into a unified SQLite database.
+    architecture: |
+      - 40_src/: Pipeline stages (S0 ingest, S1 normalize, S2 enrich)
+      - 30_config/manifest.yaml: Pipeline configuration
+      - scripts/: Ingestion and processing utilities
+      - 50_data/ -> $SADB_DATA_DIR: Symlink to data directory
+    authoritative_sources:
+      - 40_src/
+      - 30_config/manifest.yaml
+      - scripts/
+    contracts:
+      - Manifest-based pipeline execution (S0-S2 stages)
+      - Speaker attribution for conversation turns
+      - KV (Knowledge Vault) batch ingestion format
+    interfaces:
+      - "CLI: make pipeline"
+      - "CLI: python 40_src/sadb_q.py stats"
+      - "Data: SQLite at $SADB_DATA_DIR"
+    onboarding:
+      - "Set SADB_DATA_DIR environment variable"
+      - "Run make health to check setup"
+      - "Run make pipeline to process data"
+    entry_points:
+      - "README.md"
+      - "40_src/sadb_q.py"
+      - "30_config/manifest.yaml"
+    key_concepts:
+      - "Manifest-based pipeline"
+      - "Speaker attribution"
+      - "KV batch ingestion"
+      - "S0/S1/S2 stages"
+      - "Twin export"
+    common_tasks:
+      - "Ingest new ChatGPT exports"
+      - "Run full pipeline after new data"
+      - "Query stats for entry counts"
+      - "Export twin feed for external consumption"
+    gotchas:
+      - "SADB_DATA_DIR must be set before running"
+      - "Large ingests can take hours—use preflight checks"
+      - "Speaker attribution requires specific export format"
+    integration_points:
+      - "C017_brain-on-tap: queries for context"
+      - "C005_mybuddy: personal assistant features"
+      - "$SADB_DATA_DIR: external data storage"
+    commands:
+      - "make health"
+      - "make pipeline"
+      - "python 40_src/sadb_q.py stats"
+      - "bash scripts/ingest_chatgpt_downloads.sh"
+    status: active
+    tags:
+      - knowledge-extraction
+      - conversations
+      - sqlite
+      - pipeline
+
+  - repo_id: C001_mission-control
+    name: Mission Control
+    purpose: Credential vault system with Houston AI assistant for infrastructure queries.
+    philosophy: Consolidate scattered credentials. Encrypted storage with gradual trust phases.
+    bot_active: true
+    path_rel: C001_mission-control
+    story: |
+      Jeremy's API keys were scattered across Chrome, Norton, Windows keychain, and random
+      files. Mission Control consolidates them into encrypted storage with a local-only API.
+      Houston is the AI assistant that helps manage infrastructure.
+    how_it_fits: |
+      Mission Control is the credential layer. All repos that need API keys request them
+      through the vault API. Houston provides natural language infrastructure queries.
+      C010 is consumed as a submodule for standards compliance.
+    architecture: |
+      - 30_config/houston-features.json: Feature toggles and trust phases
+      - 30_config/houston-tools.json: Tool pipelines and phase gating
+      - external/standards/: C010 submodule
+      - vault/: Encrypted credential storage (AES-256-GCM)
+    authoritative_sources:
+      - 30_config/houston-features.json
+      - 30_config/houston-tools.json
+      - external/standards/
+    contracts:
+      - Encrypted API key storage (AES-256-GCM)
+      - Trust phase progression (Phase 1-3)
+      - Localhost-only API access (port 8820)
+    interfaces:
+      - "API: http://localhost:8820/health"
+      - "CLI: npm run dev"
+      - "Agent: Houston AI assistant"
+    onboarding:
+      - "Run npm install to set up dependencies"
+      - "Run npm run dev to start vault server"
+      - "Check http://localhost:8820/health for status"
+    entry_points:
+      - "README.md"
+      - "30_config/houston-features.json"
+      - "package.json"
+    key_concepts:
+      - "Credential vault"
+      - "Trust phases (Phase 1-3)"
+      - "Houston agent"
+      - "AES-256-GCM encryption"
+    common_tasks:
+      - "Start vault server for API access"
+      - "Add new credential to vault"
+      - "Update trust phase configuration"
+      - "Sync C010 submodule for latest standards"
+    gotchas:
+      - "Port 8820 localhost only—no remote access"
+      - "Trust phases gate which operations Houston can perform"
+      - "Submodule must be updated manually"
+    integration_points:
+      - "C010_standards: submodule at external/standards"
+      - "All repos: credential requests via vault API"
+      - "Houston: infrastructure queries"
+    commands:
+      - "npm run dev"
+      - "curl http://localhost:8820/health"
+      - "git submodule update --remote external/standards"
+      - "make health"
+    status: active
+    tags:
+      - credentials
+      - vault
+      - houston
+      - infrastructure
+
+  - repo_id: C003_sadb_canonical
+    name: SADB Canonical Pipeline
+    purpose: Locked, canonical SADB pipeline (S0-S2) with deterministic ingestion, normalization, and enrichment.
+    philosophy: Immutable pipeline stages. Changes require versioned migration.
+    bot_active: true
+    path_rel: C003_sadb_canonical
+    authoritative_sources:
+      - pipeline/
+      - 30_config/
+    contracts:
+      - Deterministic S0-S2 pipeline
+      - Locked stage contracts
+    status: active
+    tags:
+      - pipeline
+      - sadb
+      - canonical
+
+  - repo_id: C004_star-extraction
+    name: STAR Extraction System
+    purpose: Structured extraction of situation-task-action-result patterns from conversations.
+    philosophy: Extract actionable knowledge from conversation history.
+    bot_active: true
+    path_rel: C004_star-extraction
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - STAR pattern extraction
+      - Confidence scoring
+    status: active
+    tags:
+      - extraction
+      - star-pattern
+      - knowledge
+
+  - repo_id: C006_revelator
+    name: Revelator
+    purpose: Personal biography and story capture system for preserving life narratives.
+    philosophy: Stories matter. Capture them before they're lost.
+    bot_active: true
+    path_rel: C006_revelator
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - Story capture workflow
+      - Timeline preservation
+    status: active
+    tags:
+      - biography
+      - stories
+      - narrative
+
+  - repo_id: C007_the_cavern_club
+    name: The Cavern Club
+    purpose: Open WebUI + Ollama setup for local LLM interaction.
+    philosophy: Local-first AI. Your models, your data.
+    bot_active: true
+    path_rel: C007_the_cavern_club
+    authoritative_sources:
+      - docker-compose.yml
+      - 30_config/
+    contracts:
+      - Docker-based deployment
+      - Ollama model management
+    status: active
+    tags:
+      - ollama
+      - open-webui
+      - local-llm
+
+  - repo_id: C009_mcp-memory-http
+    name: MCP Memory HTTP
+    purpose: HTTP-based MCP memory server for persistent context across sessions.
+    philosophy: Memory as a service. Stateless clients, stateful server.
+    bot_active: true
+    path_rel: C009_mcp-memory-http
+    authoritative_sources:
+      - server/
+      - 40_src/
+    contracts:
+      - MCP protocol compliance
+      - HTTP API for memory operations
+    status: active
+    tags:
+      - mcp
+      - memory
+      - http-server
+
+  - repo_id: P110_knowledge-synthesis-tool
+    name: Knowledge Synthesis Tool
+    purpose: Tool for synthesizing knowledge from multiple sources into coherent summaries.
+    philosophy: Connect the dots. Transform fragments into understanding.
+    bot_active: true
+    path_rel: P110_knowledge-synthesis-tool
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - Multi-source synthesis
+      - Citation tracking
+    status: active
+    tags:
+      - synthesis
+      - knowledge
+      - summarization
+
+  - repo_id: C018_terminal-insights
+    name: Terminal Insights
+    purpose: Curated, evidence-based library of terminal notes, command patterns, troubleshooting receipts, and repeatable CLI workflows.
+    philosophy: Notes + receipts organized for retrieval. Record what actually worked.
+    bot_active: true
+    path_rel: C018_terminal-insights
+    authoritative_sources:
+      - docs/
+      - 20_receipts/
+    contracts:
+      - Receipts must be reproducible and include commands/run context
+      - Notes prefer canonical commands and explicit assumptions
+    status: active
+    tags:
+      - terminal
+      - cli
+      - troubleshooting
+      - receipts
+
+  - repo_id: C005_mybuddy
+    name: MyBuddy
+    purpose: Personal buddy system exploring agent behavior, memory scaffolding, and interaction patterns. ChromaDB semantic search over CBFS canonical facts.
+    philosophy: Local-first digital twin with retrieval and provenance.
+    bot_active: true
+    path_rel: C005_mybuddy
+    authoritative_sources:
+      - 40_src/
+      - 30_config/
+    contracts:
+      - FastAPI service on port 8000
+      - Semantic search with provenance
+      - CBFS fact indexing
+    status: active
+    tags:
+      - buddy
+      - digital-twin
+      - chromadb
+      - semantic-search
+
+  - repo_id: C016_prompt-engine
+    name: Prompt Engine
+    purpose: Universal multi-LLM prompt engine with voice commands (ARCHIVED - consolidated into C017_brain-on-tap).
+    philosophy: Good prompts eliminate confusion. Start sessions with the right context.
+    bot_active: true
+    path_rel: C016_prompt-engine
+    authoritative_sources:
+      - templates/
+      - lib/
+    contracts:
+      - 6 core session types (Build, Debug, Research, Organize, Plan, End)
+      - 5 LLM formats (Claude, Betty, OpenWebUI, Grok, Generic)
+    status: archived
+    tags:
+      - prompts
+      - voice
+      - archived
+      - templates
+
+  - repo_id: C011_agents
+    name: Agents
+    purpose: Canonical agent workspace for Betty AI ecosystem - production-ready agent configurations, personas, and memory bindings.
+    philosophy: Persistent identity, cross-service integration, memory persistence.
+    bot_active: true
+    path_rel: C011_agents
+    authoritative_sources:
+      - 10_houston/
+      - 11_orpheus/
+      - 12_scribe/
+      - 13_archivist/
+      - 01_templates/
+    contracts:
+      - Agent configs with persistent identity
+      - Memory integration (ChromaDB, SADB)
+      - Mission Control launch protocol
+    status: active
+    tags:
+      - agents
+      - personas
+      - houston
+      - orchestration
+
+  - repo_id: C008_CBFS
+    name: Canonical Bio Facts System
+    purpose: Schema-driven, provenance-first profile system for AI agents. Human review loop, Mirror integration, MyBuddy indexing.
+    philosophy: Every fact is evidence requiring source attribution, confidence scoring, and human verification.
+    bot_active: true
+    path_rel: C008_CBFS
+    authoritative_sources:
+      - 50_canonical/
+      - 30_config/
+      - 40_src/
+    contracts:
+      - CBFS v1.3 schema (Pydantic validated)
+      - Human review loop via Mirror
+      - Provenance tracking (PROV-O inspired)
+    status: active
+    tags:
+      - facts
+      - provenance
+      - biography
+      - canonical
+
+  - repo_id: C015_local-tts
+    name: LocalTTS
+    purpose: Zero-cost, high-quality text-to-speech running entirely on local hardware. Replaces Eleven Labs.
+    philosophy: Local-first, commercial-quality TTS without API costs.
+    bot_active: true
+    path_rel: C015_local-tts
+    authoritative_sources:
+      - api/
+      - scripts/
+    contracts:
+      - OpenAI-compatible API endpoints
+      - Kokoro-82M (primary) + Maya1 (emotional)
+    status: active
+    tags:
+      - tts
+      - voice
+      - local
+      - kokoro
+
+  - repo_id: C019_docs-site
+    name: Docs Site
+    purpose: Documentation site with RAG support. MkDocs + FAISS vector index for retrieval-augmented generation.
+    philosophy: Documentation that answers questions, not just stores text.
+    bot_active: true
+    path_rel: C019_docs-site
+    authoritative_sources:
+      - docs/
+      - _audits/rag/
+    contracts:
+      - RAG server on port 8123
+      - FAISS vector index
+      - Ragas evaluation
+    status: active
+    tags:
+      - documentation
+      - rag
+      - mkdocs
+      - faiss
+
+  - repo_id: C020_pavlok
+    name: Guardian Angel (Pavlok)
+    purpose: Smart notification service with Pavlok haptic escalation. Monitors Teams/Slack during rest, escalates based on urgency.
+    philosophy: Support system for boundaries, not punishment. Opt-in, gentle escalation.
+    bot_active: true
+    path_rel: C020_pavlok
+    authoritative_sources:
+      - 40_src/
+      - 30_config/
+    contracts:
+      - Progressive escalation (log → vibrate → zap)
+      - Rate limiting and safety guards
+      - Windows-MCP + Betty integration
+    status: experimental
+    tags:
+      - pavlok
+      - haptic
+      - notifications
+      - experimental
+
+  - repo_id: W-series
+    name: Work/Analytics Projects
+    purpose: Business analytics and reporting projects (W001-W011). Evidence-based analysis for stakeholder delivery.
+    philosophy: Rigorous methodology with reproducible analysis. Reports backed by verifiable data.
+    bot_active: false
+    path_rel: W-series
+    story: |
+      W-series projects handle business analytics that need to be delivered to stakeholders.
+      Each project has its own evidence trail, receipts, and claims verification. The abandoned
+      cart A/B test (W006) is the most complex example with full statistical rigor.
+    how_it_fits: |
+      W-series is separate from core infrastructure. These are time-bounded work projects
+      that produce deliverables. They follow Betty Protocol but have additional requirements
+      for evidence packages and claims verification.
+    architecture: |
+      - W001_cmo-weekly-reporting/: CMO weekly reports
+      - W003_analytics/: Business analytics
+      - W006_Abandoned_Cart/: A/B test analysis with full evidence trail
+      - Each project: 20_receipts/, 80_evidence_packages/
+    authoritative_sources:
+      - W001_cmo-weekly-reporting/
+      - W003_analytics/
+      - W006_Abandoned_Cart/
+    contracts:
+      - Receipt-backed analysis (20_receipts/)
+      - Evidence packages for claims (80_evidence_packages/)
+      - BigQuery data sources documented
+    interfaces:
+      - "CLI: make build (per-project)"
+      - "CLI: make verify (claims verification)"
+      - "BigQuery: bq query"
+    onboarding:
+      - "Read specific W project README for context"
+      - "Check 20_receipts/ for analysis history"
+      - "Review 80_evidence_packages/ for claim support"
+    entry_points:
+      - "W006_Abandoned_Cart/README.md (example)"
+      - "W001_cmo-weekly-reporting/README.md"
+    key_concepts:
+      - "Evidence packages"
+      - "Claims verification"
+      - "Receipt-backed analysis"
+      - "BigQuery sources"
+    common_tasks:
+      - "Run analysis pipeline for new data"
+      - "Verify claims with make verify"
+      - "Generate stakeholder report"
+      - "Archive completed analysis"
+    gotchas:
+      - "Evidence packages must be complete before stakeholder delivery"
+      - "BigQuery costs—use dry-run first"
+      - "Receipts required for all non-trivial analysis"
+    integration_points:
+      - "BigQuery: data source for analysis"
+      - "Stakeholders: report consumers"
+    commands:
+      - "make build"
+      - "make verify"
+      - "bq query --dry_run"
+    status: active
+    tags:
+      - analytics
+      - reporting
+      - bigquery
+      - stakeholder-delivery
+
+  - repo_id: P050_ableton-mcp
+    name: Ableton MCP Server
+    purpose: MCP server for Ableton Live integration enabling AI-controlled music production via Orpheus agent.
+    bot_active: true
+    path_rel: P050_ableton-mcp
+    status: incubating
+    tags:
+      - mcp
+      - music
+      - ableton
+      - orpheus
+
+  - repo_id: P091_voice-notes-pipeline
+    name: Voice Notes Pipeline
+    purpose: Pipeline for processing voice notes from SuperWhisper through to Betty AI for intelligent categorization.
+    bot_active: true
+    path_rel: P091_voice-notes-pipeline
+    status: incubating
+    tags:
+      - voice
+      - pipeline
+      - obsidian
+      - betty
+
+  - repo_id: P167_dj-claude-mcp
+    name: DJ Claude
+    purpose: Intelligent playlist generation MCP tool combining LLM intelligence with Spotify control for natural language playlists.
+    bot_active: true
+    path_rel: P167_dj-claude-mcp
+    status: active
+    tags:
+      - mcp
+      - music
+      - spotify
+      - playlist
+
+  - repo_id: P212_band-in-a-box-ai
+    name: Band in a Box AI
+    purpose: AI music generation using Band in a Box sample library (214K+ samples) with intelligent search and Ableton integration.
+    bot_active: true
+    path_rel: P212_band-in-a-box-ai
+    status: incubating
+    tags:
+      - music
+      - ai
+      - samples
+      - ableton
+
+  - repo_id: W005_BigQuery
+    name: BigQuery Infrastructure
+    purpose: BigQuery data ingestion, monitoring, and analytics infrastructure for business intelligence workflows.
+    philosophy: Evidence-backed analytics with rigorous data source documentation.
+    pool: work
+    bot_active: true
+    path_rel: W005_BigQuery
+
+  - repo_id: W006_Abandoned_Cart
+    name: Abandoned Cart Analysis
+    purpose: A/B testing and analytics for abandoned cart SMS initiatives with evidence-backed stakeholder claims.
+    philosophy: Rigorous measurement with explicit date ranges and verified claims.
+    pool: work
+    bot_active: true
+    path_rel: W006_Abandoned_Cart
+    story: |
+      Comprehensive analysis of abandoned cart SMS interventions including pre/post UX changes,
+      multi-period comparisons, and full experiment lifecycle tracking. All claims backed by
+      evidence packages with explicit methodology.
+    authoritative_sources:
+      - 40_src/
+      - 20_receipts/
+      - 80_evidence_packages/
+    contracts:
+      - Receipt-backed analysis (20_receipts/)
+      - Evidence packages for stakeholder claims (80_evidence_packages/)
+      - Data sources documented in DATA_SOURCES.md
+      - Verify entry point for claims validation
+    interfaces:
+      - "CLI: make verify"
+      - "CLI: make build"
+    commands:
+      - "make verify"
+      - "make build"
+      - "00_run/verify.command"
+    status: active
+    tags:
+      - analytics
+      - ab-testing
+      - sms
+      - work-pool
+
+  - repo_id: W008_QQ
+    name: QuestionQueue
+    purpose: Capture, track, and answer ad-hoc questions from stakeholders that would otherwise fall through the cracks.
+    philosophy: Never forget a question. Screenshot → Ticket → Collaborate → Answer → Done.
+    pool: work
+    bot_active: true
+    path_rel: W008_QQ
+    story: |
+      Born from the reality that questions from bosses and colleagues arrive via email, IM,
+      and meetings—and too often get lost. QQ provides a lightweight ticketing system to
+      capture questions as screenshots, track them, and close them with verified answers.
+    authoritative_sources:
+      - 40_src/
+      - 20_receipts/
+    contracts:
+      - Receipt-backed question tracking (20_receipts/)
+      - Evidence packages for stakeholder claims (80_evidence_packages/)
+      - Data sources documented in DATA_SOURCES.md
+    interfaces:
+      - "CLI: 00_run/verify.command"
+    commands:
+      - "00_run/verify.command"
+    status: active
+    tags:
+      - questions
+      - ticketing
+      - stakeholder
+      - work-pool
+
+  - repo_id: W009_context_library
+    name: Context Library
+    purpose: Canonical knowledge base serving humans and agents with up-to-date context capsules.
+    philosophy: Externalized memory. Single-file capsules that restore full context instantly.
+    pool: work
+    bot_active: true
+    path_rel: W009_context_library
+    story: |
+      The Context Library is Jeremy's externalized memory system—the authoritative source
+      for contextualized knowledge across all projects. Context Capsules are evolving,
+      single-file knowledge bases maintained for instant context restoration.
+    authoritative_sources:
+      - 50_capsules/
+      - 00_index/
+    contracts:
+      - Receipt-backed updates (20_receipts/)
+      - Evidence packages for claims (80_evidence_packages/)
+      - Data sources documented in DATA_SOURCES.md
+      - Machine-readable indexes in 00_index/*.json
+    interfaces:
+      - "CLI: 00_run/verify.command"
+      - "API: 00_index/README_FOR_AGENTS.md"
+    commands:
+      - "00_run/verify.command"
+    status: active
+    tags:
+      - knowledge
+      - capsules
+      - context
+      - work-pool
+
+  - repo_id: W011_peer-review
+    name: Peer Review Workflow
+    purpose: Peer review workflow system for code and document review processes.
+    philosophy: Structured review with templates, tracking, and evidence of completion.
+    pool: work
+    bot_active: true
+    path_rel: W011_peer-review
+    story: |
+      Systematic approach to peer review with templates, incoming queue, in-progress
+      tracking, and completed review archives. Ensures nothing slips through and
+      all reviews are documented.
+    authoritative_sources:
+      - 10_templates/
+      - 20_incoming/
+      - 30_in_review/
+      - 40_reviewed/
+    contracts:
+      - Receipt-backed reviews (20_receipts/)
+      - Evidence packages for claims (80_evidence_packages/)
+      - Data sources documented in DATA_SOURCES.md
+    interfaces:
+      - "CLI: 00_run/verify.command"
+    commands:
+      - "00_run/verify.command"
+    status: active
+    tags:
+      - peer-review
+      - code-review
+      - workflow
+      - work-pool

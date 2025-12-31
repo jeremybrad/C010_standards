@@ -7,8 +7,14 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any, List
+
+# Add parent directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from validators.common import safe_print
 
 try:
     import yaml
@@ -160,7 +166,7 @@ def validate_document(
             )
 
     if verbose and not errors:
-        print(f"  ✓ {file_path.name}: All checks passed")
+        safe_print(f"  ✓ {file_path.name}: All checks passed")
 
     return errors
 
@@ -237,24 +243,24 @@ def cli(argv: List[str] | None = None) -> int:
 
     # Report summary
     if all_errors:
-        print(f"\n❌ DocMeta validation FAILED ({len(all_errors)} issues):\n")
+        safe_print(f"\n❌ DocMeta validation FAILED ({len(all_errors)} issues):\n")
         for i, error in enumerate(all_errors, 1):
-            print(f"  {i}. {error}")
+            safe_print(f"  {i}. {error}")
 
         if args.fix:
-            print("\n💡 Fix suggestions:")
-            print('  - Add required projects: ["Mission Control", "C010"]')
-            print('  - Add required tags: ["agent:houston", "sensitivity:internal"]')
-            print("  - Validate topics against taxonomies/topic_taxonomy.yaml")
-            print("  - Add connections.related_docs for playbook:success documents")
+            safe_print("\n💡 Fix suggestions:")
+            safe_print('  - Add required projects: ["Mission Control", "C010"]')
+            safe_print('  - Add required tags: ["agent:houston", "sensitivity:internal"]')
+            safe_print("  - Validate topics against taxonomies/topic_taxonomy.yaml")
+            safe_print("  - Add connections.related_docs for playbook:success documents")
 
         return 1
     else:
         validated_count = len(results)
         if args.verbose:
-            print(f"\n✅ All Houston DocMeta validation checks passed ({validated_count} documents)")
+            safe_print(f"\n✅ All Houston DocMeta validation checks passed ({validated_count} documents)")
         else:
-            print(f"✅ DocMeta validation passed ({validated_count} Houston documents)")
+            safe_print(f"✅ DocMeta validation passed ({validated_count} Houston documents)")
         return 0
 
 

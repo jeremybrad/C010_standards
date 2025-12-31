@@ -4,6 +4,167 @@
 
 Welcome to the information center for Jeremy Bradford's development workspace. Before working with ANY repository in SyncedProjects, start here.
 
+<!-- BOT:repo_card:start -->
+
+## What this repo is
+
+C010_standards (aliased C000_info-center) is the **canonical source of truth** for workspace organization, standards, and governance across Jeremy Bradford's 66+ project ecosystem. It provides:
+
+- **Protocols & Standards**: Betty Protocol (workspace governance), README repo card standard, cross-platform CLAUDE.md format
+- **Schemas**: DocMeta v1.2, CodeMeta v1.0, Houston features/tools/telemetry JSON schemas
+- **Taxonomies**: Topic, emotion, and metadata classification systems
+- **Validators**: Python scripts to check compliance with schemas and protocols
+- **Project Registry**: Auto-generated nightly inventory of all projects (workspace/KNOWN_PROJECTS.md)
+- **Bootstrap Scripts**: Add Ruff, testing, Claude support to repos in bulk
+- **Agent Guidance**: AGENT_START_HERE.md for LLM onboarding
+
+This is the "visitor center" that orients both humans and AI agents before they work in any other repo.
+
+## What it is not
+
+- **Not an application**: No runtime services, APIs, or deployable code
+- **Not project-specific**: Standards here apply workspace-wide, not to one project
+- **Not data storage**: No conversation exports, embeddings, or artifacts (those live in `$SADB_DATA_DIR`)
+- **Not memory infrastructure**: SADB, CBFS, MyBuddy are separate repos (C002, C008, C005)
+- **Not executable pipelines**: Validators are standalone tools, not part of a data pipeline
+
+## When to use it
+
+| Use Case | Entry Point |
+|----------|-------------|
+| Starting work in ANY repo | Read `AGENT_START_HERE.md` first |
+| Understanding workspace structure | `workspace/KNOWN_PROJECTS.md` |
+| Learning data flow architecture | `workspace/PROJECT_RELATIONSHIPS.md` |
+| Checking folder structure compliance | `protocols/betty_protocol.md` |
+| Validating Houston configs | `python validators/run_all.py` |
+| Validating README repo cards | `python scripts/validate_readme_repo_card.py <repo>` |
+| Adding cross-platform Claude support | `bash scripts/bootstrap_claude_crossplatform.sh` |
+| Adding Ruff linting to repos | `bash scripts/bootstrap_ruff.sh` |
+| Creating a new project | `PROJECT_TEMPLATE.md` |
+| Systematic repo upgrades | `COMPREHENSIVE_PR_TEMPLATE.md` |
+
+## Entry points
+
+| Path | Purpose |
+|------|---------|
+| `AGENT_START_HERE.md` | **Required reading** for AI agents before any work |
+| `protocols/` | Governance docs (betty_protocol, readme_repo_card, universal_claude_standards) |
+| `schemas/` | YAML/JSON schema definitions (docmeta, codemeta, houston_*) |
+| `validators/` | Python compliance checkers for Houston configs |
+| `scripts/` | Bootstrap utilities + `validate_readme_repo_card.py` |
+| `workspace/` | Project inventory, relationships, PR tracking |
+| `taxonomies/` | Classification systems (topics, emotions, metadata) |
+| `00_run/` | Double-click launchers (standards_pulse, folder_audit) |
+| `examples/` | Reference implementations of schemas |
+| `policy/` | Python (Ruff) and testing (pytest/jest) configs |
+
+## Core architecture
+
+```
+C010_standards/
+├── AGENT_START_HERE.md          # LLM pre-flight checklist
+├── protocols/                    # Standards documents
+│   ├── betty_protocol.md        # Workspace governance (non-negotiable)
+│   ├── readme_repo_card.md      # README repo card standard
+│   ├── universal_claude_standards.md
+│   └── cross_platform_claude_md.md
+├── schemas/                      # Data contracts
+│   ├── docmeta_v1.2.yaml        # Document metadata
+│   ├── codemeta_v1.0.yaml       # Code metadata
+│   └── houston_*.schema.json    # Houston agent configs
+├── validators/                   # Compliance checkers
+│   ├── check_houston_*.py       # 5 Houston validators
+│   ├── run_all.py               # Batch runner
+│   └── common.py                # Shared utilities
+├── scripts/                      # Bootstrap + validation
+│   ├── validate_readme_repo_card.py  # README repo card checker
+│   ├── bootstrap_ruff.sh
+│   └── bootstrap_claude_crossplatform.sh
+├── workspace/                    # Inventory & architecture
+│   ├── KNOWN_PROJECTS.md        # Auto-generated nightly
+│   └── PROJECT_RELATIONSHIPS.md # Data flow diagrams
+└── 00_run/                       # Easy buttons
+    ├── standards_pulse.command  # macOS launcher
+    └── audit_syncedprojects.command
+```
+
+**Key Integration**: This repo is a git submodule in C001_mission-control at `external/standards/`.
+
+## Interfaces and contracts
+
+| Interface | Format | Description |
+|-----------|--------|-------------|
+| `DocMeta v1.2` | YAML | Document metadata schema (required frontmatter) |
+| `CodeMeta v1.0` | YAML | Code file metadata schema |
+| `Houston Features` | JSON Schema | AI agent capability configuration |
+| `Houston Tools` | JSON Schema | Tool pipeline definitions |
+| `Houston Telemetry` | JSON Schema | Agent telemetry format |
+| `Betty Protocol` | Markdown | Folder structure + governance rules |
+| `README Repo Card` | Markdown + BOT markers | Deterministic README extraction |
+
+**Validator Exit Codes**:
+- `0`: All checks pass
+- `1`: One or more errors (or warnings in `--strict` mode)
+
+## Common workflows
+
+```bash
+# 1. Validate Houston configs
+python validators/run_all.py
+python validators/run_all.py --pass-args --verbose
+
+# 2. Validate README repo card
+python scripts/validate_readme_repo_card.py ~/SyncedProjects/C017_brain-on-tap --strict
+
+# 3. Run folder structure audit (double-click or CLI)
+bash 00_run/audit_syncedprojects.command
+# Output: 70_evidence/exports/folder_structure_audit_latest.csv
+
+# 4. Generate standards pulse report
+bash 00_run/standards_pulse.command
+# Output: 70_evidence/exports/Standards_Pulse.xlsx
+
+# 5. Bootstrap repos with Ruff linting
+bash scripts/bootstrap_ruff.sh
+
+# 6. Add cross-platform CLAUDE.md to repos
+bash scripts/bootstrap_claude_crossplatform.sh --dry-run  # Preview
+bash scripts/bootstrap_claude_crossplatform.sh            # Apply
+
+# 7. Update project registry (runs nightly at 2:45 AM)
+python workspace/scripts/generate_project_registry.py
+```
+
+## Footguns and gotchas
+
+| Issue | Impact | Mitigation |
+|-------|--------|------------|
+| Editing KNOWN_PROJECTS.md manually | Overwritten nightly by auto-generation | Edit `generate_project_registry.py` or wait for regen |
+| Ignoring AGENT_START_HERE.md | LLMs pick wrong files, create duplicates | Always read it first in any session |
+| Changing schemas without version bump | Downstream validators break silently | Update version, changelog, notify affected repos |
+| Running bootstrap scripts without `--dry-run` | Bulk changes across all repos | Always preview first |
+| Missing `$SADB_DATA_DIR` env var | Scripts fail to find data artifacts | Set in shell profile: `export SADB_DATA_DIR="$HOME/SADB_Data"` |
+| Assuming C010 = C000 | Both names exist (alias) | They're the same repo; use either |
+
+## Related repos
+
+| Repo | Relationship |
+|------|--------------|
+| `C001_mission-control` | Embeds C010 as git submodule at `external/standards/` |
+| `C002_sadb` | Uses Betty Protocol; source of conversation data |
+| `C017_brain-on-tap` | Extracts README repo cards for LLM context |
+| All P/C/W repos | Must follow Betty Protocol and folder structure |
+
+## Provenance
+
+- **Version**: 1.0.0
+- **Last Updated**: 2025-12-28
+- **Git SHA**: (run `git rev-parse --short HEAD` for current)
+- **Receipts**: `20_receipts/`
+- **Standard**: Self-hosting - this README passes `scripts/validate_readme_repo_card.py`
+
+<!-- BOT:repo_card:end -->
+
 ---
 
 ## What This Is
@@ -84,6 +245,12 @@ C000_info-center/
 ├── AGENT_START_HERE.md          # ⭐ Required reading for AI agents
 ├── README.md                     # This file - your starting point
 │
+├── 00_run/                       # 🖱️ Easy Buttons (double-click launchers)
+│   ├── standards_pulse.command  # macOS: Generate standards inventory
+│   ├── standards_pulse.ps1      # Windows: Generate standards inventory
+│   ├── audit_syncedprojects.command  # macOS: Audit folder structure
+│   └── audit_syncedprojects.ps1      # Windows: Audit folder structure
+│
 ├── workspace/                    # 📊 Workspace-level organization
 │   ├── KNOWN_PROJECTS.md        # Auto-generated project inventory
 │   ├── PROJECT_RELATIONSHIPS.md # Data flow & system architecture
@@ -132,6 +299,26 @@ C000_info-center/
 ---
 
 ## Common Tasks
+
+### Easy Buttons (00_run/)
+
+The `00_run/` directory contains double-click launchers for common operations. No terminal required.
+
+**Standards Pulse** - Generate a complete inventory of all standards:
+- **macOS**: Double-click `00_run/standards_pulse.command`
+- **Windows**: Right-click `00_run/standards_pulse.ps1` → Run with PowerShell
+- **Output**: `70_evidence/exports/Standards_Pulse.xlsx`, `Standards_Inventory.csv`
+
+**Folder Structure Audit** - Check all repos for Betty Protocol compliance:
+- **macOS**: Double-click `00_run/audit_syncedprojects.command`
+- **Windows**: Right-click `00_run/audit_syncedprojects.ps1` → Run with PowerShell
+- **Output**: `70_evidence/exports/folder_structure_audit_latest.csv`
+
+The CSV includes columns for pivoting: `repo_name`, `repo_series`, `compliant`, `missing_required_files`, `invalid_top_level_dirs`, `has_00_run`, `exceptions_applied`.
+
+**Note**: Generated files are gitignored. Regenerate on-demand with the launchers above.
+
+---
 
 ### 1. Find a Project
 

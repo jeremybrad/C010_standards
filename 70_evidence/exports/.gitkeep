@@ -1,0 +1,4 @@
+# Keep this directory in git
+# Generated files (*.xlsx, *.csv) are gitignored - regenerate with:
+#   bash 00_run/standards_pulse.command (macOS)
+#   00_run/standards_pulse.ps1 (Windows)

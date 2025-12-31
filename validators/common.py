@@ -6,8 +6,35 @@ and handling errors consistently across all validators.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any
+
+# Unicode to ASCII fallback mapping for Windows console compatibility
+_UNICODE_FALLBACK = {
+    "▶": ">",
+    "✔": "[PASS]",
+    "✖": "[FAIL]",
+    "❌": "[FAIL]",
+    "✅": "[OK]",
+    "💡": "[TIP]",
+    "✓": "[OK]",
+}
+
+
+def safe_print(*args, **kwargs) -> None:
+    """Print with Unicode fallback for Windows console compatibility.
+
+    Replaces Unicode characters with ASCII equivalents when the console
+    encoding cannot handle them (common on Windows with cp1252).
+    """
+    message = " ".join(str(arg) for arg in args)
+    try:
+        print(message, **kwargs)
+    except UnicodeEncodeError:
+        for unicode_char, ascii_fallback in _UNICODE_FALLBACK.items():
+            message = message.replace(unicode_char, ascii_fallback)
+        print(message, **kwargs)
 
 
 def load_json_config(path: Path) -> dict[str, Any]:
@@ -51,23 +78,23 @@ def report_validation_results(
         Exit code: 0 if passed, 1 if failed
     """
     if errors:
-        print(f"\n❌ {validator_name} validation FAILED ({len(errors)} issues):\n")
+        safe_print(f"\n❌ {validator_name} validation FAILED ({len(errors)} issues):\n")
         for i, error in enumerate(errors, 1):
-            print(f"  {i}. {error}")
+            safe_print(f"  {i}. {error}")
 
         # Print remediation suggestions if provided
         if suggestions:
-            print("\n💡 Remediation suggestions:")
+            safe_print("\n💡 Remediation suggestions:")
             for category, steps in suggestions.items():
                 for step in steps:
-                    print(f"  - {step}")
+                    safe_print(f"  - {step}")
 
         return 1
     else:
         if verbose:
-            print(f"\n✅ All {validator_name} validation checks passed")
+            safe_print(f"\n✅ All {validator_name} validation checks passed")
         else:
-            print(f"✅ {validator_name} validation passed")
+            safe_print(f"✅ {validator_name} validation passed")
         return 0
 
 
@@ -127,4 +154,4 @@ def verbose_check(condition: bool, message: str, verbose: bool = False) -> None:
         verbose: Whether to print the message
     """
     if verbose and condition:
-        print(f"✓ {message}")
+        safe_print(f"✓ {message}")
