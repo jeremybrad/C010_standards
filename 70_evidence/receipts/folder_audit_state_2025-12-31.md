@@ -2,7 +2,7 @@
 ## Date: 2025-12-31
 
 ---
-## Final Update: 2025-12-31 13:45 PST
+## Final Update: 2025-12-31 14:30 PST (Feature branch merges complete)
 
 ### Grand Total - All Series Complete
 
@@ -35,14 +35,15 @@ All 23 quick_win_exception repos processed with exception files + .gitattributes
 | P090_relay | Exception file committed, remote exists but repo not found |
 | P215_repo-dashboard | Compliant structure, no GitHub remote |
 
-**Feature Branch Repos (need merge to main):**
-| Repo | Branch |
-|------|--------|
-| P031_sillytavern | modernize/sprint2-mining |
-| P091_voice-notes-pipeline | modernize/sprint2-mining |
-| P152_cognitiveplayback | modernize/sprint2-mining |
-| P158_local-tts | modernize/sprint2-mining |
-| P159_memory-system | modernize/sprint2-mining |
+**Feature Branch Repos: COMPLETE**
+All 5 repos merged/promoted to default branch `modernize/sprint2-mining`:
+- P031_sillytavern
+- P091_voice-notes-pipeline
+- P152_cognitiveplayback
+- P158_local-tts
+- P159_memory-system
+
+See: `20_receipts/feature_branch_merges_20251231.md`
 
 ### Provenance Artifacts
 - `70_evidence/exports/folder_structure_audit_latest.csv` - Full audit (61 rows)
