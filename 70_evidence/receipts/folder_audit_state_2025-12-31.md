@@ -2,7 +2,7 @@
 ## Date: 2025-12-31
 
 ---
-## Final Update: 2025-12-31 15:45 PST (Local-only repos disposed)
+## Final Update: 2025-12-31 18:00 PST (Manual Migration Stage 1 Complete)
 
 ### Grand Total - All Series Complete
 
@@ -10,21 +10,41 @@
 |--------|-------------|--------|------------|----------|-----------|------------------|
 | C-series | 16 | 15 | 0 | 0 | 1 | 0 |
 | W-series | 11 | 9 | 0 | 1 | 4 | 0 |
-| P-series | 32 | 29 | 0 | 0 | 5 | 3 |
-| **Total** | **59** | **53** | **0** | **1** | **10** | **3** |
+| P-series | 32 | 32 | 0 | 0 | 5 | 0 |
+| **Total** | **59** | **56** | **0** | **1** | **10** | **0** |
+
+### Manual Migration Stage 1 Complete
+
+All 3 complex repos completed Strangler Fig Stage 1 migration:
+
+| Repo | Before | After | Commit | Notes |
+|------|--------|-------|--------|-------|
+| P110_knowledge-synthesis-tool | 26 dirs | 7 dirs | `56e5351` | Merged to main |
+| P160_open-webui-ollama-setup | 17 dirs | 9 dirs | (upstream) | Already processed by prior session |
+| P190_conversation-exports-web | 30+ dirs | 22 dirs | `c5fa999` | Pushed to main |
+
+**Stage 1 Moves Executed:**
+- Docs/configs → 10_docs/, 30_config/
+- Data dirs → 50_data/
+- Temp/archive → 90_archive/
+- Created audit_exceptions.yaml for remaining Stage 2 dirs
+
+**Stage 2 Deferred:**
+- Code dirs with Python imports (need path updates)
+- Service dirs with Docker references
+- Pipeline output dirs referenced in scripts
 
 ### P-series Quick Wins Completed This Session
 All 23 quick_win_exception repos processed with exception files + .gitattributes:
 - 18 pushed to main/master
-- 4 pushed to feature branches (modernize/sprint2-mining)
-- 1 local-only (P090_relay - remote not found)
+- 5 feature branches merged to main (P031, P091, P110, P152, P158, P159)
 
 ### Remaining Work
 
-**Manual Migrations (3 repos - deferred):**
-- P110_knowledge-synthesis-tool (26 dirs)
-- P160_open-webui-ollama-setup (17 dirs)
-- P190_conversation-exports-web (30 dirs)
+**Manual Migrations Stage 2 (deferred to quarterly review):**
+- P110: 7 code dirs (kst_modules, scripts, tests, etc.)
+- P160: 9 service dirs (agora, houston, resolver, etc.)
+- P190: 22 pipeline dirs (scripts/, data/, metadata/, etc.)
 
 **Local-Only Repos: COMPLETE**
 All 5 repos disposed (4 remotes added, 1 archived):
