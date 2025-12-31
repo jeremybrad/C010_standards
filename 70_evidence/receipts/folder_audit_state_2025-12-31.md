@@ -2,16 +2,16 @@
 ## Date: 2025-12-31
 
 ---
-## Final Update: 2025-12-31 15:00 PST (Default branches corrected to main)
+## Final Update: 2025-12-31 15:45 PST (Local-only repos disposed)
 
 ### Grand Total - All Series Complete
 
-| Series | Total Repos | Pushed | Local Only | Compliant | Manual Migration |
-|--------|-------------|--------|------------|-----------|------------------|
-| C-series | 16 | 14 | 2 | 1 | 0 |
-| W-series | 11 | 8 | 2 | 4 | 0 |
-| P-series | 32 | 27 | 2 | 5 | 3 |
-| **Total** | **59** | **49** | **6** | **10** | **3** |
+| Series | Total Repos | Pushed | Local Only | Archived | Compliant | Manual Migration |
+|--------|-------------|--------|------------|----------|-----------|------------------|
+| C-series | 16 | 15 | 0 | 0 | 1 | 0 |
+| W-series | 11 | 9 | 0 | 1 | 4 | 0 |
+| P-series | 32 | 29 | 0 | 0 | 5 | 3 |
+| **Total** | **59** | **53** | **0** | **1** | **10** | **3** |
 
 ### P-series Quick Wins Completed This Session
 All 23 quick_win_exception repos processed with exception files + .gitattributes:
@@ -26,14 +26,18 @@ All 23 quick_win_exception repos processed with exception files + .gitattributes
 - P160_open-webui-ollama-setup (17 dirs)
 - P190_conversation-exports-web (30 dirs)
 
-**Local-Only Repos (6 total - need remote or archive decision):**
-| Repo | Notes |
-|------|-------|
-| C016_prompt-engine | Exception file committed, no GitHub remote |
-| W002_analytics | Compliant structure, no GitHub remote |
-| W012_hardening_bundle | Exception file committed, no GitHub remote |
-| P090_relay | Exception file committed, remote exists but repo not found |
-| P215_repo-dashboard | Compliant structure, no GitHub remote |
+**Local-Only Repos: COMPLETE**
+All 5 repos disposed (4 remotes added, 1 archived):
+
+| Repo | Decision | HEAD SHA | Remote/Bundle |
+|------|----------|----------|---------------|
+| C016_prompt-engine | REMOTE ADDED | `e0d1301` | https://github.com/jeremybrad/C016_prompt-engine |
+| W002_analytics | ARCHIVED | `ebfa750` | Bundle SHA256: `9482bf09...daca0b` |
+| W012_hardening_bundle | REMOTE ADDED | `7c6fbeb` | https://github.com/jeremybrad/W012_hardening_bundle |
+| P090_relay | REMOTE ADDED | `1d61317` | https://github.com/jeremybrad/P090_relay |
+| P215_repo-dashboard | REMOTE ADDED | `be8365b` | https://github.com/jeremybrad/P215_repo-dashboard |
+
+See: `20_receipts/local_only_repo_disposition_20251231.md`
 
 **Feature Branch Repos: COMPLETE (CORRECTED)**
 All 5 repos now have `main` as default branch (corrected from incorrect `modernize/sprint2-mining`):
@@ -54,6 +58,7 @@ See: `20_receipts/feature_branch_merges_20251231.md` (includes correction notice
 - `70_evidence/exports/p_series_lane_scan_latest.csv` - P-series lane classification
 - `70_evidence/receipts/p_series_lane_scan_2025-12-31.md` - P-series scan receipt
 - `70_evidence/scripts/p_series_lane_scanner.py` - Scanner script (v1.0.0)
+- `80_evidence_packages/local_repo_bundles/W002_analytics_20251231.bundle` - W002 archive (169MB)
 
 ---
 
