@@ -2,7 +2,7 @@
 ## Date: 2025-12-31
 
 ---
-## Final Update: 2025-12-31 14:30 PST (Feature branch merges complete)
+## Final Update: 2025-12-31 15:00 PST (Default branches corrected to main)
 
 ### Grand Total - All Series Complete
 
@@ -35,15 +35,18 @@ All 23 quick_win_exception repos processed with exception files + .gitattributes
 | P090_relay | Exception file committed, remote exists but repo not found |
 | P215_repo-dashboard | Compliant structure, no GitHub remote |
 
-**Feature Branch Repos: COMPLETE**
-All 5 repos merged/promoted to default branch `modernize/sprint2-mining`:
-- P031_sillytavern
-- P091_voice-notes-pipeline
-- P152_cognitiveplayback
-- P158_local-tts
-- P159_memory-system
+**Feature Branch Repos: COMPLETE (CORRECTED)**
+All 5 repos now have `main` as default branch (corrected from incorrect `modernize/sprint2-mining`):
 
-See: `20_receipts/feature_branch_merges_20251231.md`
+| Repo | Main SHA | Feature Branch |
+|------|----------|----------------|
+| P031_sillytavern | `5460537` | deleted |
+| P091_voice-notes-pipeline | `959fc1d` | deleted |
+| P152_cognitiveplayback | `1f8be2f` | deleted |
+| P158_local-tts | `7b69342` | deleted |
+| P159_memory-system | `62cf3ea` | deleted |
+
+See: `20_receipts/feature_branch_merges_20251231.md` (includes correction notice)
 
 ### Provenance Artifacts
 - `70_evidence/exports/folder_structure_audit_latest.csv` - Full audit (61 rows)
