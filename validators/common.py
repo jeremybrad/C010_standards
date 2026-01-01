@@ -3,10 +3,10 @@
 Provides shared functionality for loading configs, reporting results,
 and handling errors consistently across all validators.
 """
+
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -64,7 +64,7 @@ def report_validation_results(
     validator_name: str,
     errors: list[str],
     suggestions: dict[str, list[str]] | None = None,
-    verbose: bool = False
+    verbose: bool = False,
 ) -> int:
     """Report validation results with consistent formatting.
 
@@ -85,7 +85,7 @@ def report_validation_results(
         # Print remediation suggestions if provided
         if suggestions:
             safe_print("\n💡 Remediation suggestions:")
-            for category, steps in suggestions.items():
+            for _category, steps in suggestions.items():
                 for step in steps:
                     safe_print(f"  - {step}")
 
@@ -113,34 +113,44 @@ def get_remediation_suggestions(errors: list[str]) -> dict[str, list[str]]:
     error_text = " ".join(errors).lower()
 
     if "autonomous" in error_text:
-        suggestions.setdefault("autonomous_mode", []).extend([
-            "Review autonomous mode safety controls",
-            "Ensure current_phase >= 3 before enabling deployment"
-        ])
+        suggestions.setdefault("autonomous_mode", []).extend(
+            [
+                "Review autonomous mode safety controls",
+                "Ensure current_phase >= 3 before enabling deployment",
+            ]
+        )
 
     if "phase" in error_text:
-        suggestions.setdefault("phase_config", []).extend([
-            "Update agency_levels.current_level to match phase requirements",
-            "Document phase activation in notes/CHANGELOG.md"
-        ])
+        suggestions.setdefault("phase_config", []).extend(
+            [
+                "Update agency_levels.current_level to match phase requirements",
+                "Document phase activation in notes/CHANGELOG.md",
+            ]
+        )
 
     if "schema" in error_text or "jsonschema" in error_text:
-        suggestions.setdefault("schema_validation", []).extend([
-            "Install jsonschema: pip install jsonschema",
-            "Review config structure against relevant schema file"
-        ])
+        suggestions.setdefault("schema_validation", []).extend(
+            [
+                "Install jsonschema: pip install jsonschema",
+                "Review config structure against relevant schema file",
+            ]
+        )
 
     if "taxonomy" in error_text or "topic" in error_text:
-        suggestions.setdefault("taxonomy", []).extend([
-            "Validate topics against taxonomies/topic_taxonomy.yaml",
-            "Add missing topics to taxonomy or remove from config"
-        ])
+        suggestions.setdefault("taxonomy", []).extend(
+            [
+                "Validate topics against taxonomies/topic_taxonomy.yaml",
+                "Add missing topics to taxonomy or remove from config",
+            ]
+        )
 
     if "routing" in error_text or "tags" in error_text:
-        suggestions.setdefault("routing_tags", []).extend([
-            "Add required routing tags (e.g., agent:houston, sensitivity:internal)",
-            "Review DocMeta schema documentation"
-        ])
+        suggestions.setdefault("routing_tags", []).extend(
+            [
+                "Add required routing tags (e.g., agent:houston, sensitivity:internal)",
+                "Review DocMeta schema documentation",
+            ]
+        )
 
     return suggestions
 

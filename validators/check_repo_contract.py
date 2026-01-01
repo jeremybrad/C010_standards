@@ -4,13 +4,13 @@
 Checks that repositories meet minimum structural requirements for standards compliance.
 This is a general-purpose validator that can be applied to any git repository.
 """
+
 from __future__ import annotations
 
 import argparse
 import os
 import sys
 from pathlib import Path
-from typing import List
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -18,7 +18,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 from validators.common import safe_print
 
 
-def parse_args(argv: List[str]) -> argparse.Namespace:
+def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Validate repository contract compliance"
     )
@@ -26,7 +26,7 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
         "--repo-root",
         type=Path,
         default=None,
-        help="Path to repository root (default: env REPO_CONTRACT_ROOT or current git root)",
+        help="Repository root (default: REPO_CONTRACT_ROOT env or git root)",
     )
     parser.add_argument(
         "--mode",
@@ -141,9 +141,7 @@ def check_repo_card_markers(repo_root: Path, verbose: bool = False) -> list[str]
     has_end = end_marker in content
 
     if has_start and not has_end:
-        errors.append(
-            f"README.md contains '{start_marker}' but missing '{end_marker}' (marker integrity)"
-        )
+        errors.append(f"README.md has '{start_marker}' but missing '{end_marker}'")
     elif has_start and has_end:
         if verbose:
             safe_print("[OK] Repo card markers are properly paired")
@@ -153,7 +151,7 @@ def check_repo_card_markers(repo_root: Path, verbose: bool = False) -> list[str]
     return errors
 
 
-def cli(argv: List[str] | None = None) -> int:
+def cli(argv: list[str] | None = None) -> int:
     """Entry point for repo contract validator.
 
     Exit codes:
@@ -199,7 +197,9 @@ def cli(argv: List[str] | None = None) -> int:
         safe_print(warning)
 
     if errors:
-        safe_print(f"\n[FAIL] Repo contract validation FAILED ({len(errors)} issues):\n")
+        safe_print(
+            f"\n[FAIL] Repo contract validation FAILED ({len(errors)} issues):\n"
+        )
         for i, error in enumerate(errors, 1):
             safe_print(f"  {i}. {error}")
 

@@ -1,7 +1,7 @@
 """Validator package scaffolding for Houston metadata governance."""
 
+from collections.abc import Callable
 from importlib import import_module
-from typing import Callable, Dict
 
 ValidatorFn = Callable[[list], int]
 
@@ -11,10 +11,10 @@ def load_validator(name: str) -> ValidatorFn:
     module = import_module(f"validators.{name}")
     if not hasattr(module, "cli"):
         raise AttributeError(f"Validator '{name}' missing required 'cli' callable")
-    return getattr(module, "cli")
+    return module.cli
 
 
-AVAILABLE_VALIDATORS: Dict[str, str] = {
+AVAILABLE_VALIDATORS: dict[str, str] = {
     "houston_docmeta": "check_houston_docmeta",
     "houston_features": "check_houston_features",
     "houston_tools": "check_houston_tools",

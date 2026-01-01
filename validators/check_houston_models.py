@@ -3,13 +3,14 @@
 
 Confirms model configs reference valid models and match fallback chains.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -19,7 +20,7 @@ from validators.common import safe_print
 DEFAULT_FEATURES = Path("30_config/houston-features.json")
 
 
-def parse_args(argv: List[str]) -> argparse.Namespace:
+def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate Houston model configuration")
     parser.add_argument(
         "--features-config",
@@ -47,7 +48,9 @@ def load_json(path: Path) -> dict[str, Any]:
         raise
 
 
-def validate_phase_deployment_consistency(config: dict, verbose: bool = False) -> list[str]:
+def validate_phase_deployment_consistency(
+    config: dict, verbose: bool = False
+) -> list[str]:
     """Validate can_deploy_updates is only enabled in phase 3+."""
     errors = []
 
@@ -58,11 +61,14 @@ def validate_phase_deployment_consistency(config: dict, verbose: bool = False) -
 
         if can_deploy and current_phase < 3:
             errors.append(
-                f"Model deployment enabled (can_deploy_updates=true) but current_phase={current_phase}. "
+                f"Model deployment enabled but phase={current_phase}. "
                 "Requires phase >= 3."
             )
         elif verbose:
-            safe_print(f"✓ Deployment permission check passed (phase={current_phase}, can_deploy={can_deploy})")
+            safe_print(
+                f"✓ Deploy check passed (phase={current_phase}, "
+                f"can_deploy={can_deploy})"
+            )
 
     except KeyError as e:
         errors.append(f"Missing required field for deployment validation: {e}")
@@ -70,7 +76,7 @@ def validate_phase_deployment_consistency(config: dict, verbose: bool = False) -
     return errors
 
 
-def cli(argv: List[str] | None = None) -> int:
+def cli(argv: list[str] | None = None) -> int:
     args = parse_args(argv or [])
 
     # Check features config exists
@@ -93,11 +99,15 @@ def cli(argv: List[str] | None = None) -> int:
     # Note: Full model inventory validation requires ollama/model registry access
     # For now, we validate the deployment permission logic which is critical
     if args.models_file and args.verbose:
-        print(f"NOTE: --models-file provided but full model validation not yet implemented")
+        print(
+            "NOTE: --models-file provided but full model validation not yet implemented"
+        )
 
     # Report results
     if all_errors:
-        safe_print(f"\n❌ Houston models validation FAILED ({len(all_errors)} issues):\n")
+        safe_print(
+            f"\n❌ Houston models validation FAILED ({len(all_errors)} issues):\n"
+        )
         for i, error in enumerate(all_errors, 1):
             safe_print(f"  {i}. {error}")
 

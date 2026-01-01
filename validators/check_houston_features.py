@@ -1,22 +1,28 @@
 #!/usr/bin/env python3
 """Validator for Houston feature configuration.
 
-Validates houston-features.json against JSON schema and enforces trust phase requirements.
+Validates houston-features.json against JSON schema and trust phase rules.
 """
+
 from __future__ import annotations
 
 import argparse
 import sys
 from pathlib import Path
-from typing import Any, List
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from validators.common import load_json_config, report_validation_results, verbose_check, safe_print
+from validators.common import (
+    load_json_config,
+    report_validation_results,
+    safe_print,
+    verbose_check,
+)
 
 try:
     import jsonschema
+
     HAS_JSONSCHEMA = True
 except ImportError:
     HAS_JSONSCHEMA = False
@@ -26,13 +32,19 @@ SCHEMA_PATH = Path("schemas/houston_features.schema.json")
 CHANGELOG_PATH = Path("notes/CHANGELOG.md")
 
 
-def parse_args(argv: List[str]) -> argparse.Namespace:
+def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate Houston features config")
     parser.add_argument(
-        "--config", default=FEATURES_PATH, type=Path, help="Path to houston-features.json"
+        "--config",
+        default=FEATURES_PATH,
+        type=Path,
+        help="Path to houston-features.json",
     )
     parser.add_argument(
-        "--schema", default=SCHEMA_PATH, type=Path, help="Path to JSON schema definition"
+        "--schema",
+        default=SCHEMA_PATH,
+        type=Path,
+        help="Path to JSON schema definition",
     )
     parser.add_argument(
         "--changelog", default=CHANGELOG_PATH, type=Path, help="Path to CHANGELOG.md"
@@ -43,15 +55,18 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def validate_json_schema(config: dict, schema: dict, verbose: bool = False) -> list[str]:
+def validate_json_schema(
+    config: dict, schema: dict, verbose: bool = False
+) -> list[str]:
     """Validate config against JSON schema. Returns list of errors."""
     if not HAS_JSONSCHEMA:
-        return ["WARNING: jsonschema library not installed, schema validation skipped"]
+        return ["WARNING: jsonschema not installed, schema validation skipped"]
 
     errors = []
     validator = jsonschema.Draft7Validator(schema)
     for error in validator.iter_errors(config):
-        errors.append(f"Schema validation error at {'.'.join(str(p) for p in error.path)}: {error.message}")
+        path = ".".join(str(p) for p in error.path)
+        errors.append(f"Schema error at {path}: {error.message}")
 
     if verbose and not errors:
         safe_print("✓ JSON schema validation passed")
@@ -68,7 +83,9 @@ def validate_supported_editors(config: dict, verbose: bool = False) -> list[str]
         editors = set(config["features"]["ide_integration"]["supported_editors"])
         invalid = editors - allowed
         if invalid:
-            errors.append(f"Invalid editors in supported_editors: {invalid}. Allowed: {allowed}")
+            errors.append(
+                f"Invalid editors in supported_editors: {invalid}. Allowed: {allowed}"
+            )
         else:
             verbose_check(True, f"Supported editors valid: {editors}", verbose)
     except KeyError as e:
@@ -83,7 +100,9 @@ def validate_autonomous_safety(config: dict, verbose: bool = False) -> list[str]
 
     try:
         current_level = config["features"]["agency_levels"]["current_level"]
-        require_password = config["safety_controls"]["destructive_actions"]["require_password"]
+        require_password = config["safety_controls"]["destructive_actions"][
+            "require_password"
+        ]
 
         if current_level == "autonomous" and not require_password:
             errors.append(
@@ -94,8 +113,9 @@ def validate_autonomous_safety(config: dict, verbose: bool = False) -> list[str]
         else:
             verbose_check(
                 True,
-                f"Autonomous safety check passed (level={current_level}, require_password={require_password})",
-                verbose
+                f"Autonomous safety check passed (level={current_level}, "
+                f"require_password={require_password})",
+                verbose,
             )
     except KeyError as e:
         errors.append(f"Missing required field for safety check: {e}")
@@ -103,8 +123,10 @@ def validate_autonomous_safety(config: dict, verbose: bool = False) -> list[str]
     return errors
 
 
-def validate_phase_consistency(config: dict, changelog_path: Path, verbose: bool = False) -> list[str]:
-    """Validate current_phase is within bounds and check changelog for manual approval."""
+def validate_phase_consistency(
+    config: dict, changelog_path: Path, verbose: bool = False
+) -> list[str]:
+    """Validate current_phase is within bounds and check changelog."""
     errors = []
 
     try:
@@ -115,7 +137,7 @@ def validate_phase_consistency(config: dict, changelog_path: Path, verbose: bool
         max_phase = len(phases)
         if current_phase > max_phase:
             errors.append(
-                f"current_phase ({current_phase}) exceeds number of defined phases ({max_phase})"
+                f"current_phase ({current_phase}) exceeds defined phases ({max_phase})"
             )
 
         # Check agency level matches phase
@@ -129,7 +151,9 @@ def validate_phase_consistency(config: dict, changelog_path: Path, verbose: bool
                     f"but current_level is '{actual_level}'"
                 )
             elif verbose:
-                safe_print(f"✓ Phase {current_phase} agency level matches: {actual_level}")
+                safe_print(
+                    f"✓ Phase {current_phase} agency level matches: {actual_level}"
+                )
 
         # Check for manual approval in changelog if auto_advance is false
         if not auto_advance and current_phase > 1 and changelog_path.exists():
@@ -137,14 +161,14 @@ def validate_phase_consistency(config: dict, changelog_path: Path, verbose: bool
             phase_pattern = f"Phase {current_phase} activated"
             if phase_pattern not in changelog_text:
                 errors.append(
-                    f"WARNING: auto_advance is false and current_phase is {current_phase}, "
-                    f"but no '{phase_pattern}' entry found in {changelog_path}. "
-                    "Manual approval should be documented."
+                    f"WARNING: auto_advance=false, current_phase={current_phase}, "
+                    f"but no '{phase_pattern}' in {changelog_path}. "
+                    "Document manual approval."
                 )
             elif verbose:
                 safe_print(f"✓ Phase {current_phase} activation found in changelog")
         elif verbose and auto_advance:
-            safe_print(f"✓ Auto-advance enabled, changelog check skipped")
+            safe_print("✓ Auto-advance enabled, changelog check skipped")
 
     except KeyError as e:
         errors.append(f"Missing required field for phase validation: {e}")
@@ -152,7 +176,9 @@ def validate_phase_consistency(config: dict, changelog_path: Path, verbose: bool
     return errors
 
 
-def validate_autonomous_deploy_permission(config: dict, verbose: bool = False) -> list[str]:
+def validate_autonomous_deploy_permission(
+    config: dict, verbose: bool = False
+) -> list[str]:
     """Ensure can_deploy_updates is only true in phase 3+."""
     errors = []
 
@@ -163,18 +189,20 @@ def validate_autonomous_deploy_permission(config: dict, verbose: bool = False) -
 
         if can_deploy and current_phase < 3:
             errors.append(
-                f"CRITICAL: autonomous.can_deploy_updates is true but current_phase is {current_phase}. "
-                "Deployment permission requires phase >= 3."
+                f"CRITICAL: can_deploy_updates=true but phase={current_phase}. "
+                "Deployment requires phase >= 3."
             )
         elif verbose:
-            safe_print(f"✓ Deploy permissions check passed (can_deploy={can_deploy}, phase={current_phase})")
+            safe_print(
+                f"✓ Deploy check passed (deploy={can_deploy}, phase={current_phase})"
+            )
     except KeyError as e:
         errors.append(f"Missing required field for deploy permission check: {e}")
 
     return errors
 
 
-def cli(argv: List[str] | None = None) -> int:
+def cli(argv: list[str] | None = None) -> int:
     args = parse_args(argv or [])
 
     # Check required files exist
@@ -205,21 +233,23 @@ def cli(argv: List[str] | None = None) -> int:
     if any("autonomous" in e.lower() for e in all_errors):
         suggestions["autonomous_mode"] = [
             "Review autonomous mode safety controls",
-            "Ensure current_phase >= 3 before enabling deployment"
+            "Ensure current_phase >= 3 before enabling deployment",
         ]
     if any("phase" in e.lower() for e in all_errors):
         suggestions["phase_config"] = [
             "Update agency_levels.current_level to match phase requirements",
-            "Document phase activation in notes/CHANGELOG.md"
+            "Document phase activation in notes/CHANGELOG.md",
         ]
     if any("schema" in e.lower() for e in all_errors):
         suggestions["schema_validation"] = [
             "Install jsonschema: pip install jsonschema",
-            "Review config structure against schemas/houston_features.schema.json"
+            "Review config structure against schemas/houston_features.schema.json",
         ]
 
     # Report results using common utility
-    return report_validation_results("Houston features", all_errors, suggestions, args.verbose)
+    return report_validation_results(
+        "Houston features", all_errors, suggestions, args.verbose
+    )
 
 
 if __name__ == "__main__":

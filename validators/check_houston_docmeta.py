@@ -3,13 +3,14 @@
 
 Ensures Houston-targeted documents follow tagging conventions for precise retrieval.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -18,6 +19,7 @@ from validators.common import safe_print
 
 try:
     import yaml
+
     HAS_YAML = True
 except ImportError:
     HAS_YAML = False
@@ -29,7 +31,7 @@ DEFAULT_TARGETS = (
 TAXONOMY_PATH = Path("taxonomies/topic_taxonomy.yaml")
 
 
-def parse_args(argv: List[str]) -> argparse.Namespace:
+def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Check Houston DocMeta tagging")
     parser.add_argument(
         "paths",
@@ -109,8 +111,7 @@ def is_houston_document(metadata: dict) -> bool:
         routing_tags = [routing_tags]
 
     return any(
-        tag in ["agent:houston", "source:mission-control"]
-        for tag in routing_tags
+        tag in ["agent:houston", "source:mission-control"] for tag in routing_tags
     )
 
 
@@ -156,7 +157,7 @@ def validate_document(
                 f"See taxonomies/topic_taxonomy.yaml"
             )
 
-    # Check 4: connections.related_docs present if routing.tags contains "playbook:success"
+    # Check 4: connections.related_docs required for playbook:success docs
     if "playbook:success" in routing_tags:
         related_docs = metadata.get("connections", {}).get("related_docs", [])
         if not related_docs:
@@ -186,7 +187,7 @@ def find_yaml_files(paths: list[str | Path]) -> list[Path]:
     return files
 
 
-def cli(argv: List[str] | None = None) -> int:
+def cli(argv: list[str] | None = None) -> int:
     args = parse_args(argv or [])
 
     if not HAS_YAML:
@@ -250,17 +251,17 @@ def cli(argv: List[str] | None = None) -> int:
         if args.fix:
             safe_print("\n💡 Fix suggestions:")
             safe_print('  - Add required projects: ["Mission Control", "C010"]')
-            safe_print('  - Add required tags: ["agent:houston", "sensitivity:internal"]')
+            safe_print('  - Add required tags: ["agent:houston", ...]')
             safe_print("  - Validate topics against taxonomies/topic_taxonomy.yaml")
-            safe_print("  - Add connections.related_docs for playbook:success documents")
+            safe_print("  - Add connections.related_docs for playbook:success")
 
         return 1
     else:
         validated_count = len(results)
         if args.verbose:
-            safe_print(f"\n✅ All Houston DocMeta validation checks passed ({validated_count} documents)")
+            safe_print(f"\n✅ DocMeta checks passed ({validated_count} documents)")
         else:
-            safe_print(f"✅ DocMeta validation passed ({validated_count} Houston documents)")
+            safe_print(f"✅ DocMeta validation passed ({validated_count} docs)")
         return 0
 
 

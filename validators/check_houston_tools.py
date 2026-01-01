@@ -3,13 +3,14 @@
 
 Verifies tool pipelines align with capability flags and phase gating.
 """
+
 from __future__ import annotations
 
 import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any, List
+from typing import Any
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -20,7 +21,7 @@ TOOLS_PATH = Path("30_config/houston-tools.json")
 FEATURES_PATH = Path("30_config/houston-features.json")
 
 
-def parse_args(argv: List[str]) -> argparse.Namespace:
+def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Validate Houston tool pipelines")
     parser.add_argument(
         "--config", default=TOOLS_PATH, type=Path, help="Path to houston-tools.json"
@@ -68,7 +69,10 @@ def validate_phase_consistency(
                 "Tool permissions cannot exceed trust phase."
             )
         elif verbose and tools_phase is not None:
-            safe_print(f"✓ Phase consistency check passed (tools={tools_phase}, features={features_phase})")
+            safe_print(
+                f"✓ Phase consistency OK (tools={tools_phase}, "
+                f"features={features_phase})"
+            )
 
     except KeyError as e:
         errors.append(f"Missing required field for phase validation: {e}")
@@ -76,12 +80,13 @@ def validate_phase_consistency(
     return errors
 
 
-def validate_dangerous_operations(tools_config: dict, verbose: bool = False) -> list[str]:
+def validate_dangerous_operations(
+    tools_config: dict, verbose: bool = False
+) -> list[str]:
     """Warn if dangerous operations are enabled without phase 3."""
     errors = []
 
     dangerous_tools = {"kill_processes", "system_shutdown", "rm_recursive"}
-    current_phase = tools_config.get("phase_settings", {}).get("current_phase", 1)
 
     # Check for dangerous tools in phase overrides
     phase_overrides = (
@@ -97,8 +102,8 @@ def validate_dangerous_operations(tools_config: dict, verbose: bool = False) -> 
 
             if dangerous_found and phase_num < 3:
                 errors.append(
-                    f"WARNING: Dangerous operations {dangerous_found} enabled in {phase_key}. "
-                    "Consider restricting to phase 3+."
+                    f"WARNING: Dangerous ops {dangerous_found} in {phase_key}. "
+                    "Consider phase 3+."
                 )
 
     if verbose and not errors:
@@ -117,16 +122,18 @@ def validate_vps_endpoint(tools_config: dict, verbose: bool = False) -> list[str
 
     if enabled and endpoint in {"", "example.com", "placeholder"}:
         errors.append(
-            f"WARNING: vps_tools.enabled is true but endpoint is placeholder ('{endpoint}'). "
-            "Provide real VPS endpoint before enabling."
+            f"WARNING: vps_tools enabled but endpoint='{endpoint}'. "
+            "Provide real endpoint before enabling."
         )
     elif verbose:
-        safe_print(f"✓ VPS endpoint check passed (enabled={enabled}, endpoint={endpoint})")
+        safe_print(
+            f"✓ VPS endpoint check passed (enabled={enabled}, endpoint={endpoint})"
+        )
 
     return errors
 
 
-def cli(argv: List[str] | None = None) -> int:
+def cli(argv: list[str] | None = None) -> int:
     args = parse_args(argv or [])
 
     # Check tools config exists
@@ -147,25 +154,29 @@ def cli(argv: List[str] | None = None) -> int:
             features_config = load_json(args.features_config)
         except Exception:
             if args.verbose:
-                print(f"WARNING: Could not load features config for cross-validation")
+                print("WARNING: Could not load features config for cross-validation")
 
     # Run validation checks
     all_errors: list[str] = []
 
-    all_errors.extend(validate_phase_consistency(tools_config, features_config, args.verbose))
+    all_errors.extend(
+        validate_phase_consistency(tools_config, features_config, args.verbose)
+    )
     all_errors.extend(validate_dangerous_operations(tools_config, args.verbose))
     all_errors.extend(validate_vps_endpoint(tools_config, args.verbose))
 
     # Report results
     if all_errors:
-        safe_print(f"\n❌ Houston tools validation FAILED ({len(all_errors)} issues):\n")
+        safe_print(
+            f"\n❌ Houston tools validation FAILED ({len(all_errors)} issues):\n"
+        )
         for i, error in enumerate(all_errors, 1):
             safe_print(f"  {i}. {error}")
 
         safe_print("\n💡 Remediation suggestions:")
-        safe_print("  - Align phase_settings.current_phase with gradual_trust_building.current_phase")
-        safe_print("  - Restrict dangerous operations (kill_processes, system_shutdown) to phase 3+")
-        safe_print("  - Provide real VPS endpoint before enabling remote tool access")
+        safe_print("  - Align phase_settings with gradual_trust_building")
+        safe_print("  - Restrict dangerous ops (kill_processes, etc.) to phase 3+")
+        safe_print("  - Provide real VPS endpoint before enabling remote access")
 
         return 1
     else:

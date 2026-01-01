@@ -4,23 +4,23 @@
 This harness intentionally stops early once a validator exits with a non-zero
 status so failures surface quickly during Phase 2 tooling bring-up.
 """
+
 from __future__ import annotations
 
 import argparse
 import sys
 from pathlib import Path
-from typing import List
 
 CURRENT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = CURRENT_DIR.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from validators import AVAILABLE_VALIDATORS, load_validator
-from validators.common import safe_print
+from validators import AVAILABLE_VALIDATORS, load_validator  # noqa: E402
+from validators.common import safe_print  # noqa: E402
 
 
-def parse_args(argv: List[str]) -> argparse.Namespace:
+def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run Houston validators")
     parser.add_argument(
         "--targets",
@@ -36,7 +36,7 @@ def parse_args(argv: List[str]) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def main(argv: List[str] | None = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
 
     unknown = [name for name in args.targets if name not in AVAILABLE_VALIDATORS]
