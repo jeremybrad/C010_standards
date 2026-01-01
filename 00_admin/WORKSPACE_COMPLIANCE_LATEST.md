@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-01 13:54:09
-**Source:** `folder_structure_audit_20260101_135349.csv`
-**Audit timestamp:** 20260101_135349
+**Generated:** 2026-01-01 14:05:58
+**Source:** `folder_structure_audit_20260101_140435.csv`
+**Audit timestamp:** 20260101_140435
 
 ---
 
@@ -11,17 +11,18 @@
 | Metric | Value |
 |--------|-------|
 | Total repos | 63 |
-| Compliant | 59 (93%) |
-| With violations | 4 |
+| Compliant | 60 (95%) |
+| With violations | 3 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>59 repos fully compliant</summary>
+<details><summary>60 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
 | C001_mission-control | C |
+| C002_sadb | C |
 | C003_sadb_canonical | C |
 | C004_star-extraction | C |
 | C005_mybuddy | C |
@@ -95,17 +96,6 @@ These repos have justified permanent exceptions (e.g., standards repos).
 
 These repos have declared exceptions with remediation plans.
 
-### C002_sadb
-
-- **Series:** C
-- **Register entry:** documented
-- **Recommended action:**
-
-**Invalid directories:**
-- `docs 3`
-- `docs 2`
-- `n8n and Sad Bees`
-
 ### C019_docs-site
 
 - **Series:** C
@@ -127,7 +117,7 @@ External tools not maintained by this workspace.
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 14 | 17 | 82% |
+| C (Core) | 15 | 17 | 88% |
 | W (Work) | 11 | 11 | 100% |
 | P (Projects) | 31 | 31 | 100% |
 | U (Utility) | 0 | 1 | 0% |

@@ -17,29 +17,15 @@ Unlike permanent exceptions (e.g., C010_standards which defines the standards), 
 
 ### C002_sadb
 
-**Status:** Temporary Exception
-**Compliance:** 6 violations (directories with spaces cause parsing issues)
-**Exception File:** `00_admin/audit_exceptions.yaml`
-**Owner:** Jeremy (Al) Bradford
-**Review Cadence:** Quarterly (next: 2026-03-31)
+**Status:** COMPLIANT (as of 2026-01-01)
+**Previous:** Temporary Exception (space-containing directories)
+**Resolution:** Archived legacy directories to `90_archive/`:
+- `docs 2/` → `90_archive/docs_2/` (v1.2A orders/checklists)
+- `docs 3/` → `90_archive/docs_3/` (v1.2B orders/checklists)
+- `n8n and Sad Bees/` → `90_archive/n8n_and_sad_bees/` (roadmap)
 
-**Key Issues:**
-- 30+ non-standard top-level directories
-- Import dependencies between directories (HIGH RISK to move)
-- Directories with spaces (`docs 2`, `docs 3`, `n8n and Sad Bees`) cause audit parsing issues
-
-**Remediation Gates:**
-| Directory | Destination | Blocker |
-|-----------|-------------|---------|
-| `pipeline/` | `40_src/pipeline` | 5+ sibling imports |
-| `library/` | `40_src/library` | Heavily imported |
-| `src/` | `40_src/` | Merge with existing |
-| `docs/` | `10_docs/` | Merge with existing |
-
-**Recommended Next Action:**
-1. Fix audit script to handle spaces in directory names
-2. Delete empty/redundant directories (`docs 2`, `docs 3` if duplicate)
-3. Add `tmp/` and transient dirs to `.gitignore`
+**Exception File:** `00_admin/audit_exceptions.yaml` (still has 24 allowed dirs for legacy pipeline code)
+**Note:** Remaining non-standard dirs (`pipeline/`, `library/`, `scripts/`, etc.) are tolerated via exception file due to import dependencies. These are flagged for future migration but are not blocking compliance.
 
 ---
 
@@ -82,28 +68,24 @@ This is an external tool (ComfyUI) that is configured but not developed by this 
 
 ---
 
-## Script Enhancement Needed
+## Script Enhancement (COMPLETED)
 
-The audit script (`scripts/audit_folder_structure.sh`) has a parsing bug with directory names containing spaces:
+~~The audit script (`scripts/audit_folder_structure.sh`) had a parsing bug with directory names containing spaces.~~
 
-**Issue:** `load_additional_allowed_dirs()` strips quotes but regex comparison fails for multi-word names.
-
-**Example:**
-- Exception declares: `"docs 2"`
-- Parsed as: `docs 2` (no quotes)
-- Regex match: `^(docs 2|...)$` fails due to spaces
-
-**Fix Required:** Escape spaces in regex or use exact string matching.
+**Fixed:** 2026-01-01 (commit `8cf9de8`)
+- Replaced word-splitting enumeration (`ls` + unquoted var) with space-safe `find -print0` + bash array approach
+- Directory names with spaces now correctly appear as single entries in CSV output
+- Example: `"docs 3;docs 2;n8n and Sad Bees"` instead of `"2;3;n8n;and;Sad;Bees"`
 
 ---
 
 ## Remediation Priority
 
-| Priority | Repo | Quick Win | Effort |
-|----------|------|-----------|--------|
-| 1 | C017_brain-on-tap | Add `venv` to exceptions | DONE |
-| 2 | C003_sadb_canonical | Rename `Betty Audit Files` | Low |
-| 3 | C002_sadb | Delete redundant `docs 2/3` | Low |
-| 4 | Audit script | Fix space handling | Medium |
-| 5 | C002_sadb | Migrate `tmp/` to gitignore | Low |
-| 6 | C003_sadb_canonical | Merge `90_launchers` to `00_run` | Medium |
+| Priority | Repo | Quick Win | Effort | Status |
+|----------|------|-----------|--------|--------|
+| 1 | C017_brain-on-tap | Add `venv` to exceptions | Low | ✅ DONE |
+| 2 | C003_sadb_canonical | Rename `Betty Audit Files` | Low | ✅ DONE |
+| 3 | C002_sadb | Archive `docs 2/3/n8n` | Low | ✅ DONE |
+| 4 | Audit script | Fix space handling | Medium | ✅ DONE |
+| 5 | C002_sadb | Migrate `tmp/` to gitignore | Low | Pending |
+| 6 | C003_sadb_canonical | Merge `90_launchers` to `00_run` | Medium | Pending |
