@@ -59,27 +59,31 @@ Trimmed exception list from 10 → 7 dirs following "scalpel, not blanket" princ
 ### After Session
 | Metric | Value |
 |--------|-------|
-| Compliant | 59 |
-| With violations | 4 |
+| Compliant | 58 |
+| With violations | 5 |
 
 ### Delta
-- **+6 repos** brought to compliance
-- **-3 violations** removed
+- **+5 repos** brought to compliance
+- C019 deferred (venv in active use)
+
+### Note on C019
+C019_docs-site shows non-compliant due to local `venv/` directory. This is a **documented deferred fix** - the venv is actively in use. `.stignore` was added to prevent Syncthing re-sync. See `c019_venv_deferred_20260101.md` for durable fix options.
 
 ### Compliance by Series
 | Series | Status |
 |--------|--------|
-| C-series | 14/17 (82%) |
+| C-series | 13/17 (76%) |
 | W-series | 11/11 (100%) |
 | P-series | 31/31 (100%) |
 | U-series | 0/1 (0%) |
 
-### Remaining Non-Compliant (4)
+### Remaining Non-Compliant (5)
 | Repo | Reason |
 |------|--------|
 | C002_sadb | Legacy, Stage 2 deferred |
 | C003_sadb_canonical | Legacy, Stage 2 deferred |
 | C010_standards | 7 justified exceptions (documented) |
+| C019_docs-site | venv in active use, deferred fix |
 | U01_comfyUI | External tool, excluded |
 
 ---
