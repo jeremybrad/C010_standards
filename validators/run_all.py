@@ -37,7 +37,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or sys.argv[1:])
+    args = parse_args(sys.argv[1:] if argv is None else argv)
 
     unknown = [name for name in args.targets if name not in AVAILABLE_VALIDATORS]
     if unknown:

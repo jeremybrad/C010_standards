@@ -186,7 +186,7 @@ def validate_fallback_loops(entries: list[dict], verbose: bool = False) -> list[
 
 
 def cli(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or [])
+    args = parse_args(sys.argv[1:] if argv is None else argv)
 
     if args.watch:
         print("ERROR: --watch mode not yet implemented")

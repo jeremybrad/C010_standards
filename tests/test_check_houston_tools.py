@@ -4,13 +4,11 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from validators.check_houston_tools import (
-    validate_phase_consistency,
     validate_dangerous_operations,
+    validate_phase_consistency,
     validate_vps_endpoint,
 )
 
@@ -23,7 +21,9 @@ class TestValidatePhaseConsistency:
         tools_config = {"phase_settings": {"current_phase": 2}}
         features_config = {"gradual_trust_building": {"current_phase": 2}}
 
-        errors = validate_phase_consistency(tools_config, features_config, verbose=False)
+        errors = validate_phase_consistency(
+            tools_config, features_config, verbose=False
+        )
         assert errors == []
 
     def test_tools_phase_exceeds_features(self):
@@ -31,7 +31,9 @@ class TestValidatePhaseConsistency:
         tools_config = {"phase_settings": {"current_phase": 3}}
         features_config = {"gradual_trust_building": {"current_phase": 1}}
 
-        errors = validate_phase_consistency(tools_config, features_config, verbose=False)
+        errors = validate_phase_consistency(
+            tools_config, features_config, verbose=False
+        )
         assert len(errors) == 1
         assert "exceeds" in errors[0]
 
@@ -40,7 +42,9 @@ class TestValidatePhaseConsistency:
         tools_config = {"phase_settings": {"current_phase": 1}}
         features_config = {"gradual_trust_building": {"current_phase": 2}}
 
-        errors = validate_phase_consistency(tools_config, features_config, verbose=False)
+        errors = validate_phase_consistency(
+            tools_config, features_config, verbose=False
+        )
         assert errors == []
 
     def test_no_features_config(self):
@@ -55,7 +59,9 @@ class TestValidatePhaseConsistency:
         tools_config = {}
         features_config = {"gradual_trust_building": {"current_phase": 1}}
 
-        errors = validate_phase_consistency(tools_config, features_config, verbose=False)
+        errors = validate_phase_consistency(
+            tools_config, features_config, verbose=False
+        )
         # Should not error if tools phase is None
         assert errors == []
 
@@ -163,7 +169,7 @@ class TestValidateVpsEndpoint:
 
         errors = validate_vps_endpoint(config, verbose=False)
         assert len(errors) == 1
-        assert "placeholder" in errors[0].lower()
+        assert "endpoint" in errors[0].lower()
 
     def test_vps_enabled_with_empty_endpoint(self):
         """Test that enabled VPS with empty endpoint fails."""

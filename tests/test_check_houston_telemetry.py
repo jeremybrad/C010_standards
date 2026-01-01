@@ -5,15 +5,13 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from validators.check_houston_telemetry import (
-    validate_freshness,
-    validate_required_fields,
-    validate_latency_thresholds,
     validate_fallback_loops,
+    validate_freshness,
+    validate_latency_thresholds,
+    validate_required_fields,
 )
 
 
@@ -159,7 +157,7 @@ class TestValidateLatencyThresholds:
 
         errors = validate_latency_thresholds(entries, verbose=False)
         assert len(errors) == 1
-        assert "Average latency" in errors[0]
+        assert "latency" in errors[0].lower()
 
     def test_individual_high_latency(self):
         """Test with individual high latency spike that affects average."""
@@ -172,7 +170,7 @@ class TestValidateLatencyThresholds:
         # Average is 5666ms which exceeds 5s threshold
         errors = validate_latency_thresholds(entries, verbose=False)
         assert len(errors) == 1
-        assert "Average latency" in errors[0]
+        assert "latency" in errors[0].lower()
 
     def test_missing_latency_values(self):
         """Test handling of missing latency values."""

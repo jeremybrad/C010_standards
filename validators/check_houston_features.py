@@ -203,7 +203,7 @@ def validate_autonomous_deploy_permission(
 
 
 def cli(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or [])
+    args = parse_args(sys.argv[1:] if argv is None else argv)
 
     # Check required files exist
     for path in (args.config, args.schema):

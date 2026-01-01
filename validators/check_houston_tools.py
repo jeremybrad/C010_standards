@@ -134,7 +134,7 @@ def validate_vps_endpoint(tools_config: dict, verbose: bool = False) -> list[str
 
 
 def cli(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or [])
+    args = parse_args(sys.argv[1:] if argv is None else argv)
 
     # Check tools config exists
     if not args.config.exists():

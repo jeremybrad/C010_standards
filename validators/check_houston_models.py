@@ -77,7 +77,7 @@ def validate_phase_deployment_consistency(
 
 
 def cli(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or [])
+    args = parse_args(sys.argv[1:] if argv is None else argv)
 
     # Check features config exists
     if not args.features_config.exists():

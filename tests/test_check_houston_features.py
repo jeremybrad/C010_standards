@@ -1,19 +1,16 @@
 """Tests for check_houston_features validator."""
 from __future__ import annotations
 
-import json
-from pathlib import Path
-
-import pytest
-
 # Import validator functions
 import sys
+from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from validators.check_houston_features import (
-    validate_supported_editors,
-    validate_autonomous_safety,
     validate_autonomous_deploy_permission,
+    validate_autonomous_safety,
+    validate_supported_editors,
 )
 
 

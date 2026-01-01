@@ -3,14 +3,13 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-import tempfile
 
 import pytest
 
 from validators.common import (
+    get_remediation_suggestions,
     load_json_config,
     report_validation_results,
-    get_remediation_suggestions,
     verbose_check,
 )
 
@@ -99,7 +98,8 @@ class TestGetRemediationSuggestions:
         suggestions = get_remediation_suggestions(errors)
 
         assert "autonomous_mode" in suggestions
-        assert any("safety controls" in s.lower() for s in suggestions["autonomous_mode"])
+        auto_suggestions = suggestions["autonomous_mode"]
+        assert any("safety controls" in s.lower() for s in auto_suggestions)
 
     def test_phase_suggestions(self):
         """Test phase error suggestions."""

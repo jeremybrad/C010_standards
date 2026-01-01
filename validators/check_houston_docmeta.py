@@ -188,7 +188,7 @@ def find_yaml_files(paths: list[str | Path]) -> list[Path]:
 
 
 def cli(argv: list[str] | None = None) -> int:
-    args = parse_args(argv or [])
+    args = parse_args(sys.argv[1:] if argv is None else argv)
 
     if not HAS_YAML:
         print("ERROR: PyYAML library not installed. Install with: pip install pyyaml")
