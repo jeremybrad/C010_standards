@@ -44,6 +44,17 @@ The directory rename was completed with:
 
 ---
 
+### C019_docs-site
+
+**Status:** COMPLIANT (as of 2026-01-01)
+**Previous:** Temporary Exception (`tools/` at repo root)
+**Resolution:** Moved `tools/` to `40_src/tools/`
+- Single file: `generate_site.py` (Projects Directory generator)
+- References updated in Makefile and docstrings
+- Receipt: `20_receipts/receipt_tools_dir_migration_2026-01-01.md`
+
+---
+
 ### U01_comfyUI
 
 **Status:** Excluded (External Tool)
@@ -87,5 +98,6 @@ This is an external tool (ComfyUI) that is configured but not developed by this 
 | 2 | C003_sadb_canonical | Rename `Betty Audit Files` | Low | ✅ DONE |
 | 3 | C002_sadb | Archive `docs 2/3/n8n` | Low | ✅ DONE |
 | 4 | Audit script | Fix space handling | Medium | ✅ DONE |
-| 5 | C002_sadb | Migrate `tmp/` to gitignore | Low | Pending |
-| 6 | C003_sadb_canonical | Merge `90_launchers` to `00_run` | Medium | Pending |
+| 5 | C019_docs-site | Move `tools/` to `40_src/` | Low | ✅ DONE |
+| 6 | C002_sadb | Migrate `tmp/` to gitignore | Low | Pending |
+| 7 | C003_sadb_canonical | Merge `90_launchers` to `00_run` | Medium | Pending |

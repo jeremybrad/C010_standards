@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-01 14:05:58
-**Source:** `folder_structure_audit_20260101_140435.csv`
-**Audit timestamp:** 20260101_140435
+**Generated:** 2026-01-01 14:16:37
+**Source:** `folder_structure_audit_20260101_141627.csv`
+**Audit timestamp:** 20260101_141627
 
 ---
 
@@ -11,13 +11,13 @@
 | Metric | Value |
 |--------|-------|
 | Total repos | 63 |
-| Compliant | 60 (95%) |
-| With violations | 3 |
+| Compliant | 61 (96%) |
+| With violations | 2 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>60 repos fully compliant</summary>
+<details><summary>61 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
@@ -35,6 +35,7 @@
 | C016_prompt-engine | C |
 | C017_brain-on-tap | C |
 | C018_terminal-insights | C |
+| C019_docs-site | C |
 | C020_pavlok | C |
 | Knowledge-Synthesis-Tool | - |
 | P001_bettymirror | P |
@@ -92,19 +93,6 @@ These repos have justified permanent exceptions (e.g., standards repos).
 |------|--------|--------|
 | C010_standards | C | Standards repository (defines the rules) |
 
-## Temporary Exceptions
-
-These repos have declared exceptions with remediation plans.
-
-### C019_docs-site
-
-- **Series:** C
-- **Register entry:** **MISSING**
-- **Recommended action:**
-
-**Invalid directories:**
-- `tools`
-
 ## Excluded Repos
 
 External tools not maintained by this workspace.
@@ -117,7 +105,7 @@ External tools not maintained by this workspace.
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 15 | 17 | 88% |
+| C (Core) | 16 | 17 | 94% |
 | W (Work) | 11 | 11 | 100% |
 | P (Projects) | 31 | 31 | 100% |
 | U (Utility) | 0 | 1 | 0% |
