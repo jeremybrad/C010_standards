@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-01 14:16:37
-**Source:** `folder_structure_audit_20260101_141627.csv`
-**Audit timestamp:** 20260101_141627
+**Generated:** 2026-01-01 14:40:19
+**Source:** `folder_structure_audit_20260101_144007.csv`
+**Audit timestamp:** 20260101_144007
 
 ---
 
