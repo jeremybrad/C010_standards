@@ -1,0 +1,134 @@
+name: Workspace Compliance Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Run weekly on Monday at 9am UTC
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+    inputs:
+      blocking:
+        description: 'Fail on violations (hard gate)'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  compliance-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout C010_standards
+        uses: actions/checkout@v4
+        with:
+          path: C010_standards
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Run folder structure audit
+        id: audit
+        working-directory: C010_standards
+        run: |
+          # Note: Full workspace audit requires all repos checked out
+          # For CI, we validate the report renderer and check for syntax errors
+          echo "Validating compliance tooling..."
+
+          # Check that audit script is valid bash
+          bash -n scripts/audit_folder_structure.sh
+          echo "audit_script_valid=true" >> $GITHUB_OUTPUT
+
+          # Verify renderer is syntactically correct
+          python3 -m py_compile scripts/render_workspace_compliance_report.py
+          echo "renderer_valid=true" >> $GITHUB_OUTPUT
+
+      - name: Check for unclassified violations in latest report
+        id: check_report
+        working-directory: C010_standards
+        run: |
+          REPORT="00_admin/WORKSPACE_COMPLIANCE_LATEST.md"
+
+          if [ ! -f "$REPORT" ]; then
+            echo "::warning::No compliance report found at $REPORT"
+            echo "report_exists=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "report_exists=true" >> $GITHUB_OUTPUT
+
+          # Extract metrics from report
+          TOTAL=$(grep -oP 'Total repos \| \K\d+' "$REPORT" || echo "0")
+          COMPLIANT=$(grep -oP 'Compliant \| \K\d+' "$REPORT" || echo "0")
+          UNCLASSIFIED=$(grep -oP 'Unclassified violations \| \K\d+' "$REPORT" || echo "0")
+
+          echo "total_repos=$TOTAL" >> $GITHUB_OUTPUT
+          echo "compliant_repos=$COMPLIANT" >> $GITHUB_OUTPUT
+          echo "unclassified=$UNCLASSIFIED" >> $GITHUB_OUTPUT
+
+          echo "### Compliance Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Total repos | $TOTAL |" >> $GITHUB_STEP_SUMMARY
+          echo "| Compliant | $COMPLIANT |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unclassified | $UNCLASSIFIED |" >> $GITHUB_STEP_SUMMARY
+
+          # STOP condition: unclassified violations
+          if [ "$UNCLASSIFIED" -gt 0 ]; then
+            echo "::error::STOP: $UNCLASSIFIED unclassified violations found"
+            echo "has_stop_condition=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_stop_condition=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check temporary exceptions review dates
+        id: check_exceptions
+        working-directory: C010_standards
+        run: |
+          REGISTER="00_admin/TEMP_EXCEPTIONS_REGISTER.md"
+
+          if [ ! -f "$REGISTER" ]; then
+            echo "::warning::No exceptions register found"
+            exit 0
+          fi
+
+          # Extract next review date and check if overdue
+          TODAY=$(date +%Y-%m-%d)
+          NEXT_REVIEW=$(grep -oP 'Next Review:\*\* \K\d{4}-\d{2}-\d{2}' "$REGISTER" | head -1 || echo "")
+
+          if [ -n "$NEXT_REVIEW" ]; then
+            echo "Next review date: $NEXT_REVIEW"
+            if [[ "$TODAY" > "$NEXT_REVIEW" ]]; then
+              echo "::warning::Temporary exceptions review overdue (was due $NEXT_REVIEW)"
+              echo "review_overdue=true" >> $GITHUB_OUTPUT
+            else
+              echo "review_overdue=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Gate decision
+        if: inputs.blocking == 'true' || github.event_name == 'push'
+        run: |
+          if [ "${{ steps.check_report.outputs.has_stop_condition }}" == "true" ]; then
+            echo "::error::Hard gate FAILED: Unclassified violations present"
+            exit 1
+          fi
+          echo "Gate passed: No unclassified violations"
+
+      - name: Upload compliance report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-report
+          path: |
+            C010_standards/00_admin/WORKSPACE_COMPLIANCE_LATEST.md
+            C010_standards/00_admin/TEMP_EXCEPTIONS_REGISTER.md
+          retention-days: 30
