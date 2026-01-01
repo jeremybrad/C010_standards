@@ -47,3 +47,5 @@ wheels/
 .installed.cfg
 *.egg
 *.bundle
+80_evidence_packages/
+90_archive/local_repo_bundles/
