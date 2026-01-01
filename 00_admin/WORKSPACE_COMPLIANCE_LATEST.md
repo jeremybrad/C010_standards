@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-01 13:38:12
-**Source:** `folder_structure_audit_20260101_133802.csv`
-**Audit timestamp:** 20260101_133802
+**Generated:** 2026-01-01 13:54:09
+**Source:** `folder_structure_audit_20260101_135349.csv`
+**Audit timestamp:** 20260101_135349
 
 ---
 
@@ -11,13 +11,13 @@
 | Metric | Value |
 |--------|-------|
 | Total repos | 63 |
-| Compliant | 60 (95%) |
-| With violations | 3 |
+| Compliant | 59 (93%) |
+| With violations | 4 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>60 repos fully compliant</summary>
+<details><summary>59 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
@@ -34,7 +34,6 @@
 | C016_prompt-engine | C |
 | C017_brain-on-tap | C |
 | C018_terminal-insights | C |
-| C019_docs-site | C |
 | C020_pavlok | C |
 | Knowledge-Synthesis-Tool | - |
 | P001_bettymirror | P |
@@ -103,12 +102,18 @@ These repos have declared exceptions with remediation plans.
 - **Recommended action:**
 
 **Invalid directories:**
-- `2`
-- `3`
-- `n8n`
-- `and`
-- `Sad`
-- `Bees`
+- `docs 3`
+- `docs 2`
+- `n8n and Sad Bees`
+
+### C019_docs-site
+
+- **Series:** C
+- **Register entry:** **MISSING**
+- **Recommended action:**
+
+**Invalid directories:**
+- `tools`
 
 ## Excluded Repos
 
@@ -122,7 +127,7 @@ External tools not maintained by this workspace.
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 15 | 17 | 88% |
+| C (Core) | 14 | 17 | 82% |
 | W (Work) | 11 | 11 | 100% |
 | P (Projects) | 31 | 31 | 100% |
 | U (Utility) | 0 | 1 | 0% |

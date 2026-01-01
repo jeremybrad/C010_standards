@@ -350,19 +350,29 @@ for repo in "$ROOT"/*/; do
   # Fixed 2025-12-27: Now checks ALL non-hidden dirs, not just numbered ones
   # This catches violations like bin/, ci/, docs/, --version/, python3/, etc.
   # Updated 2025-12-30: Now honors per-repo allowed_additional_dirs from exceptions
-  non_compliant_dirs=""
-  non_compliant_dirs_csv=""
-  # Enumerate all non-hidden top-level directories
-  top_dirs=$(ls -F "$repo" 2>/dev/null | awk '/\/$/ {print substr($0,1,length($0)-1)}' | grep -v '^\.' || true)
-  for dirname in $top_dirs; do
-    [ -z "$dirname" ] && continue
+  # Fixed 2026-01-01: Space-safe enumeration using find -print0 + array
+  non_compliant_dirs=()
+  # Enumerate all non-hidden top-level directories (space-safe)
+  while IFS= read -r -d '' d; do
+    dirname="$(basename "$d")"
+    [[ "$dirname" == .* ]] && continue  # skip hidden dirs
     if ! echo "$dirname" | grep -qE "^($repo_allowed_dirs)$"; then
-      non_compliant_dirs="$non_compliant_dirs$dirname "
-      [[ -n "$non_compliant_dirs_csv" ]] && non_compliant_dirs_csv="$non_compliant_dirs_csv;"
-      non_compliant_dirs_csv="$non_compliant_dirs_csv$dirname"
+      non_compliant_dirs+=("$dirname")
       repo_violations=$((repo_violations + 1))
     fi
-  done
+  done < <(find "$repo" -mindepth 1 -maxdepth 1 -type d -print0 2>/dev/null)
+
+  # Join array into semicolon-separated CSV field (space-safe)
+  non_compliant_dirs_csv=""
+  non_compliant_dirs_display=""
+  if [[ ${#non_compliant_dirs[@]} -gt 0 ]]; then
+    for i in "${!non_compliant_dirs[@]}"; do
+      [[ $i -gt 0 ]] && non_compliant_dirs_csv+=";"
+      non_compliant_dirs_csv+="${non_compliant_dirs[$i]}"
+    done
+    # Space-separated display version
+    non_compliant_dirs_display="${non_compliant_dirs[*]}"
+  fi
 
   # Check 2: Required files (with per-repo exceptions)
   REQUIRED_FILES=$(load_repo_exceptions "$repo")
@@ -410,8 +420,8 @@ for repo in "$ROOT"/*/; do
   # Report results for this repo (console)
   if [[ $repo_violations -gt 0 ]]; then
     echo -e "${RED}✗ $name${NC} [$series] ($repo_violations issues) → $action"
-    if [[ -n "$non_compliant_dirs" ]]; then
-      echo "    Non-compliant directories: $non_compliant_dirs"
+    if [[ ${#non_compliant_dirs[@]} -gt 0 ]]; then
+      echo "    Non-compliant directories: $non_compliant_dirs_display"
     fi
     if [[ -n "$missing_files" ]]; then
       echo "    Missing required files: $missing_files"
