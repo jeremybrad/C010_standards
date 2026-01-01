@@ -10,7 +10,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -41,7 +41,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 def load_json(path: Path) -> dict[str, Any]:
     """Load and parse JSON file."""
     try:
-        return json.loads(path.read_text())
+        data = json.loads(path.read_text())
+        return cast(dict[str, Any], data)
     except json.JSONDecodeError as exc:
         print(f"ERROR: JSON parse error in {path}: {exc}")
         raise
@@ -51,7 +52,7 @@ def validate_phase_consistency(
     tools_config: dict, features_config: dict | None, verbose: bool = False
 ) -> list[str]:
     """Validate tool phase_settings align with features gradual_trust_building."""
-    errors = []
+    errors: list[str] = []
 
     if not features_config:
         if verbose:

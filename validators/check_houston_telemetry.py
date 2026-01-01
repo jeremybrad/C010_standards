@@ -51,7 +51,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def parse_jsonl(telemetry_path: Path) -> list[dict[str, Any]]:
     """Parse JSONL telemetry file."""
-    entries = []
+    entries: list[dict[str, Any]] = []
     if not telemetry_path.exists():
         return entries
 
@@ -146,8 +146,10 @@ def validate_latency_thresholds(
 
     # Check average over last 20 entries
     recent_entries = entries[-20:]
-    latencies = [
-        e.get("latency_ms") for e in recent_entries if e.get("latency_ms") is not None
+    latencies: list[float] = [
+        float(e["latency_ms"])
+        for e in recent_entries
+        if e.get("latency_ms") is not None
     ]
 
     if latencies:

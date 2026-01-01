@@ -121,7 +121,7 @@ def check_recommended_files(repo_root: Path, verbose: bool = False) -> list[str]
 
 def check_repo_card_markers(repo_root: Path, verbose: bool = False) -> list[str]:
     """If README has repo_card:start marker, ensure it also has :end marker."""
-    errors = []
+    errors: list[str] = []
     readme_path = repo_root / "README.md"
 
     if not readme_path.is_file():

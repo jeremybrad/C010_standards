@@ -2,6 +2,7 @@
 
 from collections.abc import Callable
 from importlib import import_module
+from typing import cast
 
 ValidatorFn = Callable[[list], int]
 
@@ -11,7 +12,7 @@ def load_validator(name: str) -> ValidatorFn:
     module = import_module(f"validators.{name}")
     if not hasattr(module, "cli"):
         raise AttributeError(f"Validator '{name}' missing required 'cli' callable")
-    return module.cli
+    return cast(ValidatorFn, module.cli)
 
 
 AVAILABLE_VALIDATORS: dict[str, str] = {

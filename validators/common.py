@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 # Unicode to ASCII fallback mapping for Windows console compatibility
 _UNICODE_FALLBACK = {
@@ -54,7 +54,8 @@ def load_json_config(path: Path) -> dict[str, Any]:
         raise FileNotFoundError(f"Configuration file not found: {path}")
 
     try:
-        return json.loads(path.read_text())
+        data = json.loads(path.read_text())
+        return cast(dict[str, Any], data)
     except json.JSONDecodeError as exc:
         print(f"ERROR: JSON parse error in {path}: {exc}")
         raise
@@ -107,7 +108,7 @@ def get_remediation_suggestions(errors: list[str]) -> dict[str, list[str]]:
     Returns:
         Dictionary mapping categories to remediation steps
     """
-    suggestions = {}
+    suggestions: dict[str, list[str]] = {}
 
     # Analyze error patterns and provide relevant suggestions
     error_text = " ".join(errors).lower()

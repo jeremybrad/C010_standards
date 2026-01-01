@@ -10,7 +10,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 # Add parent directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -74,7 +74,8 @@ def load_yaml_front_matter(file_path: Path) -> dict[str, Any] | None:
         if len(parts) < 3:
             return None
 
-        return yaml.safe_load(parts[1])
+        data = yaml.safe_load(parts[1])
+        return cast(dict[str, Any], data) if data else None
     except Exception:
         return None
 
@@ -85,7 +86,8 @@ def load_yaml_file(file_path: Path) -> dict[str, Any] | None:
         return None
 
     try:
-        return yaml.safe_load(file_path.read_text())
+        data = yaml.safe_load(file_path.read_text())
+        return cast(dict[str, Any], data) if data else None
     except Exception:
         return None
 
@@ -119,7 +121,7 @@ def validate_document(
     file_path: Path, metadata: dict, allowed_topics: set[str], verbose: bool = False
 ) -> list[str]:
     """Validate a single Houston-tagged document. Returns list of errors."""
-    errors = []
+    errors: list[str] = []
 
     if not is_houston_document(metadata):
         if verbose:
