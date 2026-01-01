@@ -6,7 +6,7 @@
 #
 # Owner: Jeremy Bradford
 # Review cadence: Quarterly (next: 2025-Q2)
-# Last reviewed: 2025-12-30
+# Last reviewed: 2025-01-01
 # Approved by: Jeremy (via Claude Code session)
 
 exception_type: standards_repository
@@ -19,6 +19,7 @@ reason: |
   3. Submodule stability - C001_mission-control references these paths via git submodule
 
 # Per-directory justification (known weirdness > unknown weirdness)
+# Minimal set per 2025-01-01 cleanup - reduced from 10 to 7 exceptions
 allowed_additional_dirs:
   - schemas       # Core deliverable: YAML/JSON schema definitions for DocMeta, CodeMeta, Houston
   - taxonomies    # Core deliverable: controlled vocabularies (topics, emotions, content types)
@@ -26,16 +27,13 @@ allowed_additional_dirs:
   - validators    # Python package: Houston validators with internal imports (check_houston_*.py)
   - tests         # Python tests: pytest suite for validators, requires validators/ at sibling level
   - registry      # Config registry: repos.yaml consumed by C017_brain-on-tap primers
-  - tools         # Supporting CLI tools (not heavily used, candidate for future migration)
   - scripts       # Operational scripts: audit_folder_structure.sh referenced from 00_run/
-  - prompts       # Prompt templates (lightweight, rarely updated)
-  - workspace     # PR execution workspace and project relationships tracking
 
 # Override default required files (rules_now.md and RELATIONS.yaml exist but are minimal)
 required_files:
   - README.md
 
-# Migration candidates (review quarterly)
-# - tools/: Low usage, could move to 40_src/tools/
-# - prompts/: Nearly empty, could merge into 10_docs/prompts/
-# - workspace/: Evidence-like content, could move to 70_evidence/workspace/
+# Cleanup completed 2025-01-01:
+# - prompts/: Deleted (was empty)
+# - tools/: Migrated to 40_src/tools/
+# - workspace/: Migrated to 70_evidence/workspace/
