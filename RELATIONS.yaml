@@ -1,9 +1,7 @@
 version: 1
 repo: C010_standards
 relations:
-  - name: C019_docs-site
-    type: feeds
-    note: "Provides registry (repos.yaml) and standards that the docs hub renders."
   - name: C001_mission-control
     type: related
     note: "Mission Control implements tooling and guardrails defined by standards."
+  # Note: C019 sources from this repo (declared in C019's RELATIONS.yaml)
