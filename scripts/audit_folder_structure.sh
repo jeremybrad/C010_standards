@@ -100,7 +100,7 @@ load_additional_allowed_dirs() {
   if [[ -f "$exceptions_file" ]]; then
     # Simple YAML extraction - get allowed_additional_dirs list
     local additional_dirs
-    additional_dirs=$(grep -A 20 "^allowed_additional_dirs:" "$exceptions_file" 2>/dev/null | \
+    additional_dirs=$(grep -A 100 "^allowed_additional_dirs:" "$exceptions_file" 2>/dev/null | \
                       grep "^  - " | sed 's/^  - //' | tr '\n' '|' | sed 's/|$//')
     if [[ -n "$additional_dirs" ]]; then
       echo "$additional_dirs"
