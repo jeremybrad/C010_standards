@@ -21,7 +21,7 @@ from validators.common import (
 )
 
 try:
-    import jsonschema  # type: ignore[import-untyped]
+    import jsonschema
 
     HAS_JSONSCHEMA = True
 except ImportError:
