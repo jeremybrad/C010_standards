@@ -45,29 +45,16 @@ Unlike permanent exceptions (e.g., C010_standards which defines the standards), 
 
 ### C003_sadb_canonical
 
-**Status:** Temporary Exception
-**Compliance:** 3 violations (directory with spaces)
-**Exception File:** `00_admin/audit_exceptions.yaml`
-**Owner:** Jeremy (Al) Bradford
-**Review Cadence:** Quarterly (next: 2026-03-31)
+**Status:** COMPLIANT (as of 2026-01-01)
+**Previous:** Temporary Exception (3 violations)
+**Resolution:** `Betty Audit Files/` renamed to `70_evidence/betty_audit_files`
 
-**Key Issues:**
-- Non-standard numbered prefixes (20_schemas, 50_cli, 60_mcp, etc.)
-- `Betty Audit Files/` directory with spaces causes parsing issues
-- `pipelines/` has path-sensitive imports (HIGH RISK)
+The directory rename was completed with:
+- All Python CLI scripts updated with new path
+- Documentation references updated
+- Exception file cleaned up
 
-**Remediation Gates:**
-| Directory | Destination | Blocker |
-|-----------|-------------|---------|
-| `pipelines/` | `40_src/pipelines` | Path-sensitive imports |
-| `__pycache__/` | gitignored | Add to `.gitignore` |
-| `env/` | gitignored | Add to `.gitignore` |
-| `Betty Audit Files/` | `70_evidence/betty_audit` | Rename needed |
-
-**Recommended Next Action:**
-1. Rename `Betty Audit Files/` to `70_evidence/betty_audit`
-2. Add `__pycache__/` and `env/` to `.gitignore`
-3. Consolidate 90_launchers → 00_run
+**Remaining non-standard dirs:** Still has `20_schemas`, `50_cli`, `60_mcp`, etc. but these are now handled by the exception file and don't cause audit failures.
 
 ---
 
