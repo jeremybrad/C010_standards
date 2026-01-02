@@ -28,6 +28,8 @@ secrets/
 # Python
 __pycache__/
 *.py[cod]
+.coverage
+htmlcov/
 *$py.class
 *.so
 .Python
