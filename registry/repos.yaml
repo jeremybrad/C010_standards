@@ -799,3 +799,74 @@ repos:
       - code-review
       - workflow
       - work-pool
+
+  - repo_id: P151_clouddriveinventory
+    name: Cloud Drive Inventory
+    purpose: Async cloud storage scanner with SQLite persistence and REST API. Implements DSOS v1 inventory standards.
+    philosophy: Inventory before action. Know what you have before making decisions.
+    bot_active: true
+    path_rel: P151_clouddriveinventory
+    story: |
+      Born from the need to understand 15TB+ of cloud storage spread across 10+ accounts.
+      Before P151, deduplication and cleanup were guesswork. Now there's a canonical
+      inventory with cross-machine duplicate detection and GO-gated preflight safety.
+    how_it_fits: |
+      P151 is the inventory layer for DSOS. It scans, hashes, and indexes all storage
+      locations, producing evidence for deduplication decisions. Works with C010 standards
+      for taxonomy compliance.
+    architecture: |
+      - asyncq/: Producer-consumer async scanning pipeline
+      - repositories/: SQLite repository layer (drives, files, scans, hosts)
+      - api/: FastAPI read-only endpoints
+      - 30_config/scan_targets.yaml: YAML config with profiles and tiered excludes
+    authoritative_sources:
+      - asyncq/
+      - repositories/
+      - 30_config/
+      - 10_docs/specs/DSOS_STANDARDS_v1.md
+    contracts:
+      - DSOS v1 profile for policy-compliant scanning
+      - GO-gated preflight (exit 2 without --go)
+      - Betty Protocol receipts in 20_receipts/
+    interfaces:
+      - 'CLI: python -m asyncq.runner --config 30_config/scan_targets.yaml --profile dsos_v1 --preflight'
+      - 'CLI: make scan-dsos-preflight / make scan-dsos-go'
+      - 'API: http://localhost:8080/health'
+    onboarding:
+      - 'Run make scan-dsos-preflight to see scan scope'
+      - 'Read 10_docs/specs/DSOS_STANDARDS_v1.md for taxonomy'
+      - 'Check 30_config/scan_targets.yaml for profile config'
+    entry_points:
+      - 'README.md'
+      - '10_docs/specs/DSOS_STANDARDS_v1.md'
+      - 'asyncq/runner.py'
+    key_concepts:
+      - 'DSOS v1 taxonomy'
+      - 'GO-gated preflight'
+      - 'Profile-based excludes'
+      - 'Cross-machine duplicate detection'
+    common_tasks:
+      - 'Run preflight to check scan scope'
+      - 'Execute scan with --go flag'
+      - 'Query duplicates via API'
+      - 'Export evidence CSVs'
+    gotchas:
+      - 'Scans require explicit --go flag to proceed'
+      - 'Large scans (100K+ files) take hours with hashing'
+      - 'SQLite single-writer pattern - no concurrent writes'
+    integration_points:
+      - 'C010_standards: DSOS taxonomy compliance'
+      - 'DSOS D:\DSOS: Primary organized storage target'
+      - 'SyncedProjects: Active development repos'
+    commands:
+      - 'make scan-dsos-preflight'
+      - 'make scan-dsos-go'
+      - 'python -m asyncq.runner --help'
+      - 'make api-dev'
+    status: active
+    tags:
+      - inventory
+      - cloud-storage
+      - dsos
+      - sqlite
+      - deduplication
