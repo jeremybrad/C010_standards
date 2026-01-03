@@ -800,6 +800,74 @@ repos:
       - workflow
       - work-pool
 
+  - repo_id: C021_notebooklm-mcp
+    name: NotebookLM MCP Server
+    purpose: MCP server providing programmatic access to Google NotebookLM via reverse-engineered APIs. Enables AI agents to create notebooks, add sources, query content, and generate artifacts (audio, video, mind maps, reports).
+    philosophy: Third memory tier. NotebookLM provides curated knowledge synthesis alongside SADB provenance and fact tables.
+    bot_active: true
+    path_rel: C021_notebooklm-mcp
+    story: |
+      Created to unlock NotebookLM as a programmatic knowledge tier. Before C021, NotebookLM
+      required manual browser interaction. Now Claude and other agents can create notebooks,
+      add sources, run queries with citations, and generate rich media artifacts.
+    how_it_fits: |
+      C021 is the third memory tier alongside SADB (Tier 1 provenance) and fact tables (Tier 2).
+      NotebookLM excels at synthesis, research discovery, and rich media generation. Queries
+      return cited answers; research tools discover external sources automatically.
+    architecture: |
+      - src/notebooklm_mcp/server.py: FastMCP server with 31 tools
+      - src/notebooklm_mcp/api_client.py: Reverse-engineered internal API client
+      - src/notebooklm_mcp/auth.py: Token caching and validation
+      - docs/: API reference, test plans, integration patterns
+    authoritative_sources:
+      - src/notebooklm_mcp/
+      - docs/API_REFERENCE.md
+    contracts:
+      - MCP protocol compliance
+      - Cookie-based authentication (auto-refreshed)
+      - Confirmation required for destructive/expensive operations
+    interfaces:
+      - "MCP: notebooklm-mcp server"
+      - "CLI: notebooklm-mcp-auth (token extraction)"
+    onboarding:
+      - "Install: uv tool install ."
+      - "Configure MCP client with server path"
+      - "Extract cookies via Chrome DevTools MCP"
+      - "Run notebook_list to verify auth"
+    entry_points:
+      - "README.md"
+      - "CLAUDE.md"
+      - "docs/API_REFERENCE.md"
+    key_concepts:
+      - "Third memory tier"
+      - "Cookie-based auth"
+      - "Cited answers"
+      - "Research discovery"
+      - "Studio artifacts"
+    common_tasks:
+      - "Create notebook and add sources"
+      - "Query notebook with citations"
+      - "Generate mind map or audio overview"
+      - "Run research discovery for new sources"
+    gotchas:
+      - "Cookies expire every 2-4 weeks"
+      - "Studio generation can take minutes"
+      - "Free tier has ~50 queries/day limit"
+    integration_points:
+      - "SADB Tier 1: Provenance memories"
+      - "SADB Tier 2: Certified fact table"
+      - "NotebookLM Tier 3: Rich synthesis and media"
+    commands:
+      - "uv tool install ."
+      - "uv cache clean && uv tool install --force ."
+      - "notebooklm-mcp"
+    status: active
+    tags:
+      - mcp
+      - notebooklm
+      - knowledge-synthesis
+      - memory-tier
+
   - repo_id: P151_clouddriveinventory
     name: Cloud Drive Inventory
     purpose: Async cloud storage scanner with SQLite persistence and REST API. Implements DSOS v1 inventory standards.
