@@ -233,50 +233,63 @@ repos:
       through the vault API. Houston provides natural language infrastructure queries.
       C010 is consumed as a submodule for standards compliance.
     architecture: |
-      - 30_config/houston-features.json: Feature toggles and trust phases
-      - 30_config/houston-tools.json: Tool pipelines and phase gating
+      - 40_src/web/: HTML/CSS/JS web dashboard (index, timeline, houston, agents)
+      - 40_src/service/control-server.js: Express backend (port 3333)
+      - 40_src/credential-vault/: Encrypted credential management (port 8820)
+      - 30_config/houston.json: LLM host configuration
+      - 30_config/mission_inventory.json: Service definitions
       - external/standards/: C010 submodule
-      - vault/: Encrypted credential storage (AES-256-GCM)
     authoritative_sources:
-      - 30_config/houston-features.json
-      - 30_config/houston-tools.json
+      - 40_src/web/
+      - 40_src/service/control-server.js
+      - 30_config/houston.json
+      - 30_config/mission_inventory.json
       - external/standards/
     contracts:
-      - Encrypted API key storage (AES-256-GCM)
-      - Trust phase progression (Phase 1-3)
-      - Localhost-only API access (port 8820)
+      - Web dashboard at http://localhost:3333 (index, timeline, houston, agents)
+      - Vault API at http://localhost:8820 (localhost only, AES-256-GCM)
+      - Houston AI assistant with multi-host inference
     interfaces:
-      - "API: http://localhost:8820/health"
-      - "CLI: npm run dev"
-      - "Agent: Houston AI assistant"
+      - "Web: http://localhost:3333/ (dashboard home)"
+      - "Web: http://localhost:3333/agents.html (agent health)"
+      - "Web: http://localhost:3333/houston.html (AI chat)"
+      - "Web: http://localhost:3333/timeline.html (event feed)"
+      - "API: http://localhost:8820/health (vault)"
+      - "CLI: npm run service"
     onboarding:
       - "Run npm install to set up dependencies"
-      - "Run npm run dev to start vault server"
-      - "Check http://localhost:8820/health for status"
+      - "Run npm run service to start web dashboard + vault"
+      - "Open http://localhost:3333 in browser"
     entry_points:
       - "README.md"
-      - "30_config/houston-features.json"
-      - "package.json"
+      - "CLAUDE.md"
+      - "40_src/web/index.html"
+      - "30_config/houston.json"
     key_concepts:
-      - "Credential vault"
-      - "Trust phases (Phase 1-3)"
-      - "Houston agent"
-      - "AES-256-GCM encryption"
+      - "Web dashboard (no build step)"
+      - "Credential vault (AES-256-GCM)"
+      - "Houston AI assistant"
+      - "Agent health monitoring"
+      - "Timeline event feed"
     common_tasks:
-      - "Start vault server for API access"
-      - "Add new credential to vault"
-      - "Update trust phase configuration"
+      - "Start service: npm run service"
+      - "Check agent status via /agents.html"
+      - "Query Houston via /houston.html"
+      - "Add credential to vault"
       - "Sync C010 submodule for latest standards"
     gotchas:
-      - "Port 8820 localhost only—no remote access"
-      - "Trust phases gate which operations Houston can perform"
+      - "Port 8820 (vault) is localhost only—no remote access"
+      - "Port 3333 (web) is the primary interface"
+      - "Cloud models require proxy at 8787 to be running"
       - "Submodule must be updated manually"
     integration_points:
       - "C010_standards: submodule at external/standards"
-      - "All repos: credential requests via vault API"
-      - "Houston: infrastructure queries"
+      - "All repos: credential requests via vault API (port 8820)"
+      - "Houston: infrastructure queries via /houston/ask"
+      - "Timeline: P181 WebSocket feed integration"
     commands:
-      - "npm run dev"
+      - "npm run service"
+      - "curl http://localhost:3333/control/health"
       - "curl http://localhost:8820/health"
       - "git submodule update --remote external/standards"
       - "make health"
@@ -286,6 +299,8 @@ repos:
       - vault
       - houston
       - infrastructure
+      - web-dashboard
+      - agents
 
   - repo_id: C003_sadb_canonical
     name: SADB Canonical Pipeline
@@ -666,6 +681,34 @@ repos:
       - ai
       - samples
       - ableton
+
+  - repo_id: W003_cmo_html_report
+    name: CMO HTML Report
+    purpose: CMO HTML report generation system for business analytics and reporting dashboards.
+    philosophy: Templated reports with consistent branding and evidence-backed metrics.
+    pool: work
+    bot_active: true
+    path_rel: W003_cmo_html_report
+    story: |
+      Generates executive-ready HTML reports for CMO stakeholders. Combines SQL queries,
+      templated layouts, and brand assets to produce consistent, professional reports.
+    authoritative_sources:
+      - 10_sql/
+      - 20_lib/
+      - 30_templates/
+      - 40_brand/
+    contracts:
+      - Receipt-backed report generation (20_receipts/)
+      - Consistent brand assets (40_brand/)
+    interfaces:
+      - "CLI: 00_run/verify.command"
+    commands:
+      - "make verify"
+    status: active
+    tags:
+      - analytics
+      - reporting
+      - html
 
   - repo_id: W005_BigQuery
     name: BigQuery Infrastructure
