@@ -1,0 +1,10 @@
+purpose: Validator for Houston feature configuration - JSON schema and trust phase rules
+status: active
+dependencies:
+  - argparse
+  - sys
+  - pathlib
+  - jsonschema  # optional
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

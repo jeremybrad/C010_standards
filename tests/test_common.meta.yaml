@@ -1,0 +1,9 @@
+purpose: Tests for validators.common module - safe_print, load_json_config, report_validation_results
+status: active
+dependencies:
+  - json
+  - pathlib
+  - pytest
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

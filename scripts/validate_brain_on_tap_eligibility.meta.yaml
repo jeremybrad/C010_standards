@@ -1,0 +1,11 @@
+purpose: Validate single repo for Brain on Tap (BBOT) eligibility - checks CLAUDE.md, README, and Makefile requirements
+status: active
+dependencies:
+  - argparse
+  - re
+  - sys
+  - pathlib
+  - yaml
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

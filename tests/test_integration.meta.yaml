@@ -1,0 +1,11 @@
+purpose: Integration tests for validator pipeline - end-to-end validation flows
+status: active
+dependencies:
+  - json
+  - subprocess
+  - sys
+  - pathlib
+  - pytest
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

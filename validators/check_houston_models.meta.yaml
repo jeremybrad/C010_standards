@@ -1,0 +1,11 @@
+purpose: Validator for Houston model inventory and fallback chains configuration
+status: active
+dependencies:
+  - argparse
+  - json
+  - sys
+  - pathlib
+  - typing
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

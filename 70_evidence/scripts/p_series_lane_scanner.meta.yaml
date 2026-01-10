@@ -1,0 +1,15 @@
+purpose: P-series Lane Scanner for Folder Audit Remediation - classifies repos into compliance lanes (compliant, quick_win_exception, manual_migration, local_only)
+status: active
+dependencies:
+  - os
+  - subprocess
+  - csv
+  - re
+  - json
+  - datetime
+  - pathlib
+  - typing
+  - shutil
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

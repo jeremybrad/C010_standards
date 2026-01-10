@@ -1,0 +1,14 @@
+purpose: Generate Standards Pulse inventory exports (Excel/CSV) from workspace Git repositories
+status: active
+dependencies:
+  - csv
+  - os
+  - re
+  - subprocess
+  - sys
+  - datetime
+  - pathlib
+  - openpyxl  # optional
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

@@ -1,0 +1,8 @@
+purpose: Tests for check_houston_docmeta validator
+status: active
+dependencies:
+  - sys
+  - pathlib
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

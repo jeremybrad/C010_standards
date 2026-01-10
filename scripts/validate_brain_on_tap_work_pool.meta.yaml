@@ -1,0 +1,14 @@
+purpose: Validate work pool repos for BBOT Work Pool v1 requirements including Makefile targets
+status: active
+dependencies:
+  - argparse
+  - csv
+  - re
+  - subprocess
+  - sys
+  - datetime
+  - pathlib
+  - yaml
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

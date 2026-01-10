@@ -1,0 +1,9 @@
+purpose: Validator package scaffolding for Houston metadata governance with dynamic loader support
+status: active
+dependencies:
+  - collections.abc
+  - importlib
+  - typing
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

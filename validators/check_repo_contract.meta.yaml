@@ -1,0 +1,10 @@
+purpose: Validator for repository contract compliance - checks required files and structure
+status: active
+dependencies:
+  - argparse
+  - os
+  - sys
+  - pathlib
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

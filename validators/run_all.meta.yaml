@@ -1,0 +1,9 @@
+purpose: Orchestrate Houston validator suite with early-stop on failure (harness mode)
+status: active
+dependencies:
+  - argparse
+  - sys
+  - pathlib
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford

@@ -1,0 +1,9 @@
+purpose: Validate registry/repos.yaml against schema v1.2 with strict mode for active repos
+status: active
+dependencies:
+  - sys
+  - pathlib
+  - yaml
+created: "2026-01-10"
+last_reviewed: "2026-01-10"
+author: Jeremy Bradford
