@@ -509,6 +509,66 @@ repos:
       - biography
       - canonical
 
+  - repo_id: C012_round-table
+    name: Roundtable Studio
+    purpose: Multi-LLM roundtable discussions with structured logic modes, fallacy detection, and debate orchestration.
+    philosophy: Multiple perspectives yield better answers. Structure the discourse, surface the logic.
+    bot_active: true
+    path_rel: C012_round-table
+    story: |
+      Born from the insight that single-LLM responses miss nuance. Roundtable orchestrates
+      multiple AI models in structured discussion formats—debate, consensus-building, devil's
+      advocate—with built-in fallacy detection and logic mode analysis.
+    how_it_fits: |
+      C012 extends the agent ecosystem with multi-model orchestration. Uses llm-council-plus
+      as the core engine. Integrates with C011_agents for persona definitions and C001 for
+      model routing.
+    architecture: |
+      - 40_src/llm-council-plus/: Core multi-LLM orchestration (submodule)
+      - 10_docs/: PRDs, implementation plans, prompt packs
+      - 30_config/: Logic modes, fallacy glossary
+    authoritative_sources:
+      - 40_src/
+      - 10_docs/
+      - 30_config/
+    contracts:
+      - Logic mode engine for structured discourse
+      - Fallacy detection with glossary
+      - Multi-model orchestration
+    interfaces:
+      - "TBD: CLI and API interfaces"
+    onboarding:
+      - "Read 10_docs/Roundtable_Implementation_Plan_v0.1.md"
+      - "Review fallacies_glossary_v0.1.json for detection targets"
+    entry_points:
+      - "README.md"
+      - "10_docs/Roundtable_Implementation_Plan_v0.1.md"
+    key_concepts:
+      - "Logic modes"
+      - "Fallacy detection"
+      - "Multi-LLM orchestration"
+      - "Structured discourse"
+    common_tasks:
+      - "Run roundtable discussion"
+      - "Analyze argument for fallacies"
+      - "Switch logic modes mid-discussion"
+    gotchas:
+      - "Submodule must be initialized: git submodule update --init"
+      - "Multiple LLM API keys required for full orchestration"
+    integration_points:
+      - "C011_agents: Persona definitions"
+      - "C001_mission-control: Model routing and credentials"
+      - "llm-council-plus: Core orchestration engine"
+    commands:
+      - "git submodule update --init"
+    status: active
+    tags:
+      - multi-llm
+      - orchestration
+      - logic
+      - debate
+      - fallacy-detection
+
   - repo_id: C015_local-tts
     name: LocalTTS
     purpose: Zero-cost, high-quality text-to-speech running entirely on local hardware. Replaces Eleven Labs.
