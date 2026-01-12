@@ -8,7 +8,7 @@
 
 ## Overview
 
-C010_standards provides 5 production-ready validators for Houston agent configuration and document metadata. All validators follow consistent CLI and Python interfaces.
+C010_standards provides 6 production-ready validators: 5 for Houston agent configuration/metadata, plus a general-purpose repository contract validator. All validators follow consistent CLI and Python interfaces.
 
 ---
 
@@ -21,6 +21,7 @@ C010_standards provides 5 production-ready validators for Houston agent configur
 | `check_houston_tools` | Houston tools config | `python validators/check_houston_tools.py` |
 | `check_houston_models` | Houston models config | `python validators/check_houston_models.py` |
 | `check_houston_telemetry` | Telemetry health | `python validators/check_houston_telemetry.py` |
+| `check_repo_contract` | Repository structure | `python validators/check_repo_contract.py` |
 
 ---
 
@@ -67,19 +68,18 @@ python validators/run_all.py --targets houston_docmeta houston_features
 # Pass args to validators
 python validators/run_all.py --pass-args --verbose
 
-# List available validators
-python validators/run_all.py --list
+# Run repo_contract only
+python validators/run_all.py --targets repo_contract --pass-args --verbose
 ```
 
 ### Options
 
 | Flag | Description |
 |------|-------------|
-| `--targets` | Space-separated validator names |
+| `--targets` | Space-separated validator names (default: all) |
 | `--pass-args` | Pass remaining args to validators |
-| `--list` | List available validators |
-| `--stop-on-fail` | Stop at first failure (default: true) |
-| `--no-stop-on-fail` | Continue after failures |
+
+**Note:** Stops at first failure by design. Unknown targets print available validators to stderr.
 
 ### Available Targets
 
@@ -89,7 +89,10 @@ houston_features
 houston_tools
 houston_models
 houston_telemetry
+repo_contract
 ```
+
+**Note:** `repo_contract` is a general-purpose validator for any git repository. Its verify entrypoint discovery is advisory-only (does not affect exit code).
 
 ---
 
@@ -314,6 +317,69 @@ errors = validate_latency(telemetry, max_latency_ms=500)
 
 ---
 
+## check_repo_contract
+
+Validates repository structure compliance for any git repository.
+
+### CLI Usage
+
+```bash
+# Validate current repository (auto-discovers git root)
+python validators/check_repo_contract.py
+
+# Validate specific repository
+python validators/check_repo_contract.py --repo-root /path/to/repo
+
+# Verbose output (shows verify entrypoint discovery)
+python validators/check_repo_contract.py -v
+```
+
+### Validation Rules
+
+| Rule | Description | Severity |
+|------|-------------|----------|
+| `is_git_repo` | Must have `.git` directory | Error |
+| `required_files` | README.md, .gitignore, 20_receipts/ | Error |
+| `recommended_files` | CLAUDE.md, .gitattributes | Tip (advisory) |
+| `repo_card_markers` | If `repo_card:start` exists, must have `:end` | Error |
+| `verify_entrypoints` | Checks for make verify, 00_run/verify.*, scripts/verify*.py | Tip (advisory) |
+
+### Verify Entrypoint Discovery
+
+Detection priority order (first match wins):
+1. `Makefile` with `verify:` target
+2. `00_run/verify.*` files (lexicographic first)
+3. `scripts/verify*.py` files (lexicographic first)
+
+This check is **advisory only** - missing verify entrypoints produce tips, not errors.
+
+### Python API
+
+```python
+from validators.check_repo_contract import (
+    check_is_git_repo,
+    check_required_files,
+    check_recommended_files,
+    check_verify_entrypoints,
+    cli
+)
+
+from pathlib import Path
+
+repo = Path("/path/to/repo")
+
+# Check individual rules
+errors = check_is_git_repo(repo, verbose=True)
+errors = check_required_files(repo, verbose=True)
+warnings = check_recommended_files(repo, verbose=True)
+warnings = check_verify_entrypoints(repo, verbose=True)
+
+# Run CLI programmatically
+exit_code = cli(["--repo-root", "/path/to/repo", "--verbose"])
+```
+
+---
+
 ## Common Module (common.py)
 
 Shared utilities for all validators.
@@ -451,6 +517,9 @@ Each validator provides remediation suggestions:
 | "Deploy enabled in Phase 1" | Set `can_deploy_updates: false` or advance to Phase 3 |
 | "Invalid topic: foo" | Use topic from `taxonomies/topic_taxonomy.yaml` |
 | "Telemetry stale" | Check telemetry collection service |
+| "Missing required file: README.md" | Create README.md at repository root |
+| "Missing required dir: 20_receipts" | Run `mkdir -p 20_receipts` |
+| "No verify entrypoint found" | Add `make verify` target or `00_run/verify.*` script |
 
 ---
 
@@ -492,6 +561,7 @@ AVAILABLE_VALIDATORS = {
     "houston_tools": "check_houston_tools",
     "houston_models": "check_houston_models",
     "houston_telemetry": "check_houston_telemetry",
+    "repo_contract": "check_repo_contract",
     # Add new validators here
     "new_validator": "check_new_validator",
 }
