@@ -119,6 +119,58 @@ def check_recommended_files(repo_root: Path, verbose: bool = False) -> list[str]
     return warnings
 
 
+def check_verify_entrypoints(repo_root: Path, verbose: bool = False) -> list[str]:
+    """Check for verify entrypoints (advisory only, does not affect exit code).
+
+    Detection priority order:
+    1. make verify target (Makefile with "verify:" line)
+    2. 00_run/verify.* files
+    3. scripts/verify*.py files
+
+    Returns first match by priority, then lexicographic within category.
+    """
+    warnings: list[str] = []
+
+    # Priority 1: Check for make verify target
+    makefile = repo_root / "Makefile"
+    if makefile.is_file():
+        try:
+            content = makefile.read_text(encoding="utf-8")
+            # Look for "verify:" at start of line (make target)
+            if any(line.startswith("verify:") for line in content.splitlines()):
+                if verbose:
+                    safe_print("[OK] Verify entrypoint found: make verify")
+                return warnings  # Found, no warning needed
+        except Exception:
+            pass  # Can't read Makefile, continue to other checks
+
+    # Priority 2: Check for 00_run/verify.* files
+    run_dir = repo_root / "00_run"
+    if run_dir.is_dir():
+        verify_files = sorted(run_dir.glob("verify.*"))
+        if verify_files:
+            found = verify_files[0].name
+            if verbose:
+                safe_print(f"[OK] Verify entrypoint found: 00_run/{found}")
+            return warnings
+
+    # Priority 3: Check for scripts/verify*.py files
+    scripts_dir = repo_root / "scripts"
+    if scripts_dir.is_dir():
+        verify_scripts = sorted(scripts_dir.glob("verify*.py"))
+        if verify_scripts:
+            found = verify_scripts[0].name
+            if verbose:
+                safe_print(f"[OK] Verify entrypoint found: scripts/{found}")
+            return warnings
+
+    # No verify entrypoint found - advisory tip
+    warnings.append(
+        "[TIP] No verify entrypoint found. Consider: make verify, 00_run/verify.*, scripts/verify*.py"
+    )
+    return warnings
+
+
 def check_repo_card_markers(repo_root: Path, verbose: bool = False) -> list[str]:
     """If README has repo_card:start marker, ensure it also has :end marker."""
     errors: list[str] = []
@@ -187,6 +239,7 @@ def cli(argv: list[str] | None = None) -> int:
     errors.extend(check_required_files(repo_root, args.verbose))
     warnings.extend(check_recommended_files(repo_root, args.verbose))
     errors.extend(check_repo_card_markers(repo_root, args.verbose))
+    warnings.extend(check_verify_entrypoints(repo_root, args.verbose))
 
     # Report results
     if args.verbose:
