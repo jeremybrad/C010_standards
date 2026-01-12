@@ -1,6 +1,6 @@
 # Repo Registry Schema
 
-**Version**: 1.2
+**Version**: 1.3
 **Location**: `C010_standards/registry/repos.yaml`
 
 ## Structure
@@ -35,6 +35,21 @@ repos:
 | `philosophy` | string | Design philosophy or guiding principle |
 | `interfaces` | list[string] | How to interact—**must be strings, NOT dicts** |
 | `tags` | list[string] | Searchable keywords for discovery |
+
+### Optional (Standards Applicability) — v1.3
+
+These fields define the repo's compliance obligations. **Missing fields use defaults** during validation (no auto-backfill).
+
+| Field | Type | Description | Default |
+|-------|------|-------------|---------|
+| `tier` | enum | Documentation level: `1`=basic, `2`=structured, `3`=canonical | `1` |
+| `pool` | enum | Rigor level: `personal`, `work`, `archive` | `personal` |
+| `enforcement` | enum | Gate behavior: `none`, `advisory`, `hard_gated` | `advisory` |
+
+**Interpretation:**
+- `tier` maps to tiered documentation requirements (Tier 1: README only, Tier 2: + CLAUDE.md/rules_now.md, Tier 3: + full Betty Protocol canon)
+- `pool: work` activates work pool requirements (evidence packages, verify entrypoints, DATA_SOURCES.md)
+- `enforcement: hard_gated` means CI will block on violations; `advisory` means warnings only
 
 ### Optional (Onboarding Fields) — v1.2
 

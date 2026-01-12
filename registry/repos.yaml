@@ -10,6 +10,9 @@ repos:
     name: Standards & Governance Hub
     purpose: Canonical source of truth for workspace-wide metadata standards, YAML schemas, taxonomies, and protocol definitions.
     philosophy: Data-first definitions. Normative specs live here; consuming repos read and apply them.
+    tier: 3
+    pool: personal
+    enforcement: hard_gated
     bot_active: true
     path_rel: C010_standards
     story: |
@@ -699,6 +702,10 @@ repos:
     purpose: MCP server for Ableton Live integration enabling AI-controlled music production via Orpheus agent.
     bot_active: true
     path_rel: P050_ableton-mcp
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - MCP protocol compliance
     status: incubating
     tags:
       - mcp
@@ -711,6 +718,10 @@ repos:
     purpose: Pipeline for processing voice notes from SuperWhisper through to Betty AI for intelligent categorization.
     bot_active: true
     path_rel: P091_voice-notes-pipeline
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - Voice note ingestion pipeline
     status: incubating
     tags:
       - voice
@@ -723,6 +734,11 @@ repos:
     purpose: Intelligent playlist generation MCP tool combining LLM intelligence with Spotify control for natural language playlists.
     bot_active: true
     path_rel: P167_dj-claude-mcp
+    authoritative_sources:
+      - src/
+    contracts:
+      - MCP protocol compliance
+      - Spotify API integration
     status: active
     tags:
       - mcp
@@ -735,6 +751,11 @@ repos:
     purpose: AI music generation using Band in a Box sample library (214K+ samples) with intelligent search and Ableton integration.
     bot_active: true
     path_rel: P212_band-in-a-box-ai
+    authoritative_sources:
+      - 40_src/
+    contracts:
+      - Sample library indexing
+      - Ableton integration
     status: incubating
     tags:
       - music
@@ -777,6 +798,13 @@ repos:
     pool: work
     bot_active: true
     path_rel: W005_BigQuery
+    authoritative_sources:
+      - 40_src/
+      - 30_config/
+    contracts:
+      - BigQuery data pipeline
+      - Evidence-backed analytics
+    status: active
 
   - repo_id: W006_Abandoned_Cart
     name: Abandoned Cart Analysis

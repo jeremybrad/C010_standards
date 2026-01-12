@@ -26,7 +26,7 @@ except ImportError:
     print("ERROR: PyYAML required. Install with: pip install pyyaml", file=sys.stderr)
     sys.exit(2)
 
-# Schema definition v1.2
+# Schema definition v1.3
 REQUIRED_FIELDS = {"repo_id", "name", "purpose", "authoritative_sources", "contracts", "status"}
 OPTIONAL_CARD_FIELDS = {"philosophy", "interfaces", "tags"}
 OPTIONAL_ONBOARDING_FIELDS = {
@@ -35,9 +35,19 @@ OPTIONAL_ONBOARDING_FIELDS = {
     "common_tasks", "gotchas", "integration_points",
     "commands", "glossary_refs"
 }
-OPTIONAL_FIELDS = OPTIONAL_CARD_FIELDS | OPTIONAL_ONBOARDING_FIELDS
+# Standards applicability fields (v1.3)
+OPTIONAL_APPLICABILITY_FIELDS = {"tier", "pool", "enforcement"}
+# Legacy/internal fields (widely used, not in schema docs)
+OPTIONAL_INTERNAL_FIELDS = {"bot_active", "path_rel"}
+OPTIONAL_FIELDS = OPTIONAL_CARD_FIELDS | OPTIONAL_ONBOARDING_FIELDS | OPTIONAL_APPLICABILITY_FIELDS | OPTIONAL_INTERNAL_FIELDS
 
-VALID_STATUS = {"active", "deprecated"}
+VALID_STATUS = {"active", "deprecated", "incubating", "experimental", "archived"}
+
+# Standards applicability enums (v1.3)
+# Defaults: tier=1, pool=personal, enforcement=advisory (applied during validation, not written back)
+VALID_TIER = {1, 2, 3}
+VALID_POOL = {"personal", "work", "archive"}
+VALID_ENFORCEMENT = {"none", "advisory", "hard_gated"}
 
 # Type enforcement
 LIST_STRING_FIELDS = {
@@ -65,6 +75,19 @@ def validate_entry(entry: dict, verbose: bool = False, strict: bool = False) -> 
     # Check status enum
     if status and status not in VALID_STATUS:
         errors.append(f"[{repo_id}] Invalid status '{status}'. Must be one of: {VALID_STATUS}")
+
+    # Check standards applicability enums (v1.3) - validate if present, don't require
+    tier = entry.get("tier")
+    if tier is not None and tier not in VALID_TIER:
+        errors.append(f"[{repo_id}] Invalid tier '{tier}'. Must be one of: {sorted(VALID_TIER)}")
+
+    pool = entry.get("pool")
+    if pool is not None and pool not in VALID_POOL:
+        errors.append(f"[{repo_id}] Invalid pool '{pool}'. Must be one of: {sorted(VALID_POOL)}")
+
+    enforcement = entry.get("enforcement")
+    if enforcement is not None and enforcement not in VALID_ENFORCEMENT:
+        errors.append(f"[{repo_id}] Invalid enforcement '{enforcement}'. Must be one of: {sorted(VALID_ENFORCEMENT)}")
 
     # Strict mode: require onboarding fields for active repos
     if strict and status == "active":
