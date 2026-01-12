@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 # audit_folder_structure.sh - Audits repos for Betty Protocol folder structure compliance
 #
-# Usage: bash scripts/audit_folder_structure.sh [workspace_path] [--autofix-safe]
+# Usage: bash scripts/audit_folder_structure.sh [workspace_path] [--autofix-safe] [--dry-run]
 # Default: ~/SyncedProjects
 #
 # Options:
 #   --autofix-safe   Create missing required files (stubs only, no renames/deletions)
+#   --dry-run        Show what would change without writing files
 #
 # Series-aware enforcement:
 #   - C-series (Core) and W-series (Work): 00_run/ is REQUIRED
@@ -27,11 +28,15 @@ set -euo pipefail
 
 # Parse arguments
 AUTOFIX_SAFE=false
+DRY_RUN=false
 ROOT=""
 for arg in "$@"; do
   case "$arg" in
     --autofix-safe)
       AUTOFIX_SAFE=true
+      ;;
+    --dry-run)
+      DRY_RUN=true
       ;;
     *)
       if [[ -z "$ROOT" ]]; then
@@ -49,7 +54,9 @@ REPO_ROOT="$(dirname "$SCRIPT_DIR")"
 # Output directories
 CSV_DIR="$REPO_ROOT/70_evidence/exports"
 RECEIPT_DIR="$REPO_ROOT/20_receipts"
-mkdir -p "$CSV_DIR" "$RECEIPT_DIR"
+if [[ "$DRY_RUN" != "true" ]]; then
+  mkdir -p "$CSV_DIR" "$RECEIPT_DIR"
+fi
 
 # CSV file paths
 CSV_FILE="$CSV_DIR/folder_structure_audit_${STAMP}.csv"
@@ -283,16 +290,22 @@ w_total=0; w_compliant=0
 u_total=0; u_compliant=0
 other_total=0; other_compliant=0
 
-# Initialize CSVs with headers
-echo "timestamp,repo_name,repo_series,repo_path,compliant,missing_required_files,invalid_top_level_dirs,has_00_run,requires_00_run,missing_00_run,exceptions_applied" > "$CSV_FILE"
-echo "timestamp,repo_name,repo_series,compliant,recommended_action,missing_required_files,invalid_top_level_dirs,requires_00_run,missing_00_run" > "$ACTIONS_FILE"
+# Initialize CSVs with headers (skip in dry-run)
+if [[ "$DRY_RUN" != "true" ]]; then
+  echo "timestamp,repo_name,repo_series,repo_path,compliant,missing_required_files,invalid_top_level_dirs,has_00_run,requires_00_run,missing_00_run,exceptions_applied" > "$CSV_FILE"
+  echo "timestamp,repo_name,repo_series,compliant,recommended_action,missing_required_files,invalid_top_level_dirs,requires_00_run,missing_00_run" > "$ACTIONS_FILE"
+fi
 
 echo "=============================================="
 echo "Betty Protocol Folder Structure Audit"
 echo "=============================================="
+if [[ "$DRY_RUN" == "true" ]]; then
+  echo ">>> DRY RUN: Showing what would change"
+fi
 echo "Workspace: $ROOT"
 echo "Timestamp: $STAMP"
 echo "Autofix-safe: $AUTOFIX_SAFE"
+echo "Dry-run: $DRY_RUN"
 echo "Allowed dirs: ${ALLOWED_DIRS//|/, }"
 echo ""
 echo "Series enforcement:"
@@ -413,9 +426,11 @@ for repo in "$ROOT"/*/; do
   # Get recommended action
   action=$(get_recommended_action "$compliant" "$exceptions_applied" "$missing_files_csv" "$non_compliant_dirs_csv" "$req_00_run" "$missing_00_run")
 
-  # Write CSV rows
-  echo "$STAMP,$name,$series,\"$repo\",$compliant,\"$missing_files_csv\",\"$non_compliant_dirs_csv\",$has_00_run,$req_00_run,$missing_00_run,$exceptions_applied" >> "$CSV_FILE"
-  echo "$STAMP,$name,$series,$compliant,$action,\"$missing_files_csv\",\"$non_compliant_dirs_csv\",$req_00_run,$missing_00_run" >> "$ACTIONS_FILE"
+  # Write CSV rows (skip in dry-run)
+  if [[ "$DRY_RUN" != "true" ]]; then
+    echo "$STAMP,$name,$series,\"$repo\",$compliant,\"$missing_files_csv\",\"$non_compliant_dirs_csv\",$has_00_run,$req_00_run,$missing_00_run,$exceptions_applied" >> "$CSV_FILE"
+    echo "$STAMP,$name,$series,$compliant,$action,\"$missing_files_csv\",\"$non_compliant_dirs_csv\",$req_00_run,$missing_00_run" >> "$ACTIONS_FILE"
+  fi
 
   # Report results for this repo (console)
   if [[ $repo_violations -gt 0 ]]; then
@@ -430,10 +445,12 @@ for repo in "$ROOT"/*/; do
       echo "    Missing required 00_run/ (C/W series)"
     fi
 
-    # Autofix if enabled
-    if [[ "$AUTOFIX_SAFE" == "true" && "$action" == "autofix" ]]; then
+    # Autofix if enabled (skip in dry-run)
+    if [[ "$AUTOFIX_SAFE" == "true" && "$action" == "autofix" && "$DRY_RUN" != "true" ]]; then
       fixed=$(autofix_repo "$repo" "$name" "$series" "$missing_files" "$req_00_run" "$has_00_run")
       autofix_count=$((autofix_count + fixed))
+    elif [[ "$AUTOFIX_SAFE" == "true" && "$action" == "autofix" && "$DRY_RUN" == "true" ]]; then
+      echo "    [WOULD AUTOFIX] Would create missing stubs"
     fi
   else
     # Warn about optional 00_run missing
@@ -445,9 +462,11 @@ for repo in "$ROOT"/*/; do
   fi
 done
 
-# Copy to latest
-cp "$CSV_FILE" "$CSV_LATEST"
-cp "$ACTIONS_FILE" "$ACTIONS_LATEST"
+# Copy to latest (skip in dry-run)
+if [[ "$DRY_RUN" != "true" ]]; then
+  cp "$CSV_FILE" "$CSV_LATEST"
+  cp "$ACTIONS_FILE" "$ACTIONS_LATEST"
+fi
 
 echo ""
 echo "----------------------------------------------"
@@ -468,6 +487,26 @@ echo -e "  P-series (Projects): $p_compliant / $p_total compliant"
 echo -e "  U-series (Utility):  $u_compliant / $u_total compliant"
 [[ $other_total -gt 0 ]] && echo -e "  Other:               $other_compliant / $other_total compliant"
 echo ""
+if [[ "$DRY_RUN" == "true" ]]; then
+  # Dry-run: show what would be written
+  echo ""
+  echo "[WOULD WRITE] $CSV_FILE"
+  echo "[WOULD WRITE] $CSV_LATEST"
+  echo "[WOULD WRITE] $ACTIONS_FILE"
+  echo "[WOULD WRITE] $ACTIONS_LATEST"
+  echo "[WOULD WRITE] $RECEIPT_DIR/folder_audit_${STAMP}.md"
+  echo ""
+  echo "----------------------------------------------"
+  echo "DRY RUN SUMMARY"
+  echo "----------------------------------------------"
+  echo "Repos scanned: $repos_checked"
+  echo "Would report compliant: $compliant_repos"
+  echo "Would report violations: $((repos_checked - compliant_repos))"
+  echo ""
+  echo "Run without --dry-run to write output files."
+  exit 0
+fi
+
 echo "CSV output: $CSV_FILE"
 echo "CSV latest: $CSV_LATEST"
 echo "Actions CSV: $ACTIONS_FILE"
