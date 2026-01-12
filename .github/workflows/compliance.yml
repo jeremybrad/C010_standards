@@ -1,5 +1,11 @@
 name: Workspace Compliance Check
 
+# Gate Graduation Policy (2026-01-12):
+# - Push to main: Hard gate (active)
+# - PRs: Soft gate until 2026-01-25, then hard gate
+# - Scheduled: Soft gate (report only)
+# - Overdue reviews: Warning only (hard fail planned for Phase 4)
+
 on:
   push:
     branches: [main]
@@ -15,6 +21,15 @@ on:
         required: false
         default: 'false'
         type: boolean
+      fail_on_overdue:
+        description: 'Fail on overdue exception reviews'
+        required: false
+        default: 'false'
+        type: boolean
+
+env:
+  # PR hard gate graduation date - PRs become blocking after this date
+  PR_GRADUATION_DATE: '2026-01-25'
 
 jobs:
   compliance-check:
@@ -114,14 +129,80 @@ jobs:
             fi
           fi
 
-      - name: Gate decision
-        if: inputs.blocking == 'true' || github.event_name == 'push'
+      - name: Determine gate mode
+        id: gate_mode
         run: |
-          if [ "${{ steps.check_report.outputs.has_stop_condition }}" == "true" ]; then
+          TODAY=$(date +%Y-%m-%d)
+          GRADUATION_DATE="${{ env.PR_GRADUATION_DATE }}"
+
+          # Determine if we should run in blocking mode
+          BLOCKING="false"
+          REASON="soft gate (default)"
+
+          # Push to main is always blocking
+          if [ "${{ github.event_name }}" == "push" ]; then
+            BLOCKING="true"
+            REASON="push to main"
+          fi
+
+          # Manual trigger with blocking=true
+          if [ "${{ inputs.blocking }}" == "true" ]; then
+            BLOCKING="true"
+            REASON="manual blocking mode"
+          fi
+
+          # PRs become blocking after graduation date
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            if [[ "$TODAY" > "$GRADUATION_DATE" ]] || [[ "$TODAY" == "$GRADUATION_DATE" ]]; then
+              BLOCKING="true"
+              REASON="PR graduated to hard gate (after $GRADUATION_DATE)"
+            else
+              REASON="PR soft gate (graduates $GRADUATION_DATE)"
+            fi
+          fi
+
+          echo "blocking=$BLOCKING" >> $GITHUB_OUTPUT
+          echo "reason=$REASON" >> $GITHUB_OUTPUT
+          echo "Gate mode: $BLOCKING ($REASON)"
+
+      - name: Gate decision
+        run: |
+          BLOCKING="${{ steps.gate_mode.outputs.blocking }}"
+          REASON="${{ steps.gate_mode.outputs.reason }}"
+          HAS_VIOLATIONS="${{ steps.check_report.outputs.has_stop_condition }}"
+          REVIEW_OVERDUE="${{ steps.check_exceptions.outputs.review_overdue }}"
+          FAIL_ON_OVERDUE="${{ inputs.fail_on_overdue }}"
+
+          echo "### Gate Decision" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Setting | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Mode | $REASON |" >> $GITHUB_STEP_SUMMARY
+          echo "| Blocking | $BLOCKING |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unclassified violations | $HAS_VIOLATIONS |" >> $GITHUB_STEP_SUMMARY
+          echo "| Review overdue | $REVIEW_OVERDUE |" >> $GITHUB_STEP_SUMMARY
+
+          # Check for unclassified violations
+          if [ "$HAS_VIOLATIONS" == "true" ] && [ "$BLOCKING" == "true" ]; then
             echo "::error::Hard gate FAILED: Unclassified violations present"
             exit 1
           fi
-          echo "Gate passed: No unclassified violations"
+
+          # Check for overdue reviews (only if explicitly requested)
+          if [ "$REVIEW_OVERDUE" == "true" ]; then
+            if [ "$FAIL_ON_OVERDUE" == "true" ]; then
+              echo "::error::Hard gate FAILED: Exception review overdue"
+              exit 1
+            else
+              echo "::warning::Exception review is overdue - please review temporary exceptions"
+            fi
+          fi
+
+          if [ "$BLOCKING" == "true" ]; then
+            echo "Hard gate passed: No blocking issues found"
+          else
+            echo "Soft gate: Report generated (not blocking)"
+          fi
 
       - name: Upload compliance report as artifact
         if: always()

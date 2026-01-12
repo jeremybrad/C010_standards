@@ -585,12 +585,12 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 ## Next Steps
 
-### Phase 3 (Planned)
-1. [ ] Draft migration checklist for schema adoption
+### Phase 3 (In Progress)
+1. [x] Draft migration checklist for schema adoption - [protocols/schema_migration_checklist.md](protocols/schema_migration_checklist.md)
 2. [ ] Expose standards in Mission Control UI/docs
-3. [ ] Add schema versioning policy (v1.3, v2.0 guidelines)
-4. [ ] Complete validator test coverage (docmeta, tools, models, telemetry)
-5. [ ] Generate API documentation for validators
+3. [x] Add schema versioning policy - [protocols/schema_versioning_policy.md](protocols/schema_versioning_policy.md)
+4. [x] Complete validator test coverage (96 tests passing)
+5. [x] Generate API documentation for validators - [validators/API.md](validators/API.md)
 
 ### Phase 4 (Future)
 1. [ ] Consolidate SADB ecosystem (address sprawl documented in PROJECT_RELATIONSHIPS.md)
@@ -610,7 +610,7 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 ---
 
-*Last Updated: 2025-11-19*
+*Last Updated: 2026-01-12*
 *Formerly: C010_standards*
 *Renamed to: C000_info-center for better visibility and clarity*
 *Maintained by: Jeremy Bradford & Claude*
