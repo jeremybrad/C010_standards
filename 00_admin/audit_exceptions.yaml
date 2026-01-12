@@ -5,9 +5,12 @@
 # Its structure is intentionally different for discoverability and import compatibility.
 #
 # Owner: Jeremy Bradford
-# Review cadence: Quarterly (next: 2025-Q2)
-# Last reviewed: 2025-01-01
+# Review cadence: Quarterly (next: 2026-Q2)
+# Last reviewed: 2026-01-11
 # Approved by: Jeremy (via Claude Code session)
+
+version: 1
+repo: C010_standards
 
 exception_type: standards_repository
 
@@ -18,20 +21,31 @@ reason: |
   2. Import compatibility - validators/ is a Python package with 30+ internal imports
   3. Submodule stability - C001_mission-control references these paths via git submodule
 
-# Per-directory justification (known weirdness > unknown weirdness)
-# Minimal set per 2025-01-01 cleanup - reduced from 10 to 7 exceptions
 allowed_additional_dirs:
-  - schemas       # Core deliverable: YAML/JSON schema definitions for DocMeta, CodeMeta, Houston
-  - taxonomies    # Core deliverable: controlled vocabularies (topics, emotions, content types)
-  - protocols     # Core deliverable: Betty Protocol docs, META.yaml spec, cross-platform hooks
-  - validators    # Python package: Houston validators with internal imports (check_houston_*.py)
-  - tests         # Python tests: pytest suite for validators, requires validators/ at sibling level
-  - registry      # Config registry: repos.yaml consumed by C017_brain-on-tap primers
-  - scripts       # Operational scripts: audit_folder_structure.sh referenced from 00_run/
+  - schemas
+  - taxonomies
+  - protocols
+  - validators
+  - tests
+  - registry
+  - scripts
 
-# Override default required files (rules_now.md and RELATIONS.yaml exist but are minimal)
-required_files:
-  - README.md
+# Per-directory justification
+per_dir:
+  schemas:
+    justification: "Core deliverable: YAML/JSON schema definitions for DocMeta, CodeMeta, Houston"
+  taxonomies:
+    justification: "Core deliverable: controlled vocabularies (topics, emotions, content types)"
+  protocols:
+    justification: "Core deliverable: Betty Protocol docs, META.yaml spec, cross-platform hooks"
+  validators:
+    justification: "Python package: Houston validators with internal imports (check_houston_*.py)"
+  tests:
+    justification: "Python tests: pytest suite for validators, requires validators/ at sibling level"
+  registry:
+    justification: "Config registry: repos.yaml consumed by C017_brain-on-tap primers"
+  scripts:
+    justification: "Operational scripts: audit_folder_structure.sh referenced from 00_run/"
 
 # Cleanup completed 2025-01-01:
 # - prompts/: Deleted (was empty)
