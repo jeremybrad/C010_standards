@@ -19,7 +19,7 @@ Before you touch ANY file or repo in this workspace, read this entire document.
 Read these files IN ORDER:
 
 ### 1. Project Inventory (5 minutes)
-📄 **[workspace/KNOWN_PROJECTS.md](workspace/KNOWN_PROJECTS.md)**
+📄 **[70_evidence/workspace/KNOWN_PROJECTS.md](70_evidence/workspace/KNOWN_PROJECTS.md)**
 
 This is auto-generated nightly and shows all 66 projects with:
 - Project ID (C### = Core, P### = Personal, W### = Work)
@@ -68,7 +68,7 @@ Explains:
 ### Use These Resources
 
 **Before writing any code:**
-1. Check `workspace/KNOWN_PROJECTS.md` - is this project active or archived?
+1. Check `70_evidence/workspace/KNOWN_PROJECTS.md` - is this project active or archived?
 2. Review the project's `CLAUDE.md` - it has the build commands and critical paths
 3. Look for `WHY_I_CARE.md` - understand the purpose and priorities
 4. Check `ROADMAP.md` - see what's planned and what's blocked
@@ -157,7 +157,7 @@ $SADB_DATA_DIR = /Users/jeremybradford/SADB_Data/
 ### Pre-Flight Checklist
 
 - [ ] I read `AGENT_START_HERE.md` (this file)
-- [ ] I checked `workspace/KNOWN_PROJECTS.md` for project status
+- [ ] I checked `70_evidence/workspace/KNOWN_PROJECTS.md` for project status
 - [ ] I read the project's `CLAUDE.md` for guidance
 - [ ] I reviewed `workspace/PROJECT_RELATIONSHIPS.md` for dependencies
 - [ ] I understand which files are canonical (not test/draft/sample)

@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-12 23:38
-- **Repo SHA**: 6eff996
+- **Generated**: 2026-01-12 23:47
+- **Repo SHA**: 10b2cda
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -131,7 +131,7 @@ This is the "visitor center" that orients both humans and AI agents before they 
 | Use Case | Entry Point |
 |----------|-------------|
 | Starting work in ANY repo | Read `AGENT_START_HERE.md` first |
-| Understanding workspace structure | `workspace/KNOWN_PROJECTS.md` |
+| Understanding workspace structure | `70_evidence/workspace/KNOWN_PROJECTS.md` |
 | Learning data flow architecture | `workspace/PROJECT_RELATIONSHIPS.md` |
 | Checking folder structure compliance | `protocols/betty_protocol.md` |
 | Validating Houston configs | `python validators/run_all.py` |
@@ -305,7 +305,7 @@ This is your required pre-flight checklist. It explains:
 
 Read these in order:
 
-1. **[workspace/KNOWN_PROJECTS.md](workspace/KNOWN_PROJECTS.md)** (5 min)
+1. **[70_evidence/workspace/KNOWN_PROJECTS.md](70_evidence/workspace/KNOWN_PROJECTS.md)** (5 min)
    - Auto-generated nightly inventory of all 66 projects
    - Shows status, last modified, and brief description
    - Your map of what exists and where it lives
@@ -423,10 +423,10 @@ The CSV includes columns for pivoting: `repo_name`, `repo_series`, `compliant`, 
 
 ```bash
 # View all projects with status
-cat workspace/KNOWN_PROJECTS.md
+cat 70_evidence/workspace/KNOWN_PROJECTS.md
 
 # Search for a specific project
-grep -i "sadb" workspace/KNOWN_PROJECTS.md
+grep -i "sadb" 70_evidence/workspace/KNOWN_PROJECTS.md
 ```
 
 ### 2. Understand System Dependencies
@@ -577,7 +577,7 @@ git submodule update --remote --merge
 
 | File | Purpose | Update Frequency |
 |------|---------|------------------|
-| [workspace/KNOWN_PROJECTS.md](workspace/KNOWN_PROJECTS.md) | Project inventory | Nightly (auto) |
+| [70_evidence/workspace/KNOWN_PROJECTS.md](70_evidence/workspace/KNOWN_PROJECTS.md) | Project inventory | Nightly (auto) |
 | [workspace/PROJECT_RELATIONSHIPS.md](workspace/PROJECT_RELATIONSHIPS.md) | System architecture | As needed |
 | [protocols/betty_protocol.md](protocols/betty_protocol.md) | Governance rules | Quarterly |
 | [AGENT_START_HERE.md](AGENT_START_HERE.md) | AI agent guide | As needed |
@@ -625,7 +625,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ### Auto-Generated Content
 
-**workspace/KNOWN_PROJECTS.md** is generated nightly by:
+**70_evidence/workspace/KNOWN_PROJECTS.md** is generated nightly by:
 ```bash
 python workspace/scripts/generate_project_registry.py
 ```
@@ -1910,8 +1910,8 @@ if __name__ == "__main__":
 ## Development Commands
 
 ```bash
-# Run all validators
-cd validators && python run_all.py --config ../30_config/houston-features.json
+# Run all validators (from repo root)
+python validators/run_all.py
 
 # Validate single aspect
 python validators/check_houston_features.py --config 30_config/houston-features.json
@@ -2068,7 +2068,7 @@ python scripts/validate_readme_repo_card.py ~/SyncedProjects/C001_mission-contro
 
 **List all projects:**
 ```bash
-cat workspace/KNOWN_PROJECTS.md
+cat 70_evidence/workspace/KNOWN_PROJECTS.md
 ```
 
 **Check project relationships:**
@@ -2152,7 +2152,7 @@ grep -i "term" taxonomies/universal_terms.yaml
 |-----|----------|---------|
 | Change receipts | `20_receipts/` | Audit trail |
 | Validator output | stdout | Validation results |
-| Nightly registry | `workspace/KNOWN_PROJECTS.md` | Project list |
+| Nightly registry | `70_evidence/workspace/KNOWN_PROJECTS.md` | Project list |
 
 ## Upgrading Standards
 

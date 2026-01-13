@@ -22,5 +22,6 @@ AVAILABLE_VALIDATORS: dict[str, str] = {
     "houston_models": "check_houston_models",
     "houston_telemetry": "check_houston_telemetry",
     "repo_contract": "check_repo_contract",
+    "constitution": "check_constitution",
 }
 """Mapping between CLI-friendly validator names and module suffixes."""

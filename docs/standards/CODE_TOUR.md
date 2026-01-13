@@ -213,8 +213,8 @@ if __name__ == "__main__":
 ## Development Commands
 
 ```bash
-# Run all validators
-cd validators && python run_all.py --config ../30_config/houston-features.json
+# Run all validators (from repo root)
+python validators/run_all.py
 
 # Validate single aspect
 python validators/check_houston_features.py --config 30_config/houston-features.json

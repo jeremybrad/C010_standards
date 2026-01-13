@@ -126,7 +126,7 @@ python scripts/validate_readme_repo_card.py ~/SyncedProjects/C001_mission-contro
 
 **List all projects:**
 ```bash
-cat workspace/KNOWN_PROJECTS.md
+cat 70_evidence/workspace/KNOWN_PROJECTS.md
 ```
 
 **Check project relationships:**
@@ -210,7 +210,7 @@ grep -i "term" taxonomies/universal_terms.yaml
 |-----|----------|---------|
 | Change receipts | `20_receipts/` | Audit trail |
 | Validator output | stdout | Validation results |
-| Nightly registry | `workspace/KNOWN_PROJECTS.md` | Project list |
+| Nightly registry | `70_evidence/workspace/KNOWN_PROJECTS.md` | Project list |
 
 ## Upgrading Standards
 

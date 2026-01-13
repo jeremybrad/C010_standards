@@ -7,7 +7,7 @@ terms:
     definition: "Canonical source of truth for workspace organization, standards, navigation, schemas, taxonomies, and validation tools."
     scope: universal
     tags: ["core-system", "standards", "hub"]
-    examples: ["workspace/KNOWN_PROJECTS.md", "protocols/betty_protocol.md"]
+    examples: ["70_evidence/workspace/KNOWN_PROJECTS.md", "protocols/betty_protocol.md"]
     related: ["Betty Protocol", "DocMeta", "Validators"]
     status: active
     provenance:
@@ -95,7 +95,7 @@ terms:
 
   - term: "KNOWN_PROJECTS.md"
     aliases: ["Project Registry", "Project Inventory"]
-    definition: "Auto-generated nightly inventory of all 66 projects showing status, last modified, and descriptions in workspace/KNOWN_PROJECTS.md."
+    definition: "Auto-generated nightly inventory of all 66 projects showing status, last modified, and descriptions in 70_evidence/workspace/KNOWN_PROJECTS.md."
     scope: universal
     tags: ["registry", "inventory", "automation"]
     examples: ["python workspace/scripts/generate_project_registry.py"]
