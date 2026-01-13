@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-12 23:53
-- **Repo SHA**: 5e5ea79
+- **Generated**: 2026-01-13 00:07
+- **Repo SHA**: 4ea73d9
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -28,7 +28,7 @@
 |-------|-------|
 | **Repo ID** | C010_standards |
 | **Status** | active |
-| **Owner** | unknown |
+| **Owner** | Jeremy Bradford |
 | **Series** | C (Core) |
 | **Tier** | kitted |
 | **Entry Point** | See Quickstart |

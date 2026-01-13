@@ -1,7 +1,25 @@
-version: 1
+# RELATIONS.yaml — C010_standards
+# Purpose: declare cross-repo boundaries so automation and LLMs respect governance.
+
+version: 2
 repo: C010_standards
-relations:
-  - name: C001_mission-control
-    type: related
-    note: "Mission Control implements tooling and guardrails defined by standards."
-  # Note: C019 sources from this repo (declared in C019's RELATIONS.yaml)
+
+owns:
+  - "Workspace protocols and governance rules (Betty Protocol, README repo card standard)"
+  - "Data schemas (DocMeta, CodeMeta, Houston configs)"
+  - "Classification taxonomies (topics, emotions, metadata)"
+  - "Validation tools (Houston validators, README repo card checker)"
+  - "Project registry and workspace inventory (KNOWN_PROJECTS.md)"
+  - "Bootstrap scripts for bulk repo upgrades (Ruff, testing, Claude support)"
+  - "Agent onboarding documentation (AGENT_START_HERE.md)"
+
+must_not_own:
+  - "Runtime services or deployable applications (belongs to individual project repos)"
+  - "Data storage, embeddings, or artifacts (belongs to $SADB_DATA_DIR and C003)"
+  - "Memory infrastructure pipelines (belongs to C002/C003 SADB repos)"
+  - "Project-specific configuration or code (stays in respective repos)"
+  - "Health monitoring or service dashboards (belongs to C001_mission-control)"
+
+depends_on:
+  # C010 is the foundation - no upstream dependencies
+  # Other repos depend on C010 for standards
