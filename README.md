@@ -611,7 +611,7 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 ---
 
-*Last Updated: 2026-01-12*
+*Last Updated: 2026-01-13*
 *Maintained by: Jeremy Bradford & Claude*
 
 _All downstream repositories should treat this repo as the authoritative metadata spec. Updates here require versioning, changelog, and communication across projects._

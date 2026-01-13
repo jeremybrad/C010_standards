@@ -220,7 +220,7 @@ python validators/run_all.py
 python validators/check_houston_features.py --config 30_config/houston-features.json
 
 # Bootstrap Ruff on a repo
-./scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
+bash scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
 
 # Validate README repo card
 python scripts/validate_readme_repo_card.py ~/SyncedProjects/C001_mission-control/README.md

@@ -3,11 +3,17 @@
 
 Enforces documentation drift guardrails for C010_standards:
 - No C000_info-center identity outside 70_evidence/
-- No exit code 99 references in docs
-- Consistent 0/1/2 exit code contract in docs
+- No exit code 99 references in docs (contextual exception: "removed/no longer")
+- Consistent 0/1/2 exit code contract in docs (structured and prose)
 - Correct validator run location (from repo root, not cd validators)
+  (contextual exception: "wrong/incorrect" example contexts)
 - Consistent Python minimum version across docs
 - Correct KNOWN_PROJECTS.md path references
+
+Severity model:
+- All checks are FAIL (exit 1) - no WARN tier exists
+- Contextual exceptions do NOT add to errors but emit NOTICE for observability
+- Exit codes: 0 (pass), 1 (validation failure), 2 (config/parse error)
 """
 
 from __future__ import annotations
@@ -73,9 +79,15 @@ def check_c000_identity(doc_files: list[Path], verbose: bool) -> list[str]:
     return errors
 
 
-def check_exit_code_99(doc_files: list[Path], verbose: bool) -> list[str]:
-    """Check for exit code 99 references (deprecated)."""
+def check_exit_code_99(doc_files: list[Path], verbose: bool) -> tuple[list[str], list[str]]:
+    """Check for exit code 99 references (deprecated).
+
+    Returns:
+        Tuple of (errors, notices). Notices are for contextual exceptions that
+        are allowed but worth tracking for observability.
+    """
     errors = []
+    notices = []
     # Match "exit code 99" or "exit.*99" but not in historical context
     patterns = [
         re.compile(r"exit\s+code\s+99", re.IGNORECASE),
@@ -92,6 +104,10 @@ def check_exit_code_99(doc_files: list[Path], verbose: bool) -> list[str]:
                     rel_path = path.relative_to(REPO_ROOT)
                     # Check if it's in a context explaining removal (allowed)
                     if "removed" in content.lower() or "no longer" in content.lower():
+                        # Record as notice for observability (not an error)
+                        notices.append(
+                            f"{rel_path}: Exit code 99 mentioned in 'removed/no longer' context (allowed)"
+                        )
                         if verbose:
                             safe_print(f"  ✓ {rel_path}: Exit code 99 in historical context (allowed)")
                         continue
@@ -106,35 +122,55 @@ def check_exit_code_99(doc_files: list[Path], verbose: bool) -> list[str]:
     if verbose and not errors:
         safe_print("  ✓ No active exit code 99 references found")
 
-    return errors
+    return errors, notices
 
 
 def check_exit_code_contract(doc_files: list[Path], verbose: bool) -> list[str]:
-    """Check that docs consistently present 0/1/2 exit code contract."""
+    """Check that docs consistently present 0/1/2 exit code contract.
+
+    Catches both structured documentation (bullet lists) and prose patterns
+    like "Exit 0 on pass, 1 on fail" that omit code 2.
+    """
     errors = []
-    # Look for exit code documentation that's missing code 2
-    exit_code_section_pattern = re.compile(
-        r"(?:exit\s+code|validator\s+exit)[s]?\s*:?\s*\n"
-        r"(?:[-*]\s*`?0`?[:\s]+.*\n)"
-        r"(?:[-*]\s*`?1`?[:\s]+.*\n)"
-        r"(?![-*]\s*`?2`?)",  # Negative lookahead - missing code 2
-        re.IGNORECASE | re.MULTILINE
+
+    # Prose patterns that define exit codes 0 and 1 without mentioning 2
+    # E.g., "Exit 0 on pass, 1 on fail" or "exits 0 on pass, 1 on validation failure"
+    prose_pattern = re.compile(
+        r"[Ee]xit[s]?\s+0\s+on\s+pass.*[,\-]?\s*1\s+on\s+(?:fail|validation)",
+        re.IGNORECASE
     )
 
     for path in doc_files:
         try:
             content = path.read_text(encoding="utf-8", errors="replace")
-            # Look for exit code sections
-            if re.search(r"exit\s+code", content, re.IGNORECASE):
-                # Check if it has 0 and 1 but not 2
-                has_0 = re.search(r"`?0`?\s*[:=]?\s*(?:all\s+checks\s+pass|pass)", content, re.IGNORECASE)
-                has_1 = re.search(r"`?1`?\s*[:=]?\s*(?:validation\s+fail|fail)", content, re.IGNORECASE)
-                has_2 = re.search(r"`?2`?\s*[:=]?\s*(?:config|parse|error)", content, re.IGNORECASE)
 
-                if has_0 and has_1 and not has_2:
-                    rel_path = path.relative_to(REPO_ROOT)
+            # Skip if file doesn't mention exit codes at all
+            if not re.search(r"exit\s+(?:code|0|1|2)", content, re.IGNORECASE):
+                continue
+
+            rel_path = path.relative_to(REPO_ROOT)
+
+            # Check 1: Structured documentation (lists defining exit codes)
+            # Look for patterns like "- 0: pass" and "- 1: fail" without "- 2: ..."
+            has_structured_0 = re.search(r"`?0`?\s*[:=]?\s*(?:all\s+checks\s+pass|pass)", content, re.IGNORECASE)
+            has_structured_1 = re.search(r"`?1`?\s*[:=]?\s*(?:validation\s+fail|fail)", content, re.IGNORECASE)
+            has_structured_2 = re.search(r"`?2`?\s*[:=]?\s*(?:config|parse|error)", content, re.IGNORECASE)
+
+            if has_structured_0 and has_structured_1 and not has_structured_2:
+                errors.append(
+                    f"{rel_path}: Exit code documentation missing code 2 (config/parse error) - structured"
+                )
+                continue  # Don't double-count
+
+            # Check 2: Prose patterns like "Exit 0 on pass, 1 on fail"
+            prose_matches = prose_pattern.findall(content)
+            if prose_matches:
+                # Check if code 2 is mentioned anywhere nearby
+                # We'll be lenient: if 2 is mentioned anywhere in the file with config/parse context, OK
+                has_prose_2 = re.search(r"2\s+(?:on|for|=)\s*(?:config|parse|error)", content, re.IGNORECASE)
+                if not has_prose_2:
                     errors.append(
-                        f"{rel_path}: Exit code documentation missing code 2 (config/parse error)"
+                        f"{rel_path}: Exit code prose pattern mentions 0/1 but omits code 2"
                     )
         except Exception as e:
             if verbose:
@@ -146,14 +182,20 @@ def check_exit_code_contract(doc_files: list[Path], verbose: bool) -> list[str]:
     return errors
 
 
-def check_run_location(doc_files: list[Path], verbose: bool) -> list[str]:
-    """Check for incorrect validator run location instructions."""
+def check_run_location(doc_files: list[Path], verbose: bool) -> tuple[list[str], list[str]]:
+    """Check for incorrect validator run location instructions.
+
+    Returns:
+        Tuple of (errors, notices). Notices are for contextual exceptions that
+        are allowed but worth tracking for observability.
+    """
     errors = []
-    # Match "cd validators" followed by running a validator (bad pattern)
-    bad_patterns = [
-        re.compile(r"cd\s+validators\s*&&\s*python", re.IGNORECASE),
-        re.compile(r"cd\s+validators\s*\n\s*python\s+(?:check_|run_)", re.IGNORECASE),
-    ]
+    notices = []
+
+    # Pattern 1: Single-line "cd validators && python ..."
+    single_line_pattern = re.compile(r"cd\s+validators\s*&&\s*python", re.IGNORECASE)
+    # Pattern 2: Multi-line "cd validators\npython check_/run_..."
+    multiline_pattern = re.compile(r"cd\s+validators\s*\n\s*python\s+(?:check_|run_)", re.IGNORECASE)
 
     # Allow "cd validators" in "wrong" example contexts
     wrong_context_pattern = re.compile(r"(?:wrong|don't|incorrect|bad)", re.IGNORECASE)
@@ -162,26 +204,47 @@ def check_run_location(doc_files: list[Path], verbose: bool) -> list[str]:
         try:
             content = path.read_text(encoding="utf-8", errors="replace")
             lines = content.split("\n")
+            rel_path = path.relative_to(REPO_ROOT)
 
+            # Check single-line pattern (line by line)
             for i, line in enumerate(lines):
-                for pattern in bad_patterns:
-                    if pattern.search(line):
-                        # Check surrounding context for "wrong" indicator
-                        context_start = max(0, i - 3)
-                        context = "\n".join(lines[context_start:i+1])
+                if single_line_pattern.search(line):
+                    # Check surrounding context for "wrong" indicator
+                    context_start = max(0, i - 3)
+                    context = "\n".join(lines[context_start:i+1])
 
-                        if wrong_context_pattern.search(context):
-                            if verbose:
-                                rel_path = path.relative_to(REPO_ROOT)
-                                safe_print(f"  ✓ {rel_path}:{i+1}: 'cd validators' in 'wrong' example (allowed)")
-                            continue
-
-                        rel_path = path.relative_to(REPO_ROOT)
+                    if wrong_context_pattern.search(context):
+                        notices.append(
+                            f"{rel_path}:{i+1}: 'cd validators' in 'wrong/incorrect' example (allowed)"
+                        )
+                        if verbose:
+                            safe_print(f"  ✓ {rel_path}:{i+1}: 'cd validators' in 'wrong' example (allowed)")
+                    else:
                         errors.append(
                             f"{rel_path}:{i+1}: Recommends 'cd validators' before running "
                             f"(should run from repo root: python validators/run_all.py)"
                         )
-                        break
+
+            # Check multi-line pattern (on full content)
+            for match in multiline_pattern.finditer(content):
+                # Find line number of match
+                line_num = content[:match.start()].count("\n") + 1
+                # Get context (3 lines before the match)
+                context_start = max(0, line_num - 4)
+                context_end = line_num
+                context = "\n".join(lines[context_start:context_end])
+
+                if wrong_context_pattern.search(context):
+                    notices.append(
+                        f"{rel_path}:{line_num}: 'cd validators' in 'wrong/incorrect' example (allowed)"
+                    )
+                    if verbose:
+                        safe_print(f"  ✓ {rel_path}:{line_num}: 'cd validators' in 'wrong' example (allowed)")
+                else:
+                    errors.append(
+                        f"{rel_path}:{line_num}: Recommends 'cd validators' before running "
+                        f"(should run from repo root: python validators/run_all.py)"
+                    )
         except Exception as e:
             if verbose:
                 safe_print(f"  Warning: Could not read {path}: {e}")
@@ -189,7 +252,7 @@ def check_run_location(doc_files: list[Path], verbose: bool) -> list[str]:
     if verbose and not errors:
         safe_print("  ✓ All validator run instructions use repo root pattern")
 
-    return errors
+    return errors, notices
 
 
 def check_python_version(doc_files: list[Path], verbose: bool) -> list[str]:
@@ -308,6 +371,7 @@ def cli(argv: list[str] | None = None) -> int:
         safe_print("")
 
     all_errors: list[str] = []
+    all_notices: list[str] = []
 
     # Run all constitution checks
     if args.verbose:
@@ -316,7 +380,9 @@ def cli(argv: list[str] | None = None) -> int:
 
     if args.verbose:
         safe_print("\n2. Checking for exit code 99 references...")
-    all_errors.extend(check_exit_code_99(doc_files, args.verbose))
+    errors_99, notices_99 = check_exit_code_99(doc_files, args.verbose)
+    all_errors.extend(errors_99)
+    all_notices.extend(notices_99)
 
     if args.verbose:
         safe_print("\n3. Checking exit code contract consistency (0/1/2)...")
@@ -324,7 +390,9 @@ def cli(argv: list[str] | None = None) -> int:
 
     if args.verbose:
         safe_print("\n4. Checking validator run location instructions...")
-    all_errors.extend(check_run_location(doc_files, args.verbose))
+    errors_loc, notices_loc = check_run_location(doc_files, args.verbose)
+    all_errors.extend(errors_loc)
+    all_notices.extend(notices_loc)
 
     if args.verbose:
         safe_print("\n5. Checking Python version consistency...")
@@ -333,6 +401,13 @@ def cli(argv: list[str] | None = None) -> int:
     if args.verbose:
         safe_print("\n6. Checking KNOWN_PROJECTS.md path references...")
     all_errors.extend(check_known_projects_path(doc_files, args.verbose))
+
+    # Print notices (observability for contextual exceptions - does not affect exit code)
+    if all_notices:
+        safe_print("")
+        safe_print(f"📋 NOTICES ({len(all_notices)} contextual exception(s) detected):")
+        for notice in all_notices:
+            safe_print(f"   • {notice}")
 
     # Build remediation suggestions
     suggestions = {}

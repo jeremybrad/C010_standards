@@ -30,10 +30,10 @@ Use for pre-commit checks, CI/CD, and periodic audits.
 
 ```bash
 # Apply Ruff config to a repo
-./scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
+bash scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
 
 # Add cross-platform Claude support
-./scripts/bootstrap_claude_crossplatform.sh ~/SyncedProjects/P050_ableton-mcp
+bash scripts/bootstrap_claude_crossplatform.sh ~/SyncedProjects/P050_ableton-mcp
 ```
 
 Use when standardizing repos or setting up new projects.

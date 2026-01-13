@@ -119,8 +119,8 @@ To apply testing standards to multiple projects:
 
 ```bash
 # From C010_standards directory
-./scripts/bootstrap_testing.sh --dry-run  # Preview changes
-./scripts/bootstrap_testing.sh            # Apply changes
+bash scripts/bootstrap_testing.sh --dry-run  # Preview changes
+bash scripts/bootstrap_testing.sh            # Apply changes
 ```
 
 ## Projects Without Coverage

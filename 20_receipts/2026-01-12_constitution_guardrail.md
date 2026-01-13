@@ -16,7 +16,7 @@ Checks for 6 drift conditions:
 
 1. **C000_info-center identity references** - Fails if C000_info-center appears outside 70_evidence/
 2. **Exit code 99 references** - Fails if docs mention deprecated exit code 99
-3. **Exit code contract consistency** - Warns if docs list 0/1 but not 2
+3. **Exit code contract consistency** - Fails if docs list 0/1 but not 2
 4. **Validator run location** - Fails if docs recommend `cd validators` instead of repo root
 5. **Python version consistency** - Fails if Python version differs from pyproject.toml (3.11+)
 6. **KNOWN_PROJECTS.md path** - Fails if docs reference incorrect path (must use `70_evidence/workspace/`)

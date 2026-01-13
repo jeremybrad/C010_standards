@@ -344,7 +344,7 @@ See `notes/ROADMAP.md` for detailed task breakdown.
 - **YAML as source of truth**: Markdown schema docs are reference only
 - **Houston is not a chatbot**: It's a Mission Control operations agent with gradual trust phases
 - **Taxonomy changes are breaking**: Update consuming projects when modifying controlled vocabularies
-- **Validators are production-ready**: Exit 0 on pass, 1 on fail - use in CI workflows
+- **Validators are production-ready**: Exit 0 on pass, 1 on fail, 2 on config/parse error - use in CI workflows
 - **Dependencies optional**: Validators warn if PyYAML/jsonschema missing but still function
 
 ## Troubleshooting

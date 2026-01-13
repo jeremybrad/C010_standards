@@ -4,10 +4,11 @@
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-12
+  last_reviewed: 2026-01-13
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
+  port: none  # No runtime service - pure standards/config repo
 
 folders:
   00_admin: "Administrative files and snapshots"
@@ -42,6 +43,9 @@ files:
   pyproject.toml: "Python project config"
 
 relates_to:
+  - C001_mission-control: "Consumes as git submodule at external/standards/"
+  - C017_brain-on-tap: "Profile extraction uses DocMeta schema"
+  - all_repos: "CI validators enforce compliance workspace-wide"
   - all: "Defines standards for entire workspace"
 
 maintainer_notes:

@@ -9,7 +9,7 @@ owns:
   - "Data schemas (DocMeta, CodeMeta, Houston configs)"
   - "Classification taxonomies (topics, emotions, metadata)"
   - "Validation tools (Houston validators, README repo card checker)"
-  - "Project registry and workspace inventory (KNOWN_PROJECTS.md)"
+  - "Project registry: registry/repos.yaml (source of truth) and 70_evidence/workspace/KNOWN_PROJECTS.md (derived output)"
   - "Bootstrap scripts for bulk repo upgrades (Ruff, testing, Claude support)"
   - "Agent onboarding documentation (AGENT_START_HERE.md)"
 

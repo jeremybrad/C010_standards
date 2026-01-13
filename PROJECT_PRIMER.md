@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-13 00:07
-- **Repo SHA**: 4ea73d9
+- **Generated**: 2026-01-13 00:35
+- **Repo SHA**: 241a761
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -32,7 +32,7 @@
 | **Series** | C (Core) |
 | **Tier** | kitted |
 | **Entry Point** | See Quickstart |
-| **Port** | — |
+| **Port** | none |
 
 ---
 
@@ -59,7 +59,7 @@ Standards, governance, and project templates for workspace
 - Data schemas (DocMeta, CodeMeta, Houston configs)
 - Classification taxonomies (topics, emotions, metadata)
 - Validation tools (Houston validators, README repo card checker)
-- Project registry and workspace inventory (KNOWN_PROJECTS.md)
+- Project registry: registry/repos.yaml (source of truth) and 70_evidence/workspace/KNOWN_PROJECTS.md (derived output)
 - Bootstrap scripts for bulk repo upgrades (Ruff, testing, Claude support)
 - Agent onboarding documentation (AGENT_START_HERE.md)
 
@@ -76,6 +76,9 @@ Standards, governance, and project templates for workspace
 
 | External System | Direction | Interface | Status |
 |-----------------|-----------|-----------|--------|
+| C001_mission-control | relates to | Consumes as git submodule at external/standards/ | active |
+| C017_brain-on-tap | relates to | Profile extraction uses DocMeta schema | active |
+| all_repos | relates to | CI validators enforce compliance workspace-wide | active |
 | all | relates to | Defines standards for entire workspace | active |
 
 ---
@@ -709,7 +712,7 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 ---
 
-*Last Updated: 2026-01-12*
+*Last Updated: 2026-01-13*
 *Maintained by: Jeremy Bradford & Claude*
 
 _All downstream repositories should treat this repo as the authoritative metadata spec. Updates here require versioning, changelog, and communication across projects._
@@ -726,10 +729,11 @@ _All downstream repositories should treat this repo as the authoritative metadat
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-12
+  last_reviewed: 2026-01-13
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
+  port: none  # No runtime service - pure standards/config repo
 
 folders:
   00_admin: "Administrative files and snapshots"
@@ -764,6 +768,9 @@ files:
   pyproject.toml: "Python project config"
 
 relates_to:
+  - C001_mission-control: "Consumes as git submodule at external/standards/"
+  - C017_brain-on-tap: "Profile extraction uses DocMeta schema"
+  - all_repos: "CI validators enforce compliance workspace-wide"
   - all: "Defines standards for entire workspace"
 
 maintainer_notes:
@@ -1122,7 +1129,7 @@ See `notes/ROADMAP.md` for detailed task breakdown.
 - **YAML as source of truth**: Markdown schema docs are reference only
 - **Houston is not a chatbot**: It's a Mission Control operations agent with gradual trust phases
 - **Taxonomy changes are breaking**: Update consuming projects when modifying controlled vocabularies
-- **Validators are production-ready**: Exit 0 on pass, 1 on fail - use in CI workflows
+- **Validators are production-ready**: Exit 0 on pass, 1 on fail, 2 on config/parse error - use in CI workflows
 - **Dependencies optional**: Validators warn if PyYAML/jsonschema missing but still function
 
 ## Troubleshooting
@@ -1918,7 +1925,7 @@ python validators/run_all.py
 python validators/check_houston_features.py --config 30_config/houston-features.json
 
 # Bootstrap Ruff on a repo
-./scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
+bash scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
 
 # Validate README repo card
 python scripts/validate_readme_repo_card.py ~/SyncedProjects/C001_mission-control/README.md
@@ -1973,10 +1980,10 @@ Use for pre-commit checks, CI/CD, and periodic audits.
 
 ```bash
 # Apply Ruff config to a repo
-./scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
+bash scripts/bootstrap_ruff.sh ~/SyncedProjects/P050_ableton-mcp
 
 # Add cross-platform Claude support
-./scripts/bootstrap_claude_crossplatform.sh ~/SyncedProjects/P050_ableton-mcp
+bash scripts/bootstrap_claude_crossplatform.sh ~/SyncedProjects/P050_ableton-mcp
 ```
 
 Use when standardizing repos or setting up new projects.
