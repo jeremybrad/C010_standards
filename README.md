@@ -34,7 +34,7 @@ This is the "visitor center" that orients both humans and AI agents before they 
 |----------|-------------|
 | Starting work in ANY repo | Read `AGENT_START_HERE.md` first |
 | Understanding workspace structure | `70_evidence/workspace/KNOWN_PROJECTS.md` |
-| Learning data flow architecture | `workspace/PROJECT_RELATIONSHIPS.md` |
+| Learning data flow architecture | `70_evidence/workspace/PROJECT_RELATIONSHIPS.md` |
 | Checking folder structure compliance | `protocols/betty_protocol.md` |
 | Validating Houston configs | `python validators/run_all.py` |
 | Validating README repo cards | `python scripts/validate_readme_repo_card.py <repo>` |
@@ -101,6 +101,7 @@ C010_standards/
 | `Houston Telemetry` | JSON Schema | Agent telemetry format |
 | `Betty Protocol` | Markdown | Folder structure + governance rules |
 | `README Repo Card` | Markdown + BOT markers | Deterministic README extraction |
+| `Docs Publishing` | C019 integration | Standards authored in C010; publishing/search served by C019 |
 
 **Validator Exit Codes**:
 - `0`: All checks pass
@@ -154,6 +155,7 @@ python workspace/scripts/generate_project_registry.py
 | `C001_mission-control` | Embeds C010 as git submodule at `external/standards/` |
 | `C002_sadb` | Uses Betty Protocol; source of conversation data |
 | `C017_brain-on-tap` | Extracts README repo cards for LLM context |
+| `C019_docs-site` | Canonical docs publishing/search surface (MkDocs + Docs RAG) |
 | All P/C/W repos | Must follow Betty Protocol and folder structure |
 
 ## Provenance
@@ -195,7 +197,7 @@ This is your required pre-flight checklist. It explains:
 
 **Quick Context for Agents:**
 - 66 total projects (C### = Core, P### = Personal, W### = Work)
-- Memory systems are COMPLEX - read [workspace/PROJECT_RELATIONSHIPS.md](workspace/PROJECT_RELATIONSHIPS.md)
+- Memory systems are COMPLEX - read [70_evidence/workspace/PROJECT_RELATIONSHIPS.md](70_evidence/workspace/PROJECT_RELATIONSHIPS.md)
 - Data lives OUTSIDE git in `$SADB_DATA_DIR` - never commit data files
 - Betty Protocol is non-negotiable - read [protocols/betty_protocol.md](protocols/betty_protocol.md)
 
@@ -212,7 +214,7 @@ Read these in order:
    - Shows status, last modified, and brief description
    - Your map of what exists and where it lives
 
-2. **[workspace/PROJECT_RELATIONSHIPS.md](workspace/PROJECT_RELATIONSHIPS.md)** (15 min)
+2. **[70_evidence/workspace/PROJECT_RELATIONSHIPS.md](70_evidence/workspace/PROJECT_RELATIONSHIPS.md)** (15 min)
    - How data flows between systems
    - Memory pipeline architecture (SADB → CBFS → MyBuddy)
    - Critical dependencies and execution order
@@ -252,11 +254,9 @@ C010_standards/
 │   ├── audit_syncedprojects.command  # macOS: Audit folder structure
 │   └── audit_syncedprojects.ps1      # Windows: Audit folder structure
 │
-├── workspace/                    # 📊 Workspace-level organization
-│   ├── KNOWN_PROJECTS.md        # Auto-generated project inventory
-│   ├── PROJECT_RELATIONSHIPS.md # Data flow & system architecture
-│   ├── scripts/                 # Project registry generation
-│   └── pr-execution/            # PR modernization tracking
+├── 70_evidence/                  # 📊 Evidence & generated artifacts
+│   └── workspace/
+│       └── KNOWN_PROJECTS.md    # Auto-generated project inventory
 │
 ├── protocols/                    # 📜 Governance & standards
 │   ├── betty_protocol.md        # Workspace rules & cleanup
@@ -335,10 +335,10 @@ grep -i "sadb" 70_evidence/workspace/KNOWN_PROJECTS.md
 
 ```bash
 # Read the architecture document
-cat workspace/PROJECT_RELATIONSHIPS.md
+cat 70_evidence/workspace/PROJECT_RELATIONSHIPS.md
 
 # Or open in your browser/editor
-open workspace/PROJECT_RELATIONSHIPS.md
+open 70_evidence/workspace/PROJECT_RELATIONSHIPS.md
 ```
 
 ### 3. Validate Your Changes
@@ -480,14 +480,14 @@ git submodule update --remote --merge
 | File | Purpose | Update Frequency |
 |------|---------|------------------|
 | [70_evidence/workspace/KNOWN_PROJECTS.md](70_evidence/workspace/KNOWN_PROJECTS.md) | Project inventory | Nightly (auto) |
-| [workspace/PROJECT_RELATIONSHIPS.md](workspace/PROJECT_RELATIONSHIPS.md) | System architecture | As needed |
+| [70_evidence/workspace/PROJECT_RELATIONSHIPS.md](70_evidence/workspace/PROJECT_RELATIONSHIPS.md) | System architecture | As needed |
 | [protocols/betty_protocol.md](protocols/betty_protocol.md) | Governance rules | Quarterly |
 | [AGENT_START_HERE.md](AGENT_START_HERE.md) | AI agent guide | As needed |
 
 ### When Things Go Wrong
 
 **Problem:** Can't find the right file/version
-**Solution:** Read [workspace/PROJECT_RELATIONSHIPS.md](workspace/PROJECT_RELATIONSHIPS.md) section "For LLMs: Finding Canonical Versions"
+**Solution:** Read [70_evidence/workspace/PROJECT_RELATIONSHIPS.md](70_evidence/workspace/PROJECT_RELATIONSHIPS.md) section "For LLMs: Finding Canonical Versions"
 
 **Problem:** Validator fails but you don't know why
 **Solution:** Run with verbose: `python validators/run_all.py --pass-args --verbose`
@@ -605,7 +605,7 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 **For AI Agents:** Re-read [AGENT_START_HERE.md](AGENT_START_HERE.md) - the answer is probably there.
 
-**For Humans:** Check [workspace/PROJECT_RELATIONSHIPS.md](workspace/PROJECT_RELATIONSHIPS.md) or ask Jeremy.
+**For Humans:** Check [70_evidence/workspace/PROJECT_RELATIONSHIPS.md](70_evidence/workspace/PROJECT_RELATIONSHIPS.md) or ask Jeremy.
 
 **For Validators:** Run with `--verbose` flag for detailed error messages.
 

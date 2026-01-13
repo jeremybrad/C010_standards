@@ -593,23 +593,90 @@ repos:
 
   - repo_id: C019_docs-site
     name: Docs Site
-    purpose: Documentation site with RAG support. MkDocs + FAISS vector index for retrieval-augmented generation.
-    philosophy: Documentation that answers questions, not just stores text.
+    purpose: Canonical documentation publishing and search surface for workspace. MkDocs static site + Docs RAG API with FAISS vector index.
+    philosophy: Documentation that answers questions, not just stores text. Authoring stays in source repos; C019 publishes and indexes.
     bot_active: true
     path_rel: C019_docs-site
+    story: |
+      Created to provide a unified documentation portal with semantic search across 66+ projects.
+      Before C019, documentation was scattered and unsearchable. Now C019 consumes docs from
+      C010_standards and other repos via DOCS_GLOBS, builds a static MkDocs site, and maintains
+      a FAISS vector index for retrieval-augmented generation queries.
+    how_it_fits: |
+      C019 is the publishing/search layer in the docs ecosystem. C010_standards is the canonical
+      authoring surface for protocols/schemas/taxonomies. C019 consumes C010 docs via DOCS_GLOBS,
+      builds MkDocs site, and serves RAG API. C001_mission-control may integrate /docs as a client.
+    architecture: |
+      - docs/: MkDocs source (consumed from workspace repos)
+      - _audits/rag/: RAG evaluation results (Ragas)
+      - docs_rag/: RAG pipeline (export, index, serve)
+      - mkdocs.yml: Site configuration
     authoritative_sources:
       - docs/
+      - docs_rag/
+      - mkdocs.yml
       - _audits/rag/
     contracts:
-      - RAG server on port 8123
-      - FAISS vector index
-      - Ragas evaluation
+      - Docs RAG API on port 8123 (semantic search)
+      - MkDocs server on port 8085 (static site)
+      - FAISS vector index for retrieval
+      - Ragas evaluation for quality metrics
+      - DOCS_GLOBS patterns for source discovery
+    interfaces:
+      - "API: http://localhost:8123/healthz (RAG health)"
+      - "API: http://localhost:8123/ask (semantic Q&A; POST)"
+      - "API: http://localhost:8123/ (info)"
+      - "Web: http://localhost:8085 (MkDocs site)"
+      - "CLI: python -m docs_rag export"
+      - "CLI: python -m docs_rag index"
+      - "CLI: mkdocs serve"
+    onboarding:
+      - "Run make dev to start RAG + MkDocs servers"
+      - "Read docs/index.md for site structure"
+      - "Check _audits/rag/ for quality metrics"
+    entry_points:
+      - "README.md"
+      - "CLAUDE.md"
+      - "mkdocs.yml"
+    key_concepts:
+      - "DOCS_GLOBS (source patterns)"
+      - "RAG pipeline (export → index → serve)"
+      - "FAISS vector index"
+      - "Ragas evaluation"
+    common_tasks:
+      - "Rebuild index after docs change: python -m docs_rag export && python -m docs_rag index"
+      - "Start dev servers: make dev"
+      - "Query documentation: curl -X POST localhost:8123/ask -d '{\"question\": \"...\"}'"
+      - "Run Ragas evaluation: make eval"
+    gotchas:
+      - "Docs are consumed, not authored here - edit in C010 or source repos"
+      - "Index rebuild required after source docs change"
+      - "FAISS index can grow large with many documents"
+    integration_points:
+      - "C010_standards: Consumes protocols/schemas/docs for publishing"
+      - "C001_mission-control: May consume RAG API for /docs UI"
+      - "All repos: DOCS_GLOBS can include any repo's documentation"
+    commands:
+      - "make dev"
+      - "python -m docs_rag export"
+      - "python -m docs_rag index"
+      - "mkdocs serve"
+      - "mkdocs build"
+    ports:
+      - port: 8123
+        service: "Docs RAG API"
+        protocol: http
+      - port: 8085
+        service: "MkDocs server"
+        protocol: http
     status: active
     tags:
       - documentation
       - rag
       - mkdocs
       - faiss
+      - publishing
+      - search
 
   - repo_id: C020_pavlok
     name: Guardian Angel (Pavlok)

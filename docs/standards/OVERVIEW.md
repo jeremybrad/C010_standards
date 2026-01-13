@@ -90,9 +90,35 @@ C010_standards is the canonical source of truth for workspace-wide standards, go
 |--------|-----------------|--------|
 | C001_mission-control | Git submodule at `external/standards/` | Active |
 | C017_brain-on-tap | README repo card extraction | Active |
+| C019_docs-site | Docs publishing/search (MkDocs + Docs RAG) | Active |
 | All P/C/W repos | Betty Protocol compliance | Active |
 | CI/CD workflows | Validator execution | Active |
 | NotebookLM | Documentation sync | Active |
+
+## Docs Publishing Model
+
+Standards documentation follows a clear separation of concerns:
+
+| Layer | Repo | Responsibility |
+|-------|------|----------------|
+| **Authoring** | C010_standards | Source of truth for protocols, schemas, taxonomies |
+| **Publishing** | C019_docs-site | MkDocs site build, static hosting |
+| **Search** | C019_docs-site | Docs RAG API (FAISS index, semantic retrieval) |
+| **UI Client** | C001_mission-control | Optional `/docs` endpoint consuming C019 |
+
+### How Updates Propagate
+
+1. **Source Change**: Edit protocols/schemas/docs in C010_standards
+2. **Export Trigger**: C019's `DOCS_GLOBS` patterns detect changes
+3. **Build**: `mkdocs build` regenerates static site
+4. **Index**: `rag-export` + `rag-index` updates FAISS vectors
+5. **Serve**: RAG API (port 8123) and MkDocs site (port 8085) reflect changes
+
+### Do Not
+
+- Build ad-hoc docs sites in random repos
+- Duplicate MkDocs config or FAISS indexing inside C010
+- Move docs authoring out of C010 into C019
 
 ## Why C010_standards?
 

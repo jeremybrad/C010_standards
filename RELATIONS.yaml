@@ -23,3 +23,8 @@ must_not_own:
 depends_on:
   # C010 is the foundation - no upstream dependencies
   # Other repos depend on C010 for standards
+
+relates_to:
+  - repo: C019_docs-site
+    reason: "C019 consumes C010 docs for publishing/search; C010 recognizes C019 as canonical publishing surface"
+    note: "Not a runtime dependency - C010 functions without C019; this is the designated publishing layer"
