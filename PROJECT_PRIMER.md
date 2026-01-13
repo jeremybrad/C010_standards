@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-12 23:47
-- **Repo SHA**: 10b2cda
+- **Generated**: 2026-01-12 23:53
+- **Repo SHA**: 5e5ea79
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -732,7 +732,8 @@ project:
   series: C
 
 folders:
-  00-Governance: "Governance policies"
+  00_admin: "Administrative files and snapshots"
+  00_run: "Double-click launchers"
   10_docs: "Documentation"
   20_receipts: "Change receipts"
   30_config: "Configuration"
@@ -1445,8 +1446,8 @@ python scripts/validate_readme_repo_card.py ~/SyncedProjects/C001_mission-contro
 ### Validator Fails with Import Error
 
 ```bash
-# Ensure you're in the validators directory
-cd ~/SyncedProjects/C010_standards/validators
+# Run from repo root (not validators directory)
+cd ~/SyncedProjects/C010_standards
 python -c "import yaml, jsonschema"  # Check dependencies
 ```
 

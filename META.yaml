@@ -10,7 +10,8 @@ project:
   series: C
 
 folders:
-  00-Governance: "Governance policies"
+  00_admin: "Administrative files and snapshots"
+  00_run: "Double-click launchers"
   10_docs: "Documentation"
   20_receipts: "Change receipts"
   30_config: "Configuration"

@@ -105,8 +105,8 @@ python scripts/validate_readme_repo_card.py ~/SyncedProjects/C001_mission-contro
 ### Validator Fails with Import Error
 
 ```bash
-# Ensure you're in the validators directory
-cd ~/SyncedProjects/C010_standards/validators
+# Run from repo root (not validators directory)
+cd ~/SyncedProjects/C010_standards
 python -c "import yaml, jsonschema"  # Check dependencies
 ```
 
