@@ -283,4 +283,4 @@ When you follow these guidelines, you're not just helping Jeremy - you're helpin
 
 *Last Updated: 2025-11-19*
 *Maintained by: Jeremy Bradford & Claude*
-*Location: C000_info-center/AGENT_START_HERE.md*
+*Location: C010_standards/AGENT_START_HERE.md*

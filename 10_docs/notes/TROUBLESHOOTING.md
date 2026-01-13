@@ -71,22 +71,23 @@ pip install -r requirements.txt
 pip install PyYAML jsonschema
 ```
 
-### Problem: Validator returns exit code 99
+### Problem: Validator returns unexpected exit code
 
 **Symptoms:**
-```
-✖ houston_features exited with status 99
-```
+Validator exits with a code you don't recognize
 
-**Cause:** Validator stub not implemented (old version)
+**Exit Code Reference:**
+- **0**: All checks passed
+- **1**: Validation failure (check output for specific errors)
+- **2**: Configuration/parse error (file not found, invalid JSON/YAML)
 
 **Solution:**
 ```bash
-# Update to latest C010_standards
+# Check for latest version
 git pull origin main
 
-# Or update submodule
-git submodule update --remote external/standards
+# Run with verbose output to see details
+python validators/run_all.py --pass-args --verbose
 ```
 
 ### Problem: "Permission denied" when running validator

@@ -20,8 +20,8 @@ Use when starting new projects or reviewing requirements.
 ### Validation Mode
 
 ```bash
-# Run all Houston validators
-cd validators && python run_all.py --config ../30_config/houston-features.json
+# Run all Houston validators (from repo root)
+python validators/run_all.py
 ```
 
 Use for pre-commit checks, CI/CD, and periodic audits.

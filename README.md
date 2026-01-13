@@ -1,4 +1,4 @@
-# C000_info-center
+# C010_standards
 
 **🗺️ Your Workspace Orientation & Standards Hub**
 
@@ -8,13 +8,13 @@ Welcome to the information center for Jeremy Bradford's development workspace. B
 
 ## What this repo is
 
-C010_standards (aliased C000_info-center) is the **canonical source of truth** for workspace organization, standards, and governance across Jeremy Bradford's 66+ project ecosystem. It provides:
+C010_standards is the **canonical source of truth** for workspace organization, standards, and governance across Jeremy Bradford's 66+ project ecosystem. It serves as the "info center" or "visitor center" for the workspace. It provides:
 
 - **Protocols & Standards**: Betty Protocol (workspace governance), README repo card standard, cross-platform CLAUDE.md format
 - **Schemas**: DocMeta v1.2, CodeMeta v1.0, Houston features/tools/telemetry JSON schemas
 - **Taxonomies**: Topic, emotion, and metadata classification systems
 - **Validators**: Python scripts to check compliance with schemas and protocols
-- **Project Registry**: Auto-generated nightly inventory of all projects (workspace/KNOWN_PROJECTS.md)
+- **Project Registry**: Machine-readable repo metadata (`registry/repos.yaml` is source of truth; `70_evidence/workspace/KNOWN_PROJECTS.md` is auto-generated)
 - **Bootstrap Scripts**: Add Ruff, testing, Claude support to repos in bulk
 - **Agent Guidance**: AGENT_START_HERE.md for LLM onboarding
 
@@ -104,7 +104,8 @@ C010_standards/
 
 **Validator Exit Codes**:
 - `0`: All checks pass
-- `1`: One or more errors (or warnings in `--strict` mode)
+- `1`: Validation failure (one or more errors)
+- `2`: Config/parse error (cannot complete validation)
 
 ## Common workflows
 
@@ -144,7 +145,7 @@ python workspace/scripts/generate_project_registry.py
 | Changing schemas without version bump | Downstream validators break silently | Update version, changelog, notify affected repos |
 | Running bootstrap scripts without `--dry-run` | Bulk changes across all repos | Always preview first |
 | Missing `$SADB_DATA_DIR` env var | Scripts fail to find data artifacts | Set in shell profile: `export SADB_DATA_DIR="$HOME/SADB_Data"` |
-| Assuming C010 = C000 | Both names exist (alias) | They're the same repo; use either |
+| Editing registry/repos.yaml incorrectly | Registry is source of truth | Follow schema, validate before commit |
 
 ## Related repos
 
@@ -241,7 +242,7 @@ Essential documents:
 ## Directory Layout
 
 ```
-C000_info-center/
+C010_standards/
 ├── AGENT_START_HERE.md          # ⭐ Required reading for AI agents
 ├── README.md                     # This file - your starting point
 │
@@ -611,8 +612,6 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 ---
 
 *Last Updated: 2026-01-12*
-*Formerly: C010_standards*
-*Renamed to: C000_info-center for better visibility and clarity*
 *Maintained by: Jeremy Bradford & Claude*
 
 _All downstream repositories should treat this repo as the authoritative metadata spec. Updates here require versioning, changelog, and communication across projects._

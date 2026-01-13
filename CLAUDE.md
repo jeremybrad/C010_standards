@@ -340,7 +340,7 @@ See `notes/ROADMAP.md` for detailed task breakdown.
 ## Important Notes
 
 - **No build system**: Pure schema/config repository, no compilation required
-- **Python 3.13+**: Validators use modern type hints (`List[str] | None`)
+- **Python 3.11+**: Validators use modern type hints (`list[str] | None`)
 - **YAML as source of truth**: Markdown schema docs are reference only
 - **Houston is not a chatbot**: It's a Mission Control operations agent with gradual trust phases
 - **Taxonomy changes are breaking**: Update consuming projects when modifying controlled vocabularies
@@ -401,7 +401,6 @@ Common YAML issues:
 - **0**: All checks passed
 - **1**: Validation failure (check output for specific errors)
 - **2**: Configuration/parse error (file not found, invalid JSON/YAML)
-- **99**: Not implemented (Phase 2 stub - should not occur in current version)
 
 ### Path Issues on Windows
 

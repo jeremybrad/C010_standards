@@ -64,8 +64,9 @@ cp -r ~/SyncedProjects/C010_standards/PROJECT_TEMPLATE.md ./
 ### Run All Validators
 
 ```bash
-cd ~/SyncedProjects/C010_standards/validators
-python run_all.py --config ../30_config/houston-features.json
+# Run from repo root
+cd ~/SyncedProjects/C010_standards
+python validators/run_all.py
 ```
 
 Exit codes:

@@ -3,8 +3,8 @@ repo_id: C010_standards
 updated_at: "2025-12-22"
 terms:
   - term: "Info Center"
-    aliases: ["C000_info-center", "C010_standards", "Workspace Hub"]
-    definition: "Canonical source of truth for workspace organization, standards, navigation, schemas, taxonomies, and validation tools. Renamed from C010_standards for visibility."
+    aliases: ["C010_standards", "Workspace Hub"]
+    definition: "Canonical source of truth for workspace organization, standards, navigation, schemas, taxonomies, and validation tools."
     scope: universal
     tags: ["core-system", "standards", "hub"]
     examples: ["workspace/KNOWN_PROJECTS.md", "protocols/betty_protocol.md"]
