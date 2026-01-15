@@ -1,0 +1,28 @@
+schema: glossary.v1
+repo_id: "{REPO_ID}"
+updated_at: "{TODAY}"
+terms:
+  # Add domain-specific terms for this project
+  # Minimum: 1 term required for Tier 2 compliance (3+ recommended)
+  #
+  # Example term structure:
+  # - term: "Term Name"
+  #   aliases: ["alias1", "alias2"]
+  #   definition: "What this term means in this project context"
+  #   scope: repo                    # repo | universal
+  #   tags: ["category", "type"]
+  #   examples: ["path/to/file", "usage example"]
+  #   related: ["Other Term"]
+  #   status: active                 # active | deprecated
+  #
+  # For W-series repos, include:
+  # - Client-specific terminology
+  # - Data source names and abbreviations
+  # - Report names and metrics
+  # - Workflow step names
+
+  - term: "{PLACEHOLDER_TERM}"
+    definition: "{PLACEHOLDER_DEFINITION}"
+    scope: repo
+    tags: ["{TAG}"]
+    status: active

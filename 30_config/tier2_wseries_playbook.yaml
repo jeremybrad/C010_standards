@@ -1,0 +1,156 @@
+# Tier 2 W-series Documentation Playbook
+# Version: 1.0
+# Purpose: Guided content population for W-series Tier 2 docs
+#
+# Usage:
+#   bbot tier2-docs-playbook --repo W001_cmo-weekly-reporting
+#
+# This playbook guides interactive content population after bootstrap
+# scaffolds the documentation structure.
+
+name: tier2-wseries-docs
+version: "1.0"
+description: Guided content population for W-series Tier 2 documentation
+
+# Prerequisites
+prerequisites:
+  - "Bootstrap script has been run (bash scripts/bootstrap_tier2_wseries.sh)"
+  - "README.md exists (do not create new)"
+  - "CLAUDE.md exists (do not create new)"
+
+# Phases execute in order
+phases:
+  - id: meta_yaml
+    name: "Complete META.yaml"
+    description: "Fill in project metadata with W-series requirements"
+    target_file: "META.yaml"
+    prompts:
+      - question: "What is the one-line summary of this project?"
+        field: "project.summary"
+        constraints: "Under 100 characters"
+        example: "Weekly CMO performance reports from BigQuery"
+
+      - question: "Who is the client for this W-series repo?"
+        field: "project.client"
+        options: ["Wowway", "Internal", "Research", "Other"]
+        example: "Wowway"
+
+      - question: "List all top-level folders and their purposes"
+        field: "folders"
+        format: "key: description"
+        example: |
+          10_docs: "Documentation and guides"
+          20_receipts: "Change receipts and evidence"
+          40_src: "Source code"
+
+      - question: "What are the key files in this repo?"
+        field: "files"
+        format: "filename: description"
+        example: |
+          Makefile: "Build automation"
+          QUICKSTART.md: "Step-by-step workflow"
+
+      - question: "What projects does this repo depend on or integrate with?"
+        field: "relates_to"
+        format: "- repo_name: description"
+        optional: true
+        example: |
+          - W005_BigQuery: "Data source"
+
+    validation:
+      - "project.summary is not empty and under 100 chars"
+      - "project.client is set (not TODO)"
+      - "folders section lists all actual top-level folders"
+
+  - id: glossary
+    name: "Build Glossary"
+    description: "Define domain-specific terms for this project"
+    target_file: "10_docs/glossary.yaml"
+    minimum_entries: 3
+    prompts:
+      - question: "What domain terms are specific to this project?"
+        hint: "Think about terms a new developer might not understand"
+
+      - question: "Are there abbreviations or acronyms unique to this client/project?"
+        hint: "CMO, KPI, specific metric names, report names"
+
+      - question: "What data source names or table names are used?"
+        hint: "BigQuery tables, Snowflake schemas, report names"
+
+    term_template: |
+      - term: "{TERM}"
+        definition: "{DEFINITION}"
+        scope: repo
+        tags: ["{CATEGORY}"]
+        status: active
+
+    validation:
+      - "At least 3 non-placeholder terms defined"
+
+  - id: changelog
+    name: "Initialize CHANGELOG"
+    description: "Document current state and recent changes"
+    target_file: "CHANGELOG.md"
+    prompts:
+      - question: "What is the current version/state of this project?"
+        hint: "e.g., 1.0.0, MVP, beta, production"
+
+      - question: "What were the last 3 significant changes?"
+        format: "bullet list with dates if known"
+
+      - question: "Are there any planned changes in progress?"
+        section: "[Unreleased]"
+
+    validation:
+      - "At least one version entry exists"
+      - "Content is more than scaffold template"
+
+  - id: relations
+    name: "Update RELATIONS.yaml (if exists)"
+    description: "Document cross-project dependencies"
+    target_file: "RELATIONS.yaml"
+    optional: true
+    prompts:
+      - question: "What other repos does this project consume data from?"
+        hint: "Data sources, shared libraries, config repos"
+
+      - question: "What repos consume this project's outputs?"
+        hint: "Downstream reports, dashboards, services"
+
+      - question: "Are there shared dependencies?"
+        hint: "Common databases, credentials, APIs"
+
+# Final gate before completion
+gates:
+  - name: tier2_complete
+    description: "All Tier 2 requirements met"
+    checks:
+      - "META.yaml has all required fields populated"
+      - "glossary.yaml has at least 3 terms"
+      - "CHANGELOG.md has at least one entry"
+      - "10_docs/ directory exists"
+      - "20_receipts/ directory exists"
+
+# Post-completion actions
+post_completion:
+  - action: "validate"
+    command: "python scripts/validate_tier2_compliance.py {repo_path}"
+    description: "Run compliance validator"
+
+  - action: "generate_primer"
+    command: "generate-project-primer {repo_name}"
+    description: "Generate PROJECT_PRIMER.md for LLM context"
+    optional: true
+
+  - action: "commit"
+    command: "git add META.yaml CHANGELOG.md 10_docs/glossary.yaml && git commit -m 'docs: complete Tier 2 documentation'"
+    description: "Commit documentation changes"
+    requires_confirmation: true
+
+# Tips for populating content
+tips:
+  - "Read the existing README.md and CLAUDE.md first to understand the project"
+  - "For glossary terms, think about what would confuse a new team member"
+  - "Include client-specific jargon even if it seems obvious"
+  - "CHANGELOG entries don't need to be exhaustive - focus on significant changes"
+  - "Cross-reference W005_BigQuery for data-related W-series repos"
