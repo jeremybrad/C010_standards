@@ -79,15 +79,27 @@ ERRORS=0
 echo "1/5 Running folder structure audit..."
 AUDIT_CSV="$OUTPUT_DIR/folder_audit_$TODAY.csv"
 if [ -f "$SCRIPT_DIR/audit_folder_structure.sh" ]; then
-    if bash "$SCRIPT_DIR/audit_folder_structure.sh" "$WORKSPACE" > "$AUDIT_CSV" 2>/dev/null; then
-        FAIL_COUNT=$(grep -c ",FAIL," "$AUDIT_CSV" 2>/dev/null || echo "0")
-        if [ "$FAIL_COUNT" -eq 0 ]; then
-            echo -e "    ${GREEN}✅${NC} All repos compliant"
+    # Script writes CSV to C010's 70_evidence/exports/, exit 1 = violations found
+    AUDIT_EXIT=0
+    bash "$SCRIPT_DIR/audit_folder_structure.sh" "$WORKSPACE" > /dev/null 2>&1 || AUDIT_EXIT=$?
+
+    # Copy the generated CSV to stable output location
+    LATEST_CSV="$C010_ROOT/70_evidence/exports/folder_structure_audit_latest.csv"
+    if [ -f "$LATEST_CSV" ]; then
+        cp "$LATEST_CSV" "$AUDIT_CSV"
+        # Count non-compliant repos (column 5 = compliant field)
+        VIOLATION_COUNT=$(awk -F',' 'NR>1 && $5=="false" {count++} END {print count+0}' "$AUDIT_CSV" 2>/dev/null)
+        TOTAL_COUNT=$(awk -F',' 'NR>1 {count++} END {print count+0}' "$AUDIT_CSV" 2>/dev/null)
+        if [ "$VIOLATION_COUNT" -eq 0 ]; then
+            echo -e "    ${GREEN}✅${NC} All $TOTAL_COUNT repos compliant"
         else
-            echo -e "    ${YELLOW}⚠️${NC}  $FAIL_COUNT repos with folder violations"
+            COMPLIANT_COUNT=$((TOTAL_COUNT - VIOLATION_COUNT))
+            echo -e "    ${YELLOW}⚠️${NC}  $COMPLIANT_COUNT/$TOTAL_COUNT compliant ($VIOLATION_COUNT violations)"
         fi
+    elif [ $AUDIT_EXIT -eq 0 ]; then
+        echo -e "    ${GREEN}✅${NC} All repos compliant"
     else
-        echo -e "    ${YELLOW}⚠️${NC}  Audit script had errors"
+        echo -e "    ${YELLOW}⚠️${NC}  Audit script returned exit $AUDIT_EXIT"
         ((ERRORS++))
     fi
 else
@@ -100,10 +112,23 @@ fi
 echo "2/5 Rendering compliance report..."
 COMPLIANCE_MD="$OUTPUT_DIR/WORKSPACE_COMPLIANCE_LATEST.md"
 if [ -f "$SCRIPT_DIR/render_workspace_compliance_report.py" ]; then
-    if python3 "$SCRIPT_DIR/render_workspace_compliance_report.py" > "$COMPLIANCE_MD" 2>/dev/null; then
-        echo -e "    ${GREEN}✅${NC} Report generated"
+    # Script writes to C010's 00_admin/, exit 1 = unclassified violations (STOP)
+    RENDER_EXIT=0
+    python3 "$SCRIPT_DIR/render_workspace_compliance_report.py" > /dev/null 2>&1 || RENDER_EXIT=$?
+
+    # Copy the generated report to stable output location
+    SOURCE_MD="$C010_ROOT/00_admin/WORKSPACE_COMPLIANCE_LATEST.md"
+    if [ -f "$SOURCE_MD" ]; then
+        cp "$SOURCE_MD" "$COMPLIANCE_MD"
+        if [ $RENDER_EXIT -eq 0 ]; then
+            echo -e "    ${GREEN}✅${NC} Report generated"
+        elif [ $RENDER_EXIT -eq 1 ]; then
+            echo -e "    ${YELLOW}⚠️${NC}  Report generated (unclassified violations - STOP)"
+        else
+            echo -e "    ${YELLOW}⚠️${NC}  Report generated with warnings"
+        fi
     else
-        echo -e "    ${YELLOW}⚠️${NC}  Report renderer had errors"
+        echo -e "    ${YELLOW}⚠️${NC}  Report renderer failed to create output"
         ((ERRORS++))
     fi
 else
