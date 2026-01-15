@@ -1,53 +1,24 @@
-# C010_standards Exception Declaration
-# =====================================
-#
-# C010 is the standards repository that DEFINES folder structure rules.
-# Its structure is intentionally different for discoverability and import compatibility.
-#
-# Owner: Jeremy Bradford
-# Review cadence: Quarterly (next: 2026-Q2)
-# Last reviewed: 2026-01-11
-# Approved by: Jeremy (via Claude Code session)
-
 version: 1
 repo: C010_standards
 
-exception_type: standards_repository
+owner: "Jeremy (Al) Bradford"
+created_at: "2026-01-15"
+review:
+  cadence: "quarterly"
+  next_review: "2026-04-15"
+  goal: "C010 defines the standards; docs folder is intentional for documentation site."
 
-reason: |
-  C010_standards defines the Betty Protocol folder structure.
-  Its content directories exist at top-level for:
-  1. Discoverability - consumers expect schemas/taxonomies/protocols at obvious paths
-  2. Import compatibility - validators/ is a Python package with 30+ internal imports
-  3. Submodule stability - C001_mission-control references these paths via git submodule
+notes: |
+  C010_standards is the canonical source for Betty Protocol and workspace standards.
+  The docs/ folder is used for GitHub Pages / documentation site generation.
+  This is a permanent exception as the standards repo has unique requirements.
 
 allowed_additional_dirs:
-  - schemas
-  - taxonomies
-  - protocols
-  - validators
-  - tests
-  - registry
-  - scripts
+  - docs
 
-# Per-directory justification
 per_dir:
-  schemas:
-    justification: "Core deliverable: YAML/JSON schema definitions for DocMeta, CodeMeta, Houston"
-  taxonomies:
-    justification: "Core deliverable: controlled vocabularies (topics, emotions, content types)"
-  protocols:
-    justification: "Core deliverable: Betty Protocol docs, META.yaml spec, cross-platform hooks"
-  validators:
-    justification: "Python package: Houston validators with internal imports (check_houston_*.py)"
-  tests:
-    justification: "Python tests: pytest suite for validators, requires validators/ at sibling level"
-  registry:
-    justification: "Config registry: repos.yaml consumed by C017_brain-on-tap primers"
-  scripts:
-    justification: "Operational scripts: audit_folder_structure.sh referenced from 00_run/"
-
-# Cleanup completed 2025-01-01:
-# - prompts/: Deleted (was empty)
-# - tools/: Migrated to 40_src/tools/
-# - workspace/: Migrated to 70_evidence/workspace/
+  docs:
+    owner: "Al"
+    justification: "Documentation site source (GitHub Pages / docs generator)."
+    planned_destination: "Keep as-is; standard for documentation sites."
+    review_cadence: "permanent"
