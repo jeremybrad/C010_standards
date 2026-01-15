@@ -10,15 +10,57 @@ review:
 
 notes: |
   C010_standards is the canonical source for Betty Protocol and workspace standards.
-  The docs/ folder is used for GitHub Pages / documentation site generation.
-  This is a permanent exception as the standards repo has unique requirements.
+  As the standards repository, it uses a specialized folder structure to organize
+  schemas, protocols, taxonomies, and validators. This is a permanent exception.
 
 allowed_additional_dirs:
   - docs
+  - protocols
+  - registry
+  - schemas
+  - scripts
+  - taxonomies
+  - tests
+  - validators
 
 per_dir:
   docs:
     owner: "Al"
     justification: "Documentation site source (GitHub Pages / docs generator)."
     planned_destination: "Keep as-is; standard for documentation sites."
+    review_cadence: "permanent"
+  protocols:
+    owner: "Al"
+    justification: "Betty Protocol and other protocol definitions."
+    planned_destination: "Keep as-is; core to C010's purpose."
+    review_cadence: "permanent"
+  registry:
+    owner: "Al"
+    justification: "Project registry configuration and templates."
+    planned_destination: "Keep as-is; core to C010's purpose."
+    review_cadence: "permanent"
+  schemas:
+    owner: "Al"
+    justification: "DocMeta, CodeMeta, and Houston schema definitions."
+    planned_destination: "Keep as-is; core to C010's purpose."
+    review_cadence: "permanent"
+  scripts:
+    owner: "Al"
+    justification: "Workspace compliance and automation scripts."
+    planned_destination: "Keep as-is; core to C010's purpose."
+    review_cadence: "permanent"
+  taxonomies:
+    owner: "Al"
+    justification: "Controlled vocabularies for topics, content types, etc."
+    planned_destination: "Keep as-is; core to C010's purpose."
+    review_cadence: "permanent"
+  tests:
+    owner: "Al"
+    justification: "Validator and schema test suite."
+    planned_destination: "Keep as-is; standard test location."
+    review_cadence: "permanent"
+  validators:
+    owner: "Al"
+    justification: "Houston and compliance validators."
+    planned_destination: "Keep as-is; core to C010's purpose."
     review_cadence: "permanent"
