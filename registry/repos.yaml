@@ -831,32 +831,35 @@ repos:
       - ableton
 
   - repo_id: W003_cmo_html_report
-    name: CMO HTML Report
-    purpose: CMO HTML report generation system for business analytics and reporting dashboards.
+    name: CMO HTML Report (ARCHIVED)
+    purpose: "ARCHIVED - Merged into W001_cmo-weekly-reporting (January 2026). Jinja2 templates, brand linting, and SQL queries now in W001."
     philosophy: Templated reports with consistent branding and evidence-backed metrics.
     pool: work
-    bot_active: true
+    bot_active: false
     path_rel: W003_cmo_html_report
     story: |
-      Generates executive-ready HTML reports for CMO stakeholders. Combines SQL queries,
-      templated layouts, and brand assets to produce consistent, professional reports.
+      ARCHIVED January 2026: Consolidated into W001_cmo-weekly-reporting.
+      Previously generated executive-ready HTML reports for CMO stakeholders.
+      All functionality (Jinja2 templates, brand linter, SQL queries) now available in W001.
+      Archive branch: archive/pre-merge-2026-01
     authoritative_sources:
-      - 10_sql/
-      - 20_lib/
-      - 30_templates/
-      - 40_brand/
+      - "See W001_cmo-weekly-reporting/40_src/templates/"
+      - "See W001_cmo-weekly-reporting/40_src/gates/wow-brand/"
+      - "See W001_cmo-weekly-reporting/40_src/sql/w003_imported/"
     contracts:
-      - Receipt-backed report generation (20_receipts/)
-      - Consistent brand assets (40_brand/)
+      - "ARCHIVED - Use W001 for all CMO reporting"
     interfaces:
-      - "CLI: 00_run/verify.command"
+      - "ARCHIVED - Use W001 make targets"
     commands:
-      - "make verify"
-    status: active
+      - "# ARCHIVED - Use W001"
+    status: archived
+    archived_date: "2026-01-15"
+    merged_into: W001_cmo-weekly-reporting
     tags:
       - analytics
       - reporting
       - html
+      - archived
 
   - repo_id: W005_BigQuery
     name: BigQuery Infrastructure
