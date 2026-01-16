@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-01 14:40:19
-**Source:** `folder_structure_audit_20260101_144007.csv`
-**Audit timestamp:** 20260101_144007
+**Generated:** 2026-01-15 16:48:47
+**Source:** `folder_structure_audit_20260115_164842.csv`
+**Audit timestamp:** 20260115_164842
 
 ---
 
@@ -10,14 +10,14 @@
 
 | Metric | Value |
 |--------|-------|
-| Total repos | 63 |
-| Compliant | 61 (96%) |
-| With violations | 2 |
+| Total repos | 62 |
+| Compliant | 62 (100%) |
+| With violations | 0 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>61 repos fully compliant</summary>
+<details><summary>62 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
@@ -30,13 +30,16 @@
 | C007_the_cavern_club | C |
 | C008_CBFS | C |
 | C009_mcp-memory-http | C |
+| C010_standards | C |
 | C011_agents | C |
+| C012_round-table | C |
 | C015_local-tts | C |
 | C016_prompt-engine | C |
 | C017_brain-on-tap | C |
 | C018_terminal-insights | C |
 | C019_docs-site | C |
 | C020_pavlok | C |
+| C021_notebooklm-mcp | C |
 | Knowledge-Synthesis-Tool | - |
 | P001_bettymirror | P |
 | P004_adaptive | P |
@@ -64,11 +67,11 @@
 | P169_workflow-harvest | P |
 | P171_elevenlabs-music-mcp | P |
 | P172_lyra-live | P |
-| P190_conversation-exports-web | P |
 | P211_mirror | P |
 | P212_band-in-a-box-ai | P |
 | P214_playwright-agent-demo | P |
 | P215_repo-dashboard | P |
+| U01_comfyUI | U |
 | W001_cmo-weekly-reporting | W |
 | W002_analytics | W |
 | W003_cmo_html_report | W |
@@ -80,36 +83,18 @@
 | W011_peer-review | W |
 | W012_hardening_bundle | W |
 | W166_fiber-vs-home_reconciliation | W |
-| reporting | - |
-| voice-notes-pipeline | - |
 
 </details>
-
-## Permanent Exceptions
-
-These repos have justified permanent exceptions (e.g., standards repos).
-
-| Repo | Series | Reason |
-|------|--------|--------|
-| C010_standards | C | Standards repository (defines the rules) |
-
-## Excluded Repos
-
-External tools not maintained by this workspace.
-
-| Repo | Series | Reason |
-|------|--------|--------|
-| U01_comfyUI | U | External tool (ComfyUI) |
 
 ## Compliance by Series
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 16 | 17 | 94% |
+| C (Core) | 19 | 19 | 100% |
 | W (Work) | 11 | 11 | 100% |
-| P (Projects) | 31 | 31 | 100% |
-| U (Utility) | 0 | 1 | 0% |
-| - (Other) | 3 | 3 | 100% |
+| P (Projects) | 30 | 30 | 100% |
+| U (Utility) | 1 | 1 | 100% |
+| - (Other) | 1 | 1 | 100% |
 
 ---
 
