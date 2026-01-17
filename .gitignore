@@ -10,6 +10,7 @@ secrets/
 
 # macOS
 .DS_Store
+Icon?
 
 # Generated outputs (regenerated on demand)
 # Keep directories via .gitkeep, ignore generated content
