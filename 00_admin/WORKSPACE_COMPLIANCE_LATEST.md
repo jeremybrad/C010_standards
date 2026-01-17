@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-16 23:13:10
-**Source:** `folder_structure_audit_20260116_231259.csv`
-**Audit timestamp:** 20260116_231259
+**Generated:** 2026-01-16 23:14:39
+**Source:** `folder_structure_audit_20260116_231435.csv`
+**Audit timestamp:** 20260116_231435
 
 ---
 
@@ -11,13 +11,13 @@
 | Metric | Value |
 |--------|-------|
 | Total repos | 62 |
-| Compliant | 61 (98%) |
-| With violations | 1 |
+| Compliant | 62 (100%) |
+| With violations | 0 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>61 repos fully compliant</summary>
+<details><summary>62 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
@@ -78,6 +78,7 @@
 | W005_BigQuery | W |
 | W006_Abandoned_Cart | W |
 | W007_Snowflake_SQL_Library | W |
+| W008_QQ | W |
 | W009_context_library | W |
 | W011_peer-review | W |
 | W012_hardening_bundle | W |
@@ -85,25 +86,12 @@
 
 </details>
 
-## Temporary Exceptions
-
-These repos have declared exceptions with remediation plans.
-
-### W008_QQ
-
-- **Series:** W
-- **Register entry:** **MISSING**
-- **Recommended action:**
-
-**Invalid directories:**
-- `50_reference_reports`
-
 ## Compliance by Series
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
 | C (Core) | 19 | 19 | 100% |
-| W (Work) | 10 | 11 | 90% |
+| W (Work) | 11 | 11 | 100% |
 | P (Projects) | 30 | 30 | 100% |
 | U (Utility) | 1 | 1 | 100% |
 | - (Other) | 1 | 1 | 100% |
