@@ -3,7 +3,8 @@
 ## Provenance
 
 - **Generated**: 2026-01-17
-- **Repo SHA**: 2217ce4
+- **Source SHA**: 2217ce4 (content used to generate)
+- **Primer SHA**: 66175a3 (commit containing this file)
 - **Generator**: claude-code (manual regeneration)
 - **Source Docs**:
   - README.md
