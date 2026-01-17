@@ -42,7 +42,7 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 
 > **Quick Reference:** See [`protocols/CANONICAL_STRUCTURE.md`](CANONICAL_STRUCTURE.md) for a consolidated structure reference with decision tables and validation commands.
 
-- Allowed top level: 00_admin, 00_run, 10_docs, 20_receipts, 30_config, 40_src, 50_data, 60_tests, 70_evidence, 90_archive
+- Allowed top level: 00_admin, 00_run, 10_docs, 20_receipts, 30_config, 40_src, 50_data, 60_tests, 70_evidence, 80_reports, 90_archive
 - Single canonical README at repo root. Secondary READMEs are stubs that point to root.
 - Required files: README.md, rules_now.md, RELATIONS.yaml
 - Data policy: no data or artifacts in repo. Use $SADB_DATA_DIR with optional `50_data -> ../.links/SADB_Data` symlink for compatibility.
@@ -145,7 +145,7 @@ ls -la _receipts/workspace_wave*
 
 ### Folder structure (top-level)
 Allowed only:
-`00_admin`, `00_run`, `10_docs`, `20_receipts`, `20_approvals`, `20_inbox`, `30_config`, `40_src`, `50_data`, `60_tests`, `70_evidence`, `80_evidence_packages`, `90_archive`
+`00_admin`, `00_run`, `10_docs`, `20_receipts`, `20_approvals`, `20_inbox`, `30_config`, `40_src`, `50_data`, `60_tests`, `70_evidence`, `80_evidence_packages`, `80_reports`, `90_archive`
 
 ### Local-only artifacts (never commit)
 - `.claude/settings.local.json`
