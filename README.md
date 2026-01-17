@@ -11,7 +11,7 @@ Welcome to the information center for Jeremy Bradford's development workspace. B
 C010_standards is the **canonical source of truth** for workspace organization, standards, and governance across Jeremy Bradford's 66+ project ecosystem. It serves as the "info center" or "visitor center" for the workspace. It provides:
 
 - **Protocols & Standards**: Betty Protocol (workspace governance), README repo card standard, cross-platform CLAUDE.md format
-- **Schemas**: DocMeta v1.2, CodeMeta v1.0, Houston features/tools/telemetry JSON schemas
+- **Schemas**: DocMeta v1.2, CodeMeta v1.0, CapsuleMeta v1.0, Houston features/tools/telemetry JSON schemas
 - **Taxonomies**: Topic, emotion, and metadata classification systems
 - **Validators**: Python scripts to check compliance with schemas and protocols
 - **Project Registry**: Machine-readable repo metadata (`registry/repos.yaml` is source of truth; `70_evidence/workspace/KNOWN_PROJECTS.md` is auto-generated)
@@ -49,7 +49,8 @@ This is the "visitor center" that orients both humans and AI agents before they 
 |------|---------|
 | `AGENT_START_HERE.md` | **Required reading** for AI agents before any work |
 | `protocols/` | Governance docs (betty_protocol, readme_repo_card, universal_claude_standards) |
-| `schemas/` | YAML/JSON schema definitions (docmeta, codemeta, houston_*) |
+| `protocols/capsules/` | Capsule metadata standard for handoffs and memory exports |
+| `schemas/` | YAML/JSON schema definitions (docmeta, codemeta, capsulemeta, houston_*) |
 | `validators/` | Python compliance checkers for Houston configs |
 | `scripts/` | Bootstrap utilities + `validate_readme_repo_card.py` |
 | `workspace/` | Project inventory, relationships, PR tracking |
@@ -67,10 +68,13 @@ C010_standards/
 │   ├── betty_protocol.md        # Workspace governance (non-negotiable)
 │   ├── readme_repo_card.md      # README repo card standard
 │   ├── universal_claude_standards.md
-│   └── cross_platform_claude_md.md
+│   ├── cross_platform_claude_md.md
+│   └── capsules/                # Capsule metadata standard
+│       └── capsule_spec_v1.md
 ├── schemas/                      # Data contracts
 │   ├── docmeta_v1.2.yaml        # Document metadata
 │   ├── codemeta_v1.0.yaml       # Code metadata
+│   ├── capsulemeta_v1.0.yaml    # Capsule metadata
 │   └── houston_*.schema.json    # Houston agent configs
 ├── validators/                   # Compliance checkers
 │   ├── check_houston_*.py       # 5 Houston validators
@@ -99,6 +103,7 @@ C010_standards/
 | `Houston Features` | JSON Schema | AI agent capability configuration |
 | `Houston Tools` | JSON Schema | Tool pipeline definitions |
 | `Houston Telemetry` | JSON Schema | Agent telemetry format |
+| `CapsuleMeta v1.0` | YAML | Capsule metadata for handoffs, memory exports, activity logs |
 | `Betty Protocol` | Markdown | Folder structure + governance rules |
 | `README Repo Card` | Markdown + BOT markers | Deterministic README extraction |
 | `Docs Publishing` | C019 integration | Standards authored in C010; publishing/search served by C019 |
@@ -135,6 +140,10 @@ bash scripts/bootstrap_claude_crossplatform.sh            # Apply
 
 # 7. Update project registry (runs nightly at 2:45 AM)
 python workspace/scripts/generate_project_registry.py
+
+# 8. Validate capsule documents
+python validators/check_capsulemeta.py path/to/capsule.md
+python validators/check_capsulemeta.py --strict 10_docs/examples/capsules/
 ```
 
 ## Footguns and gotchas
@@ -161,7 +170,7 @@ python workspace/scripts/generate_project_registry.py
 ## Provenance
 
 - **Version**: 1.0.0
-- **Last Updated**: 2025-12-28
+- **Last Updated**: 2026-01-17
 - **Git SHA**: (run `git rev-parse --short HEAD` for current)
 - **Receipts**: `20_receipts/`
 - **Standard**: Self-hosting - this README passes `scripts/validate_readme_repo_card.py`
@@ -399,6 +408,7 @@ This repo defines standards used across all projects:
 ### 3. Metadata Schemas
 - **DocMeta v1.2** - Document metadata (schemas/docmeta_v1.2.yaml)
 - **CodeMeta v1.0** - Code metadata (schemas/codemeta_v1.0.yaml)
+- **CapsuleMeta v1.0** - Capsule metadata for handoffs/exports (schemas/capsulemeta_v1.0.yaml)
 - **Houston Features** - AI agent capabilities (schemas/houston_features.schema.json)
 
 ### 4. Taxonomies
@@ -424,9 +434,9 @@ See [policy/testing/README.md](policy/testing/README.md) for full documentation.
 
 ## Validation Tools
 
-### Houston Validators (Production-Ready)
+### Validators (Production-Ready)
 
-Five validators ensure compliance with Houston agent protocols:
+Seven validators ensure compliance with Houston configs, metadata schemas, and repository contracts:
 
 ```bash
 # Run individual validators
@@ -435,6 +445,8 @@ python validators/check_houston_features.py <file.json>
 python validators/check_houston_models.py <file.json>
 python validators/check_houston_telemetry.py <file.json>
 python validators/check_houston_tools.py <file.json>
+python validators/check_repo_contract.py
+python validators/check_capsulemeta.py <file.md>
 
 # Run all validators
 python validators/run_all.py
@@ -444,7 +456,14 @@ python validators/run_all.py
 - Schema compliance (required fields, types)
 - Semantic validation (logical consistency)
 - Houston-specific rules (phase transitions, tool pipelines)
-- Cross-file references (imported configs)
+- Capsule frontmatter (c010.capsule.v1)
+- Repository structure (README, receipts, markers)
+
+**Execution Contexts:** Validators fall into two categories:
+- **Portable** (`repo_contract`, `capsulemeta`, `constitution`): Work in any repo
+- **C010-context** (`houston_*`): Require `30_config/` files present in C010
+
+Consumer repos using C010 as a submodule should use `--targets` to run only portable validators. See [validators/README.md](validators/README.md) for details.
 
 **Testing:**
 - 22 comprehensive tests with pytest
@@ -611,7 +630,7 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 ---
 
-*Last Updated: 2026-01-13*
+*Last Updated: 2026-01-17*
 *Maintained by: Jeremy Bradford & Claude*
 
 _All downstream repositories should treat this repo as the authoritative metadata spec. Updates here require versioning, changelog, and communication across projects._
