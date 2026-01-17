@@ -28,10 +28,10 @@
 ### Core vs Extended Folders
 
 **Core folders (always valid in any repo):**
-- `00_admin`, `00_run`, `10_docs`, `20_receipts`, `30_config`, `40_src`, `70_evidence`, `90_archive`
+- `00_admin`, `00_run`, `10_docs`, `20_receipts`, `30_config`, `40_src`, `60_tests`, `70_evidence`, `90_archive`
 
 **Extended folders (use when needed):**
-- `20_approvals`, `20_inbox`, `50_data`, `60_tests`, `80_evidence_packages`, `80_reports`
+- `20_approvals`, `20_inbox`, `50_data`, `80_evidence_packages`, `80_reports`
 
 ---
 
