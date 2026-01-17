@@ -17,6 +17,7 @@ Production-ready validation suite for Houston configuration and document complia
 | `houston_models` | `check_houston_models.py` | Check model fallback chains and config parity across files. |
 | `houston_telemetry` | `check_houston_telemetry.py` | Ensure telemetry feeds are fresh and contain required metrics. |
 | `repo_contract` | `check_repo_contract.py` | Validate repository structure (README, .gitignore, receipts, markers). |
+| `capsulemeta` | `check_capsulemeta.py` | Validate capsule frontmatter (c010.capsule.v1) in markdown files. |
 
 ## Usage
 
@@ -76,3 +77,33 @@ pip install pyyaml jsonschema
 ```
 
 Validators will function without these (with warnings), but full validation requires PyYAML for DocMeta and jsonschema for features validation.
+
+## Execution Contexts
+
+### Running in C010_standards (full suite)
+
+When running validators inside C010_standards, all validators work because required config files (`30_config/houston-features.json`, etc.) are present:
+
+```bash
+cd ~/SyncedProjects/C010_standards
+python validators/run_all.py
+```
+
+### Running from consumer repos (via submodule)
+
+Consumer repos (like C001_mission-control) consume C010 as a git submodule. The Houston-specific validators (`houston_features`, `houston_tools`, etc.) require config files that only exist in C010, so running `run_all.py` without targets will fail.
+
+**Use `--targets` to run only applicable validators:**
+
+```bash
+cd ~/SyncedProjects/C001_mission-control
+python external/standards/validators/run_all.py --targets repo_contract capsulemeta
+```
+
+**Portable validators** (work in any repo):
+- `repo_contract` - Checks repository structure
+- `capsulemeta` - Validates capsule frontmatter
+- `constitution` - Guardrail compliance
+
+**C010-context validators** (require `30_config/`):
+- `houston_docmeta`, `houston_features`, `houston_tools`, `houston_models`, `houston_telemetry`
