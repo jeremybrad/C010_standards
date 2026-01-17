@@ -1,5 +1,20 @@
 # Metadata Governance Changelog
 
+## 2026-01-17
+- **Capsule Standard v1**: Created new workspace-wide capsule metadata standard (`c010.capsule.v1`) for atomic, self-contained artifacts
+- Created protocol specification at `protocols/capsules/capsule_spec_v1.md`
+- Created schema template at `schemas/capsulemeta_v1.0.yaml`
+- Implemented `validators/check_capsulemeta.py` with:
+  - Required fields: `capsule_spec`, `capsule_id`, `created_at`, `kind`, `producer.tool`
+  - Optional fields: `title`, `summary`, `tags`, `provenance`, `expires_at`, `related_capsules`, `custom`
+  - Strict mode (`--strict`) for unknown field enforcement
+  - Repo-relative path output by default, `--absolute-paths` flag for full paths
+  - Exit codes: 0 (pass), 1 (validation failure), 2 (parse error)
+- Added examples at `10_docs/examples/capsules/` (handoff, memory_export, activity)
+- Added comprehensive tests in `tests/test_check_capsulemeta.py`
+- Registered `capsulemeta` in `validators/__init__.py`
+- Updated `CLAUDE.md` Available Validators list
+
 ## 2025-12-28
 - **Windows Console Compatibility**: Added `safe_print()` function to `validators/common.py` for cross-platform Unicode handling
 - Validators now gracefully fall back to ASCII equivalents (e.g., `[OK]`, `[FAIL]`, `[TIP]`) when Windows console encoding doesn't support Unicode characters

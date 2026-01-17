@@ -1,0 +1,39 @@
+# CapsuleMeta schema canonical template (v1.0)
+# Source: protocols/capsules/capsule_spec_v1.md
+# Attribution: Capsule metadata standard maintained in C010_standards repository.
+
+# Required fields
+capsule_spec: "c010.capsule.v1"
+capsule_id: "<uuid or stable identifier>"
+created_at: "<YYYY-MM-DDTHH:MM:SSZ>"
+kind: "<handoff|memory_export|activity|other>"
+producer:
+  tool: "<tool that created this capsule>"
+  agent: "<optional: specific agent or component>"
+
+# Optional metadata
+title: "<human-readable title>"
+summary: |
+  <brief description of capsule contents>
+
+# Optional categorization
+tags:
+  - "<tag1>"
+  - "<tag2>"
+
+# Optional lifecycle
+expires_at: "<YYYY-MM-DDTHH:MM:SSZ>"
+
+# Optional relationships
+related_capsules:
+  - "<capsule_id>"
+
+# Optional provenance tracking
+provenance:
+  source_session: "<session id>"
+  parent_capsule: "<parent capsule id>"
+  workflow: "<workflow name>"
+  version: "<tool version>"
+
+# Extension point for tool-specific metadata
+custom: {}

@@ -96,6 +96,7 @@ Get-Process | Where-Object {$_.Name -like "*name*"}  # PowerShell
 - `houston_tools` - Tool pipeline validation
 - `houston_models` - Model deployment validation
 - `houston_telemetry` - Telemetry health validation
+- `capsulemeta` - Capsule frontmatter validation (c010.capsule.v1)
 
 **Houston Config (`30_config/`)** - Mission Control agent configuration:
 - `houston-features.json` - Feature toggles, agency levels, trust building phases
