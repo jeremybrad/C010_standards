@@ -19,6 +19,7 @@
 | `30_config` | Configuration files | Always valid - JSON, YAML, TOML configs |
 | `40_src` | Source code | Always valid - **production code lives here** |
 | `50_data` | Data files or symlink | Symlink to `$SADB_DATA_DIR` when needed |
+| `50_reference_reports` | Reference report templates | Static report examples for W-series |
 | `60_tests` | Test files and fixtures | When tests need separation from `40_src` |
 | `70_evidence` | Evidence and artifacts | Always valid - test outputs, audit evidence |
 | `80_evidence_packages` | Packaged evidence bundles | Bundled evidence for review/delivery |
@@ -31,7 +32,7 @@
 - `00_admin`, `00_run`, `10_docs`, `20_receipts`, `30_config`, `40_src`, `60_tests`, `70_evidence`, `80_reports`, `90_archive`
 
 **Extended folders (use when needed):**
-- `20_approvals`, `20_inbox`, `50_data`, `80_evidence_packages`
+- `20_approvals`, `20_inbox`, `50_data`, `50_reference_reports`, `80_evidence_packages`
 
 ---
 

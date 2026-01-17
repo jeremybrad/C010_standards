@@ -67,8 +67,8 @@ ACTIONS_LATEST="$CSV_DIR/folder_structure_actions_latest.csv"
 # Betty Protocol Canon - allowed top-level directories
 # Source: protocols/betty_protocol.md
 # Updated 2025-12-27: Added 20_inbox, 20_approvals, 80_evidence_packages
-# Updated 2026-01-16: Added 60_tests, 80_reports
-ALLOWED_DIRS="00_admin|00_run|10_docs|20_receipts|20_approvals|20_inbox|30_config|40_src|50_data|60_tests|70_evidence|80_evidence_packages|80_reports|90_archive"
+# Updated 2026-01-16: Added 60_tests, 80_reports, 50_reference_reports
+ALLOWED_DIRS="00_admin|00_run|10_docs|20_receipts|20_approvals|20_inbox|30_config|40_src|50_data|50_reference_reports|60_tests|70_evidence|80_evidence_packages|80_reports|90_archive"
 
 # Required files per Betty Protocol (default)
 # Can be overridden per-repo via 00_admin/audit_exceptions.yaml
