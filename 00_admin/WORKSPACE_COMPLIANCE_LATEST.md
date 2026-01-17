@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-16 03:10:08
-**Source:** `folder_structure_audit_20260116_031005.csv`
-**Audit timestamp:** 20260116_031005
+**Generated:** 2026-01-16 22:49:58
+**Source:** `folder_structure_audit_20260116_224949.csv`
+**Audit timestamp:** 20260116_224949
 
 ---
 
@@ -11,20 +11,19 @@
 | Metric | Value |
 |--------|-------|
 | Total repos | 62 |
-| Compliant | 61 (98%) |
-| With violations | 1 |
+| Compliant | 59 (95%) |
+| With violations | 3 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>61 repos fully compliant</summary>
+<details><summary>59 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
-| C001_mission-control | C |
-| C002_sadb | C |
 | C003_sadb_canonical | C |
 | C004_star-extraction | C |
+| C005_mybuddy | C |
 | C006_revelator | C |
 | C007_the_cavern_club | C |
 | C008_CBFS | C |
@@ -77,7 +76,6 @@
 | W005_BigQuery | W |
 | W006_Abandoned_Cart | W |
 | W007_Snowflake_SQL_Library | W |
-| W008_QQ | W |
 | W009_context_library | W |
 | W011_peer-review | W |
 | W012_hardening_bundle | W |
@@ -89,24 +87,39 @@
 
 These repos have declared exceptions with remediation plans.
 
-### C005_mybuddy
+### C001_mission-control
 
 - **Series:** C
 - **Register entry:** **MISSING**
 - **Recommended action:**
 
 **Invalid directories:**
-- `__pycache__`
+- `60_tests`
 
-**Missing required files:**
-- `rules_now.md`
+### C002_sadb
+
+- **Series:** C
+- **Register entry:** documented
+- **Recommended action:**
+
+**Invalid directories:**
+- `80_reports`
+
+### W008_QQ
+
+- **Series:** W
+- **Register entry:** **MISSING**
+- **Recommended action:**
+
+**Invalid directories:**
+- `50_reference_reports`
 
 ## Compliance by Series
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 18 | 19 | 94% |
-| W (Work) | 11 | 11 | 100% |
+| C (Core) | 17 | 19 | 89% |
+| W (Work) | 10 | 11 | 90% |
 | P (Projects) | 30 | 30 | 100% |
 | U (Utility) | 1 | 1 | 100% |
 | - (Other) | 1 | 1 | 100% |
