@@ -89,6 +89,8 @@ Explains:
 
 ### The Canonical File Pattern
 
+> **Complete Reference:** See [`protocols/CANONICAL_STRUCTURE.md`](protocols/CANONICAL_STRUCTURE.md) for the full folder list, naming conventions, and decision tables.
+
 Jeremy's repos follow this pattern:
 ```
 project/

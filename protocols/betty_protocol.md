@@ -39,6 +39,9 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 ```
 
 ## Canon (per repo)
+
+> **Quick Reference:** See [`protocols/CANONICAL_STRUCTURE.md`](CANONICAL_STRUCTURE.md) for a consolidated structure reference with decision tables and validation commands.
+
 - Allowed top level: 00_admin, 00_run, 10_docs, 20_receipts, 30_config, 40_src, 50_data, 70_evidence, 90_archive
 - Single canonical README at repo root. Secondary READMEs are stubs that point to root.
 - Required files: README.md, rules_now.md, RELATIONS.yaml
