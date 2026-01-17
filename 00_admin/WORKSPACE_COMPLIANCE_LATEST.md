@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-16 23:11:10
-**Source:** `folder_structure_audit_20260116_230842.csv`
-**Audit timestamp:** 20260116_230842
+**Generated:** 2026-01-16 23:13:10
+**Source:** `folder_structure_audit_20260116_231259.csv`
+**Audit timestamp:** 20260116_231259
 
 ---
 
@@ -10,18 +10,19 @@
 
 | Metric | Value |
 |--------|-------|
-| Total repos | 26 |
-| Compliant | 25 (96%) |
+| Total repos | 62 |
+| Compliant | 61 (98%) |
 | With violations | 1 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>25 repos fully compliant</summary>
+<details><summary>61 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
 | C001_mission-control | C |
+| C002_sadb | C |
 | C003_sadb_canonical | C |
 | C004_star-extraction | C |
 | C005_mybuddy | C |
@@ -46,6 +47,41 @@
 | P007_n8n_and_the_sad_bees | P |
 | P010_betty-ai | P |
 | P013_betty-source-tracker | P |
+| P030_ai-services | P |
+| P031_sillytavern | P |
+| P032_enhanced-whisper | P |
+| P034_whisper-speech | P |
+| P050_ableton-mcp | P |
+| P051_mcp-servers | P |
+| P052_n8n-mcp-setup | P |
+| P090_relay | P |
+| P091_voice-notes-pipeline | P |
+| P092_mirrorlab | P |
+| P110_knowledge-synthesis-tool | P |
+| P151_clouddriveinventory | P |
+| P152_cognitiveplayback | P |
+| P154_agents | P |
+| P158_local-tts | P |
+| P159_memory-system | P |
+| P167_dj-claude-mcp | P |
+| P169_workflow-harvest | P |
+| P171_elevenlabs-music-mcp | P |
+| P172_lyra-live | P |
+| P211_mirror | P |
+| P212_band-in-a-box-ai | P |
+| P214_playwright-agent-demo | P |
+| P215_repo-dashboard | P |
+| U01_comfyUI | U |
+| W001_cmo-weekly-reporting | W |
+| W002_analytics | W |
+| W003_cmo_html_report | W |
+| W005_BigQuery | W |
+| W006_Abandoned_Cart | W |
+| W007_Snowflake_SQL_Library | W |
+| W009_context_library | W |
+| W011_peer-review | W |
+| W012_hardening_bundle | W |
+| W166_fiber-vs-home_reconciliation | W |
 
 </details>
 
@@ -53,21 +89,23 @@
 
 These repos have declared exceptions with remediation plans.
 
-### C002_sadb
+### W008_QQ
 
-- **Series:** C
-- **Register entry:** documented
+- **Series:** W
+- **Register entry:** **MISSING**
 - **Recommended action:**
 
 **Invalid directories:**
-- `80_reports`
+- `50_reference_reports`
 
 ## Compliance by Series
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 18 | 19 | 94% |
-| P (Projects) | 6 | 6 | 100% |
+| C (Core) | 19 | 19 | 100% |
+| W (Work) | 10 | 11 | 90% |
+| P (Projects) | 30 | 30 | 100% |
+| U (Utility) | 1 | 1 | 100% |
 | - (Other) | 1 | 1 | 100% |
 
 ---
