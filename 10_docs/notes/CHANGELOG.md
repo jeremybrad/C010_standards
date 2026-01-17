@@ -1,6 +1,19 @@
 # Metadata Governance Changelog
 
 ## 2026-01-17
+- **Epoch-as-Code v1**: Created new repo state snapshot standard (`c010.epoch.v1`) for tracking git HEAD and derived artifact checksums
+- Created protocol specification at `protocols/ops/epoch_as_code_v1.md`
+- Implemented `validators/check_epoch.py` with:
+  - Required fields: `epoch_schema`, `repo_id`, `repo_head`, `generated_at_utc`
+  - Conditional primer block with SHA256 verification
+  - Default mode: warn + exit 0 if EPOCH.yaml missing
+  - `--require` mode: exit 1 if EPOCH.yaml missing
+  - `--strict` mode: verify repo_head matches current git HEAD
+  - Exit codes: 0 (pass), 1 (validation failure), 2 (parse error)
+- Added comprehensive tests in `tests/test_check_epoch.py`
+- Registered `epoch` in `validators/__init__.py`
+- Updated `validators/README.md` and root `README.md`
+
 - **Capsule Standard v1**: Created new workspace-wide capsule metadata standard (`c010.capsule.v1`) for atomic, self-contained artifacts
 - Created protocol specification at `protocols/capsules/capsule_spec_v1.md`
 - Created schema template at `schemas/capsulemeta_v1.0.yaml`

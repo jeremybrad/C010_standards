@@ -104,6 +104,7 @@ C010_standards/
 | `Houston Tools` | JSON Schema | Tool pipeline definitions |
 | `Houston Telemetry` | JSON Schema | Agent telemetry format |
 | `CapsuleMeta v1.0` | YAML | Capsule metadata for handoffs, memory exports, activity logs |
+| `Epoch v1.0` | YAML | Repo state snapshot with git HEAD and derived artifact checksums |
 | `Betty Protocol` | Markdown | Folder structure + governance rules |
 | `README Repo Card` | Markdown + BOT markers | Deterministic README extraction |
 | `Docs Publishing` | C019 integration | Standards authored in C010; publishing/search served by C019 |
@@ -144,6 +145,11 @@ python workspace/scripts/generate_project_registry.py
 # 8. Validate capsule documents
 python validators/check_capsulemeta.py path/to/capsule.md
 python validators/check_capsulemeta.py --strict 10_docs/examples/capsules/
+
+# 9. Validate EPOCH.yaml (repo state snapshot)
+python validators/check_epoch.py                    # Warn if missing, exit 0
+python validators/check_epoch.py --require          # Exit 1 if missing
+python validators/check_epoch.py --strict           # Verify repo_head matches git HEAD
 ```
 
 ## Footguns and gotchas
@@ -436,7 +442,7 @@ See [policy/testing/README.md](policy/testing/README.md) for full documentation.
 
 ### Validators (Production-Ready)
 
-Seven validators ensure compliance with Houston configs, metadata schemas, and repository contracts:
+Eight validators ensure compliance with Houston configs, metadata schemas, and repository contracts:
 
 ```bash
 # Run individual validators
@@ -447,6 +453,7 @@ python validators/check_houston_telemetry.py <file.json>
 python validators/check_houston_tools.py <file.json>
 python validators/check_repo_contract.py
 python validators/check_capsulemeta.py <file.md>
+python validators/check_epoch.py [--require|--strict]
 
 # Run all validators
 python validators/run_all.py
@@ -458,9 +465,10 @@ python validators/run_all.py
 - Houston-specific rules (phase transitions, tool pipelines)
 - Capsule frontmatter (c010.capsule.v1)
 - Repository structure (README, receipts, markers)
+- Epoch state snapshots (git HEAD, primer SHA256 sync)
 
 **Execution Contexts:** Validators fall into two categories:
-- **Portable** (`repo_contract`, `capsulemeta`, `constitution`): Work in any repo
+- **Portable** (`repo_contract`, `capsulemeta`, `constitution`, `epoch`): Work in any repo
 - **C010-context** (`houston_*`): Require `30_config/` files present in C010
 
 Consumer repos using C010 as a submodule should use `--targets` to run only portable validators. See [validators/README.md](validators/README.md) for details.

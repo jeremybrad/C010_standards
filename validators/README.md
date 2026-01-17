@@ -18,6 +18,7 @@ Production-ready validation suite for Houston configuration and document complia
 | `houston_telemetry` | `check_houston_telemetry.py` | Ensure telemetry feeds are fresh and contain required metrics. |
 | `repo_contract` | `check_repo_contract.py` | Validate repository structure (README, .gitignore, receipts, markers). |
 | `capsulemeta` | `check_capsulemeta.py` | Validate capsule frontmatter (c010.capsule.v1) in markdown files. |
+| `epoch` | `check_epoch.py` | Validate EPOCH.yaml schema and primer SHA256 sync. |
 
 ## Usage
 
@@ -104,6 +105,7 @@ python external/standards/validators/run_all.py --targets repo_contract capsulem
 - `repo_contract` - Checks repository structure
 - `capsulemeta` - Validates capsule frontmatter
 - `constitution` - Guardrail compliance
+- `epoch` - Validates EPOCH.yaml state snapshot
 
 **C010-context validators** (require `30_config/`):
 - `houston_docmeta`, `houston_features`, `houston_tools`, `houston_models`, `houston_telemetry`
