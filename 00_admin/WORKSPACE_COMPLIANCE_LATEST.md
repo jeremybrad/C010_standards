@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-15 16:48:47
-**Source:** `folder_structure_audit_20260115_164842.csv`
-**Audit timestamp:** 20260115_164842
+**Generated:** 2026-01-16 03:10:08
+**Source:** `folder_structure_audit_20260116_031005.csv`
+**Audit timestamp:** 20260116_031005
 
 ---
 
@@ -11,13 +11,13 @@
 | Metric | Value |
 |--------|-------|
 | Total repos | 62 |
-| Compliant | 62 (100%) |
-| With violations | 0 |
+| Compliant | 61 (98%) |
+| With violations | 1 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
 
-<details><summary>62 repos fully compliant</summary>
+<details><summary>61 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
@@ -25,7 +25,6 @@
 | C002_sadb | C |
 | C003_sadb_canonical | C |
 | C004_star-extraction | C |
-| C005_mybuddy | C |
 | C006_revelator | C |
 | C007_the_cavern_club | C |
 | C008_CBFS | C |
@@ -86,11 +85,27 @@
 
 </details>
 
+## Temporary Exceptions
+
+These repos have declared exceptions with remediation plans.
+
+### C005_mybuddy
+
+- **Series:** C
+- **Register entry:** **MISSING**
+- **Recommended action:**
+
+**Invalid directories:**
+- `__pycache__`
+
+**Missing required files:**
+- `rules_now.md`
+
 ## Compliance by Series
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 19 | 19 | 100% |
+| C (Core) | 18 | 19 | 94% |
 | W (Work) | 11 | 11 | 100% |
 | P (Projects) | 30 | 30 | 100% |
 | U (Utility) | 1 | 1 | 100% |
