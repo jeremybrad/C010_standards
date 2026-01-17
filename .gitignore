@@ -18,6 +18,7 @@ Icon?
 # - Folder Audit: folder_structure_audit_*.csv, folder_structure_actions_*.csv
 70_evidence/exports/*.xlsx
 70_evidence/exports/*.csv
+exports/
 
 # Audit receipts are auto-generated (gitignored for cleanliness)
 20_receipts/folder_audit_*.md
