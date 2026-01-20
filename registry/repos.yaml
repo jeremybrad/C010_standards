@@ -1069,6 +1069,77 @@ repos:
       - knowledge-synthesis
       - memory-tier
 
+  - repo_id: W004_dtsa_reimagined
+    name: DTSA Reimagined
+    purpose: Rebuild DTSA reporting with stable BigQuery rollups, final vs intraday separation, and receipts-first validation.
+    philosophy: Boring, reliable, receipts-first. Separate dry paint (final) from wet paint (intraday).
+    pool: work
+    tier: 2
+    bot_active: true
+    path_rel: W004_dtsa_reimagined
+    story: |
+      DTSA (Digital Traffic + Serviceability + Acquisition) reporting was fragile and spreadsheet-heavy.
+      This rebuild eliminates same-day volatility by separating final vs intraday data, restores
+      Leads by Traffic Source breakouts, and produces flat exports for downstream consumption.
+    how_it_fits: |
+      W004 consumes BigQuery GA4 events + Connects source TBD; BigQuery repo/datasets finalized next session.
+      Exports feed Google Sheets, Excel, and Power BI for stakeholder consumption (Monica, Todd, Lauren, Scott).
+    architecture: |
+      - 10_specs/: Requirements and stakeholder documentation
+      - 20_contracts/: Data contracts (grain, measures, taxonomies)
+      - 30_sql/: BigQuery views (final, intraday, reporting)
+      - 40_pipelines/: Pipeline orchestration (future)
+      - 50_artifacts/: Generated outputs and exports
+      - 10_docs/: Domain glossary
+      - 20_receipts/: Tier-2 validation receipts
+      - 90_receipts/: Betty Protocol receipts
+    authoritative_sources:
+      - 30_sql/
+      - 20_contracts/
+      - 10_specs/
+    contracts:
+      - Receipt-backed validation (90_receipts/)
+      - Data contracts define grain and measures
+      - Final vs intraday quality tiers
+    interfaces:
+      - "SQL: 30_sql/*.sql views"
+      - "Export: Flat CSV/Sheets for downstream"
+    onboarding:
+      - "Read PROJECT_PRIMER.md for current state and target"
+      - "Review 20_contracts/data_contract.yaml for grain and measures"
+      - "Check 10_specs/DTSA_REIMAGINED_SPEC.md for requirements"
+    entry_points:
+      - "README.md"
+      - "PROJECT_PRIMER.md"
+      - "CLAUDE.md"
+    key_concepts:
+      - "Dry paint vs wet paint"
+      - "Quality tier (final vs intraday)"
+      - "Channel attribution"
+      - "Funnel stages"
+    common_tasks:
+      - "BigQuery discovery and event mapping"
+      - "Implement SQL views"
+      - "Run validation queries"
+      - "Export flat data for stakeholders"
+    gotchas:
+      - "Exclude T-0 and T-1 from validation (known volatile)"
+      - "Channel taxonomy must match existing definitions"
+      - "GA4 uses UTC timezone"
+    integration_points:
+      - "BigQuery: GA4 events and Connects source"
+      - "Google Sheets: Monica, Todd stakeholder exports"
+      - "Power BI: Lauren, Scott stakeholder exports"
+    commands:
+      - "# TBD - BigQuery queries via bq command"
+    status: active
+    tags:
+      - analytics
+      - bigquery
+      - dtsa
+      - reporting
+      - work-pool
+
   - repo_id: P151_clouddriveinventory
     name: Cloud Drive Inventory
     purpose: Async cloud storage scanner with SQLite persistence and REST API. Implements DSOS v1 inventory standards.
