@@ -1,7 +1,7 @@
 # Temporary Exceptions Register
 
 **Created:** 2026-01-01
-**Last Updated:** 2026-01-01
+**Last Updated:** 2026-01-24
 **Review Cadence:** Quarterly
 **Next Review:** 2026-03-31
 
@@ -66,6 +66,28 @@ The directory rename was completed with:
 This is an external tool (ComfyUI) that is configured but not developed by this workspace. Its structure follows upstream conventions and should not be modified.
 
 **Recommendation:** Mark as `excluded` in audit, skip from compliance checks.
+
+---
+
+### W004_dtsa_reimagined
+
+**Status:** Temporary Exception (Analytics Project Structure)
+**Exception File:** `00_admin/audit_exceptions.yaml`
+**Created:** 2026-01-24
+
+**Non-standard directories:**
+- `10_specs/` - Requirements and specifications
+- `20_contracts/` - Data contracts (grain, measures, taxonomies)
+- `30_sql/` - BigQuery SQL views
+- `40_pipelines/` - Pipeline orchestration
+- `50_artifacts/` - Generated outputs
+- `90_receipts/` - Betty Protocol receipts
+- `docs/` - ADRs, runbooks, diagrams
+
+**Justification:**
+W004 is a BigQuery analytics project that uses domain-specific folder conventions mirroring standard analytics project layouts (specs, contracts, SQL, artifacts) rather than generic software conventions. This structure is intentional and documented in META.yaml.
+
+**Planned Remediation:** None - this is a permanent exception for analytics project structure.
 
 ---
 
