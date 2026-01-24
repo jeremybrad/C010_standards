@@ -4,7 +4,7 @@
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-17
+  last_reviewed: 2026-01-24
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
@@ -44,6 +44,7 @@ files:
   protocols/capsules/capsule_spec_v1.md: "Capsule standard v1 specification"
   schemas/capsulemeta_v1.0.yaml: "Capsule metadata schema template"
   validators/check_capsulemeta.py: "Capsule frontmatter validator"
+  validators/check_windows_filename.py: "Windows filename compatibility checker"
 
 relates_to:
   - C001_mission-control: "Consumes as git submodule at external/standards/"

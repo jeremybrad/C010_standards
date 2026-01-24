@@ -1,5 +1,17 @@
 # Metadata Governance Changelog
 
+## 2026-01-24
+- **Windows Filename Validator**: Created `validators/check_windows_filename.py` to detect filenames incompatible with Windows
+  - Checks for reserved characters (`: * ? " < > | \ /`)
+  - Checks for reserved names (`CON`, `PRN`, `AUX`, `NUL`, `COM1-9`, `LPT1-9`)
+  - Detects control characters and trailing dots/spaces
+  - Supports recursive scanning with `--recursive` flag
+  - Exit codes: 0 (pass), 1 (violations found), 2 (parse error)
+- Registered `windows_filename` in `validators/__init__.py`
+- Updated `validators/README.md`, `CLAUDE.md`, and root `README.md`
+- Created receipt: `20_receipts/2026-01-22_windows_filename_guardrails.md`
+- Supports cross-platform SyncThing workflow where repos sync to Windows
+
 ## 2026-01-17
 - **Epoch-as-Code v1**: Created new repo state snapshot standard (`c010.epoch.v1`) for tracking git HEAD and derived artifact checksums
 - Created protocol specification at `protocols/ops/epoch_as_code_v1.md`
