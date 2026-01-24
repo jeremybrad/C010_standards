@@ -25,5 +25,6 @@ AVAILABLE_VALIDATORS: dict[str, str] = {
     "constitution": "check_constitution",
     "capsulemeta": "check_capsulemeta",
     "epoch": "check_epoch",
+    "windows_filename": "check_windows_filename",
 }
 """Mapping between CLI-friendly validator names and module suffixes."""

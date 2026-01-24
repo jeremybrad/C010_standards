@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-16 23:14:39
-**Source:** `folder_structure_audit_20260116_231435.csv`
-**Audit timestamp:** 20260116_231435
+**Generated:** 2026-01-24 03:10:11
+**Source:** `folder_structure_audit_20260124_031005.csv`
+**Audit timestamp:** 20260124_031005
 
 ---
 
@@ -10,33 +10,37 @@
 
 | Metric | Value |
 |--------|-------|
-| Total repos | 62 |
-| Compliant | 62 (100%) |
-| With violations | 0 |
-| Unclassified violations | 0 |
+| Total repos | 63 |
+| Compliant | 55 (87%) |
+| With violations | 8 |
+| Unclassified violations | 2 |
+
+## STOP: Unclassified Violations
+
+These repos have violations but no declared exception. **Classify before proceeding.**
+
+| Repo | Series | Invalid Dirs | Missing Files | Action |
+|------|--------|--------------|---------------|--------|
+| W004_dtsa_reimagined | W | 50_artifacts, 20_contracts, 90_receipts... | rules_now.md, RELATIONS.yaml | Create exception file |
+| W005_BigQuery | W | 30_sql | - | Create exception file |
 
 ## Compliant Repos
 
-<details><summary>62 repos fully compliant</summary>
+<details><summary>55 repos fully compliant</summary>
 
 | Repo | Series |
 |------|--------|
 | C001_mission-control | C |
 | C002_sadb | C |
-| C003_sadb_canonical | C |
-| C004_star-extraction | C |
 | C005_mybuddy | C |
 | C006_revelator | C |
 | C007_the_cavern_club | C |
 | C008_CBFS | C |
 | C009_mcp-memory-http | C |
-| C010_standards | C |
 | C011_agents | C |
 | C012_round-table | C |
 | C015_local-tts | C |
 | C016_prompt-engine | C |
-| C017_brain-on-tap | C |
-| C018_terminal-insights | C |
 | C019_docs-site | C |
 | C020_pavlok | C |
 | C021_notebooklm-mcp | C |
@@ -75,10 +79,8 @@
 | W001_cmo-weekly-reporting | W |
 | W002_analytics | W |
 | W003_cmo_html_report | W |
-| W005_BigQuery | W |
 | W006_Abandoned_Cart | W |
 | W007_Snowflake_SQL_Library | W |
-| W008_QQ | W |
 | W009_context_library | W |
 | W011_peer-review | W |
 | W012_hardening_bundle | W |
@@ -86,12 +88,74 @@
 
 </details>
 
+## Permanent Exceptions
+
+These repos have justified permanent exceptions (e.g., standards repos).
+
+| Repo | Series | Reason |
+|------|--------|--------|
+| C010_standards | C | Standards repository (defines the rules) |
+
+## Temporary Exceptions
+
+These repos have declared exceptions with remediation plans.
+
+### C003_sadb_canonical
+
+- **Series:** C
+- **Register entry:** documented
+- **Recommended action:**
+
+**Invalid directories:**
+- `80_research`
+
+### C004_star-extraction
+
+- **Series:** C
+- **Register entry:** **MISSING**
+- **Recommended action:**
+
+**Invalid directories:**
+- `logs`
+- `htmlcov`
+
+### C017_brain-on-tap
+
+- **Series:** C
+- **Register entry:** **MISSING**
+- **Recommended action:**
+
+**Invalid directories:**
+- `exports`
+
+### C018_terminal-insights
+
+- **Series:** C
+- **Register entry:** **MISSING**
+- **Recommended action:**
+
+**Invalid directories:**
+- `tools`
+
+### W008_QQ
+
+- **Series:** W
+- **Register entry:** **MISSING**
+- **Recommended action:**
+
+**Invalid directories:**
+- `50_artifacts`
+- `60_intel`
+- `investigations`
+- `30_sql`
+- `reports`
+
 ## Compliance by Series
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 19 | 19 | 100% |
-| W (Work) | 11 | 11 | 100% |
+| C (Core) | 14 | 19 | 73% |
+| W (Work) | 9 | 12 | 75% |
 | P (Projects) | 30 | 30 | 100% |
 | U (Utility) | 1 | 1 | 100% |
 | - (Other) | 1 | 1 | 100% |

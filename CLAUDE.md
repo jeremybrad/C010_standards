@@ -64,6 +64,34 @@ ps aux | grep name                    # macOS/Linux
 Get-Process | Where-Object {$_.Name -like "*name*"}  # PowerShell
 ```
 
+### Windows Filename Compatibility (CRITICAL)
+
+**This workspace syncs to Windows via SyncThing. NEVER create files or directories with Windows-incompatible names.**
+
+**Forbidden in filenames:**
+- Reserved characters: `: * ? " < > | \ /`
+- Reserved names: `CON`, `PRN`, `AUX`, `NUL`, `COM1-9`, `LPT1-9`
+- Trailing dots or spaces
+- Control characters (including `\r` in macOS Icon files)
+
+**Common mistakes to avoid:**
+- ISO 8601 timestamps with colons: `2025-10-28T05:19:05Z` - Use dashes instead: `2025-10-28T05-19-05Z`
+- Files named `nul` (Windows reserved name)
+- macOS folder Icon files (contain `\r`) - these are handled by `.stignore`
+
+**Validation:**
+```bash
+# Check a directory for Windows-incompatible names
+python validators/check_windows_filename.py /path/to/scan
+
+# Workspace-wide scan (from _scripts/)
+python _scripts/scan_windows_filenames.py --all
+```
+
+**If you create a receipt or artifact with a timestamp, use this format:**
+- Good: `receipt_2025-10-28T05-19-05Z.md`
+- Bad: `receipt_2025-10-28T05:19:05Z.md`
+
 ---
 **Note**: This project follows the [Cross-Platform CLAUDE.md Standard](protocols/cross_platform_claude_md.md) from C010_standards.
 
