@@ -38,6 +38,30 @@ Successfully tested 2025-09-07: 8.0GB → 1.4GB (82.5% reduction)
 10 2 * * * ROOT=$HOME/SyncedProjects bash -lc 'workspace_autocontain.sh'
 ```
 
+### Nightly Compliance Automation (launchd)
+
+A separate launchd job runs workspace compliance checks nightly at 3:10 AM:
+
+```bash
+# Launchd agent: com.sadb.c010.workspace_compliance
+# Runs: C010_standards/scripts/run_workspace_compliance_local.sh
+# Output: ~/SyncedProjects/_SharedData/registry/compliance/
+```
+
+**What it checks:**
+- Folder structure compliance (allowed top-level dirs only)
+- META.yaml drift (stale `last_reviewed` dates)
+- DocMeta validation (advisory)
+
+**Output files:**
+- `WORKSPACE_COMPLIANCE_LATEST.md` - Human-readable summary
+- `compliance_delta_latest.md` - Changes since last run
+- `folder_audit_YYYYMMDD.csv` - Daily audit results
+
+**Weekly review reminder:** Saturday 10:00 AM popup notification prompts review.
+
+**Playbook:** See `protocols/playbooks/COMPLIANCE_PLAYBOOK.md` for handling violations.
+
 ## Canon (per repo)
 
 > **Quick Reference:** See [`protocols/CANONICAL_STRUCTURE.md`](CANONICAL_STRUCTURE.md) for a consolidated structure reference with decision tables and validation commands.

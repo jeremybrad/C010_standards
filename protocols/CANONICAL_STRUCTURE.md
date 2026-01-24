@@ -89,6 +89,24 @@
 
 ---
 
+## Playbooks vs Protocols
+
+**Protocols** define *what the rules are* (specs, policies, standards).
+**Playbooks** define *how to follow the rules* (step-by-step procedures, runbooks).
+
+### Playbook Locations
+
+| Scope | Location | Example |
+|-------|----------|---------|
+| Workspace-wide | `C010_standards/protocols/playbooks/` | `COMPLIANCE_PLAYBOOK.md` |
+| Repo-specific | `10_docs/playbooks/` | Deployment runbooks, incident response |
+
+### Playbook Naming
+- Use `SCREAMING_SNAKE_CASE.md` for canonical playbooks
+- Be specific: `COMPLIANCE_PLAYBOOK.md` not `playbook.md`
+
+---
+
 ## Naming Conventions
 
 ### Projects
