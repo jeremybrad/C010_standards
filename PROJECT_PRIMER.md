@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-24 22:32
-- **Repo SHA**: 8319213
+- **Generated**: 2026-01-25 01:13
+- **Repo SHA**: 34eed30
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -141,6 +141,7 @@ This is the "visitor center" that orients both humans and AI agents before they 
 | Checking folder structure compliance | `protocols/betty_protocol.md` |
 | Validating Houston configs | `python validators/run_all.py` |
 | Validating README repo cards | `python scripts/validate_readme_repo_card.py <repo>` |
+| Detecting repo drift | `python scripts/repo_drift_detector.py --level 1` |
 | Adding cross-platform Claude support | `bash scripts/bootstrap_claude_crossplatform.sh` |
 | Adding Ruff linting to repos | `bash scripts/bootstrap_ruff.sh` |
 | Creating a new project | `PROJECT_TEMPLATE.md` |
@@ -184,6 +185,7 @@ C010_standards/
 │   ├── run_all.py               # Batch runner
 │   └── common.py                # Shared utilities
 ├── scripts/                      # Bootstrap + validation
+│   ├── repo_drift_detector.py        # Automated drift detection (L1/L2/L3)
 │   ├── validate_readme_repo_card.py  # README repo card checker
 │   ├── bootstrap_ruff.sh
 │   └── bootstrap_claude_crossplatform.sh
@@ -765,7 +767,7 @@ _All downstream repositories should treat this repo as the authoritative metadat
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-24
+  last_reviewed: 2026-01-25
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
@@ -774,22 +776,20 @@ project:
 folders:
   00_admin: "Administrative files and snapshots"
   00_run: "Double-click launchers"
-  10_docs: "Documentation"
+  10_docs: "Documentation, examples, notes, policy"
   20_receipts: "Change receipts"
-  30_config: "Configuration"
-  Archive: "Archived items"
-  docs: "Additional documentation"
-  examples: "Template examples"
-  notes: "Development notes"
-  policy: "Policy documents"
-  prompts: "Prompt templates"
-  protocols: "Protocol definitions"
-  schemas: "Data schemas"
-  scripts: "Utility scripts"
+  30_config: "Houston configuration files"
+  40_src: "Source tools and utilities"
+  70_evidence: "Evidence artifacts, drift reports, workspace scripts"
+  90_archive: "Archived governance items"
+  docs: "Standards documentation (Tier 3 canonical)"
+  protocols: "Protocol definitions (Betty, capsules, ops)"
+  registry: "Repo registry and validation"
+  schemas: "Data schemas (DocMeta, CodeMeta, CapsuleMeta)"
+  scripts: "Utility and validation scripts"
   taxonomies: "Classification taxonomies"
   tests: "Test suite"
-  validators: "Validation tools"
-  workspace: "Workspace utilities"
+  validators: "10 production validators"
 
 files:
   Makefile: "Build automation"

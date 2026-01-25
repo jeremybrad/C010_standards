@@ -38,6 +38,7 @@ This is the "visitor center" that orients both humans and AI agents before they 
 | Checking folder structure compliance | `protocols/betty_protocol.md` |
 | Validating Houston configs | `python validators/run_all.py` |
 | Validating README repo cards | `python scripts/validate_readme_repo_card.py <repo>` |
+| Detecting repo drift | `python scripts/repo_drift_detector.py --level 1` |
 | Adding cross-platform Claude support | `bash scripts/bootstrap_claude_crossplatform.sh` |
 | Adding Ruff linting to repos | `bash scripts/bootstrap_ruff.sh` |
 | Creating a new project | `PROJECT_TEMPLATE.md` |
@@ -81,6 +82,7 @@ C010_standards/
 │   ├── run_all.py               # Batch runner
 │   └── common.py                # Shared utilities
 ├── scripts/                      # Bootstrap + validation
+│   ├── repo_drift_detector.py        # Automated drift detection (L1/L2/L3)
 │   ├── validate_readme_repo_card.py  # README repo card checker
 │   ├── bootstrap_ruff.sh
 │   └── bootstrap_claude_crossplatform.sh

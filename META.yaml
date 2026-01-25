@@ -4,7 +4,7 @@
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-24
+  last_reviewed: 2026-01-25
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
@@ -13,22 +13,20 @@ project:
 folders:
   00_admin: "Administrative files and snapshots"
   00_run: "Double-click launchers"
-  10_docs: "Documentation"
+  10_docs: "Documentation, examples, notes, policy"
   20_receipts: "Change receipts"
-  30_config: "Configuration"
-  Archive: "Archived items"
-  docs: "Additional documentation"
-  examples: "Template examples"
-  notes: "Development notes"
-  policy: "Policy documents"
-  prompts: "Prompt templates"
-  protocols: "Protocol definitions"
-  schemas: "Data schemas"
-  scripts: "Utility scripts"
+  30_config: "Houston configuration files"
+  40_src: "Source tools and utilities"
+  70_evidence: "Evidence artifacts, drift reports, workspace scripts"
+  90_archive: "Archived governance items"
+  docs: "Standards documentation (Tier 3 canonical)"
+  protocols: "Protocol definitions (Betty, capsules, ops)"
+  registry: "Repo registry and validation"
+  schemas: "Data schemas (DocMeta, CodeMeta, CapsuleMeta)"
+  scripts: "Utility and validation scripts"
   taxonomies: "Classification taxonomies"
   tests: "Test suite"
-  validators: "Validation tools"
-  workspace: "Workspace utilities"
+  validators: "10 production validators"
 
 files:
   Makefile: "Build automation"

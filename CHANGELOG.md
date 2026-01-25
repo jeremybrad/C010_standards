@@ -1,14 +1,26 @@
 # Metadata Governance Changelog
 
 ## 2026-01-25
-- **Doc Drift Remediation**: Fixed documentation drift across canonical docs to match actual repository state
+- **Repo Drift Detector**: Added `scripts/repo_drift_detector.py` for automated drift detection
+  - Level 1: Fast inventory scan (structure, paths, stale references)
+  - Level 2: Deep content analysis (semantic drift, doc-code divergence)
+  - Level 3: Cross-repo consistency checks
+  - Generates markdown reports in `70_evidence/drift/`
+  - Integrated with drift cleanup workflow
+- **Legacy .meta.yaml Cleanup**: Removed 29 per-file .meta.yaml files superseded by root META.yaml
+  - Deleted files in validators/, tests/, scripts/, 70_evidence/, 40_src/tools/, registry/
+  - Per META_YAML_SPEC.md consolidation
+- **Path Reference Fixes**: Fixed 16 stale path references across 7 documentation files
+  - `notes/` → `10_docs/notes/`
+  - `notes/CHANGELOG.md` → `CHANGELOG.md`
+  - `Archive/` → `90_archive/`
+- **Windows Filename Validator Fix**: Exclude macOS Icon files (contain control character `\r`) from validation
+- **Doc Drift Remediation**: Fixed documentation drift across canonical docs
   - Updated validator count from 5/6/9 to 10 across CLAUDE.md, README.md, CLI.md, OPEN_QUESTIONS.md
-  - Fixed stale path references: `notes/CHANGELOG.md` → `CHANGELOG.md`, `notes/*` → `10_docs/notes/*`
-  - Fixed `policy/python/` → `10_docs/policy/python/` template path
-  - Fixed `00-Governance/` → `90_archive/00-Governance/` archived folder reference
   - Added missing validators to CLI.md table: `repo_contract`, `constitution`
-  - Regenerated PROJECT_PRIMER.md from updated source docs
-- Created receipt: `20_receipts/2026-01-25T03-54-34Z_doc-drift-remediation.md`
+- Created receipts:
+  - `20_receipts/2026-01-25_drift-and-meta-cleanup.md`
+  - `20_receipts/2026-01-25T03-54-34Z_doc-drift-remediation.md`
 
 ## 2026-01-24
 - **Windows Filename Validator**: Created `validators/check_windows_filename.py` to detect filenames incompatible with Windows
