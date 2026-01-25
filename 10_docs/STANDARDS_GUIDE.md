@@ -22,11 +22,23 @@ C010_standards/
 │   ├── betty_protocol.md      # Workspace governance (folder structure, receipts)
 │   ├── universal_claude_standards.md  # AI agent behavior standards
 │   ├── cross_platform_claude_md.md    # Cross-platform CLAUDE.md format
-│   └── META_YAML_SPEC.md      # META.yaml contract specification
+│   ├── META_YAML_SPEC.md      # META.yaml contract specification
+│   ├── tier3_documentation_spec.md    # Documentation tier system
+│   ├── project_primer_protocol.md     # PROJECT_PRIMER.md generation
+│   ├── session_closeout_protocol.md   # Session receipt standards
+│   ├── docs_publishing.md     # C019 docs site publishing
+│   ├── CANONICAL_STRUCTURE.md # Standard folder structure
+│   ├── capsules/              # Capsule artifact specs
+│   │   └── capsule_spec_v1.md
+│   ├── ops/                   # Operational specs
+│   │   └── epoch_as_code_v1.md
+│   └── playbooks/             # Compliance playbooks
+│       └── COMPLIANCE_PLAYBOOK.md
 │
 ├── schemas/                   ← MACHINE-PARSEABLE SPECS
 │   ├── docmeta_v1.2.yaml      # Document metadata schema
 │   ├── codemeta_v1.0.yaml     # Code artifact metadata schema
+│   ├── capsulemeta_v1.0.yaml  # Capsule artifact schema
 │   └── houston_features.schema.json  # Houston agent config schema
 │
 ├── taxonomies/                ← CONTROLLED VOCABULARIES
@@ -35,48 +47,93 @@ C010_standards/
 │   └── emotion_taxonomy.yaml  # Emotional context tagging
 │
 ├── validators/                ← ENFORCEMENT TOOLS
-│   ├── check_houston_docmeta.py
-│   ├── check_houston_features.py
+│   ├── check_houston_docmeta.py   # DocMeta validation
+│   ├── check_houston_features.py  # Houston features validation
+│   ├── check_houston_tools.py     # Tool pipeline validation
+│   ├── check_houston_models.py    # Model deployment validation
+│   ├── check_houston_telemetry.py # Telemetry health validation
+│   ├── check_capsulemeta.py       # Capsule metadata validation
+│   ├── check_epoch.py             # Epoch-as-Code validation
+│   ├── check_windows_filename.py  # Windows filename compatibility
+│   ├── check_repo_contract.py     # Repo contract validation
+│   ├── check_constitution.py      # Constitution validation
+│   ├── common.py              # Shared utilities (safe_print, etc.)
 │   └── run_all.py             # Orchestration harness
 │
 ├── scripts/                   ← ROLLOUT AUTOMATION
 │   ├── bootstrap_ruff.sh      # Add Ruff linting to all repos
 │   ├── bootstrap_testing.sh   # Add test standards to repos
-│   └── bootstrap_claude_crossplatform.sh  # Cross-platform CLAUDE.md
+│   ├── bootstrap_claude_crossplatform.sh  # Cross-platform CLAUDE.md
+│   └── audit_folder_structure.sh  # Folder structure audit
 │
 ├── policy/                    ← TEMPLATES & CONFIG FILES
 │   ├── python/                # pyproject.toml templates
 │   ├── templates/             # Reusable snippets
 │   └── testing/               # pytest/jest config templates
 │
-└── notes/CHANGELOG.md         ← VERSION HISTORY
+├── docs/standards/            ← TIER 4 PACKAGE DOCUMENTATION
+│   ├── ARCHITECTURE.md        # System architecture overview
+│   ├── CLI.md                 # CLI and Makefile reference
+│   ├── CODE_TOUR.md           # Guided codebase walkthrough
+│   ├── OPERATIONS.md          # Operational procedures
+│   ├── OVERVIEW.md            # High-level overview
+│   ├── QUICKSTART.md          # Getting started guide
+│   ├── SCHEMAS.md             # Schema documentation
+│   └── SECURITY_AND_PRIVACY.md
+│
+├── CHANGELOG.md               ← VERSION HISTORY (Tier 1)
+├── README.md                  ← REPOSITORY OVERVIEW (Tier 1)
+└── META.yaml                  ← PROJECT METADATA (Tier 1)
 ```
 
 ---
 
 ## The Canonical List of Standards
 
-### Tier 1: Governance (Non-Negotiable)
+### Documentation Tier System
+
+Per `protocols/tier3_documentation_spec.md`, every repo follows this tiered documentation structure:
+
+| Tier | Name | Required Files | Freshness Rule |
+|------|------|----------------|----------------|
+| **Tier 1** | Critical | `README.md`, `CHANGELOG.md`, `META.yaml` | Must be current |
+| **Tier 2** | Extended | `CLAUDE.md`, `glossary.yaml` | Update when behavior changes |
+| **Tier 3** | Generated | `PROJECT_PRIMER.md` | Regenerate when HEAD advances |
+| **Tier 4** | Package | `docs/**/*.md` | Update when related code changes |
+
+### Governance Standards (Non-Negotiable)
 | Standard | Location | Enforced By |
 |----------|----------|-------------|
 | **Betty Protocol** | `protocols/betty_protocol.md` | Pre-commit hooks, manual review |
-| **Folder Structure** | `protocols/betty_protocol.md` (Canon section) | Pre-commit hooks |
+| **Folder Structure** | `protocols/CANONICAL_STRUCTURE.md` | `audit_folder_structure.sh` |
 | **Naming Convention** | `REPOSITORY_ORGANIZATION.md` | Manual review |
+| **Windows Compatibility** | `CLAUDE.md` (filename rules) | `check_windows_filename.py` |
 
-### Tier 2: Documentation Standards
+### Documentation Standards
 | Standard | Location | Enforced By |
 |----------|----------|-------------|
 | **CLAUDE.md Format** | `protocols/cross_platform_claude_md.md` | Bootstrap script |
-| **META.yaml Contract** | `protocols/META_YAML_SPEC.md` | Validator (planned) |
+| **META.yaml Contract** | `protocols/META_YAML_SPEC.md` | `check_repo_contract.py` |
+| **Tier 3 Docs** | `protocols/tier3_documentation_spec.md` | `bbot render docs.freshness.v1` |
+| **Project Primer** | `protocols/project_primer_protocol.md` | `check_epoch.py` |
+| **Session Closeout** | `protocols/session_closeout_protocol.md` | Manual review |
 
-### Tier 3: Metadata Schemas
+### Metadata Schemas
 | Standard | Location | Enforced By |
 |----------|----------|-------------|
 | **DocMeta v1.2** | `schemas/docmeta_v1.2.yaml` | `check_houston_docmeta.py` |
 | **CodeMeta v1.0** | `schemas/codemeta_v1.0.yaml` | Manual review |
+| **CapsuleMeta v1.0** | `schemas/capsulemeta_v1.0.yaml` | `check_capsulemeta.py` |
 | **Houston Features** | `schemas/houston_features.schema.json` | `check_houston_features.py` |
 
-### Tier 4: Code Style
+### Operational Standards
+| Standard | Location | Enforced By |
+|----------|----------|-------------|
+| **Epoch-as-Code** | `protocols/ops/epoch_as_code_v1.md` | `check_epoch.py` |
+| **Capsule Artifacts** | `protocols/capsules/capsule_spec_v1.md` | `check_capsulemeta.py` |
+| **Docs Publishing** | `protocols/docs_publishing.md` | C019 regeneration |
+
+### Code Style
 | Standard | Location | Enforced By |
 |----------|----------|-------------|
 | **Python (Ruff)** | `policy/python/pyproject.ruff.template.toml` | `bootstrap_ruff.sh` |
@@ -106,7 +163,7 @@ Allowed top level: 00_admin, 10_docs, 20_receipts, 30_config, 40_src, 70_evidenc
 ```
 
 ### Step 2: Document the Change
-Update `notes/CHANGELOG.md` with:
+Update `CHANGELOG.md` (in repo root) with:
 ```markdown
 ## YYYY-MM-DD
 - **New Standard**: [Name] - [Brief description]
@@ -254,11 +311,17 @@ done
 ```bash
 cd ~/SyncedProjects/P###_projectname
 
+# Check documentation freshness (recommended)
+bbot render docs.freshness.v1
+
 # Check folder structure manually
 ls -d */ | grep -E '^[0-9]{2}_'
 
-# Check for required files
-ls README.md META.yaml CLAUDE.md 2>/dev/null || echo "Missing required files"
+# Check for required Tier 1 files
+ls README.md CHANGELOG.md META.yaml 2>/dev/null || echo "Missing Tier 1 files"
+
+# Check for Tier 2 files (optional but recommended)
+ls CLAUDE.md glossary.yaml 2>/dev/null || echo "No Tier 2 files"
 ```
 
 ### Workspace-Wide Audit
@@ -269,8 +332,28 @@ python validators/run_all.py
 # Run specific validator
 python validators/check_houston_docmeta.py path/to/doc.yaml
 
-# Audit folder structure (if you create the script)
+# Audit folder structure
 bash scripts/audit_folder_structure.sh
+
+# Check Windows filename compatibility
+python validators/check_windows_filename.py --recursive ~/SyncedProjects
+
+# Validate epoch sync (strict mode)
+python validators/check_epoch.py --strict --require
+```
+
+### Documentation Freshness Audit
+```bash
+# Check any repo's documentation health
+cd ~/SyncedProjects/C010_standards
+bbot render docs.freshness.v1
+
+# The report shows:
+# - Tier 1-4 document freshness
+# - Repo Change Ledger (receipts vs docs)
+# - Conditional Doc Modules (API/CLI/Schema/Ops)
+# - Epoch-as-Code sync status
+# - C019 Publishing Sync status
 ```
 
 ### CI/CD Integration
@@ -303,20 +386,77 @@ jobs:
 
 **Key insight**: Standards only work if they're both documented AND enforced. The bootstrap script applies them; the validator confirms they stay applied.
 
+### Documentation Freshness Workflow
+
+The `docs-checker` skill (via `bbot render docs.freshness.v1`) provides a comprehensive audit:
+
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   TIER 1    │───▶│   TIER 2    │───▶│   TIER 3    │───▶│   TIER 4    │
+│             │    │             │    │             │    │             │
+│ README      │    │ CLAUDE.md   │    │ PROJECT_    │    │ docs/**     │
+│ CHANGELOG   │    │ glossary    │    │ PRIMER      │    │             │
+│ META.yaml   │    │             │    │             │    │             │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+        │                 │                 │                 │
+        ▼                 ▼                 ▼                 ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ CHANGE LEDGER: receipts + changelog vs doc dates                    │
+│ CONDITIONAL MODULES: API/CLI/Schema/Ops detection                   │
+│ EPOCH SYNC: EPOCH.yaml vs git HEAD                                  │
+│ PUBLISHING SYNC: C019 docs site regeneration status                 │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
 ---
 
 ## Quick Reference: Common Tasks
 
 | Task | Command |
 |------|---------|
+| **Documentation Freshness** | |
+| Check docs freshness | `bbot render docs.freshness.v1` |
+| Regenerate PROJECT_PRIMER | `generate-project-primer <repo_id>` |
+| | |
+| **Validation** | |
+| Run all validators | `python validators/run_all.py` |
+| Validate epoch sync | `python validators/check_epoch.py --strict` |
+| Check Windows filenames | `python validators/check_windows_filename.py --recursive .` |
+| Validate capsule metadata | `python validators/check_capsulemeta.py path/to/capsule.yaml` |
+| | |
+| **Bootstrap** | |
 | Add Ruff to all repos | `bash scripts/bootstrap_ruff.sh` |
 | Add cross-platform CLAUDE.md | `bash scripts/bootstrap_claude_crossplatform.sh` |
-| Run all validators | `python validators/run_all.py` |
-| Run specific validator | `python validators/check_houston_features.py` |
-| View changelog | `cat notes/CHANGELOG.md` |
+| Audit folder structure | `bash scripts/audit_folder_structure.sh` |
+| | |
+| **Reference** | |
+| View changelog | `cat CHANGELOG.md` |
 | List all standards | `ls protocols/ schemas/ taxonomies/` |
+| View available validators | `ls validators/check_*.py` |
 
 ---
 
-*Last Updated: 2025-12-26*
+## Available Validators
+
+| Validator | Purpose | Key Flags |
+|-----------|---------|-----------|
+| `check_houston_docmeta` | Routing tags, taxonomy alignment | `--verbose`, `--json-output` |
+| `check_houston_features` | Feature config, trust phases | `--schema` |
+| `check_houston_tools` | Tool pipeline, phase gating | `--verbose` |
+| `check_houston_models` | Deployment permissions | `--verbose` |
+| `check_houston_telemetry` | Freshness, latency thresholds | `--max-age` |
+| `check_capsulemeta` | Capsule artifact validation | `--strict` |
+| `check_epoch` | Epoch-as-Code sync | `--strict`, `--require` |
+| `check_windows_filename` | Windows filename compatibility | `--recursive` |
+| `check_repo_contract` | Repo metadata contract | `--verbose` |
+| `check_constitution` | Constitution validation | `--verbose` |
+
+All validators follow the same contract:
+- Exit 0 = pass
+- Exit 1 = validation failure
+- Exit 2 = config/parse error
+
+---
+
+*Last Updated: 2026-01-24*
 *Maintained by: Jeremy Bradford & Betty*
