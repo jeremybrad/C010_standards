@@ -17,6 +17,7 @@ Production-ready validation suite for Houston configuration and document complia
 | `houston_models` | `check_houston_models.py` | Check model fallback chains and config parity across files. |
 | `houston_telemetry` | `check_houston_telemetry.py` | Ensure telemetry feeds are fresh and contain required metrics. |
 | `repo_contract` | `check_repo_contract.py` | Validate repository structure (README, .gitignore, receipts, markers). |
+| `constitution` | `check_constitution.py` | Validate guardrail compliance (forbidden patterns, contextual exceptions). |
 | `capsulemeta` | `check_capsulemeta.py` | Validate capsule frontmatter (c010.capsule.v1) in markdown files. |
 | `epoch` | `check_epoch.py` | Validate EPOCH.yaml schema and primer SHA256 sync. |
 | `windows_filename` | `check_windows_filename.py` | Check filenames for Windows compatibility (reserved chars/names, control chars). |

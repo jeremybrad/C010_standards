@@ -1,5 +1,15 @@
 # Metadata Governance Changelog
 
+## 2026-01-25
+- **Doc Drift Remediation**: Fixed documentation drift across canonical docs to match actual repository state
+  - Updated validator count from 5/6/9 to 10 across CLAUDE.md, README.md, CLI.md, OPEN_QUESTIONS.md
+  - Fixed stale path references: `notes/CHANGELOG.md` → `CHANGELOG.md`, `notes/*` → `10_docs/notes/*`
+  - Fixed `policy/python/` → `10_docs/policy/python/` template path
+  - Fixed `00-Governance/` → `90_archive/00-Governance/` archived folder reference
+  - Added missing validators to CLI.md table: `repo_contract`, `constitution`
+  - Regenerated PROJECT_PRIMER.md from updated source docs
+- Created receipt: `20_receipts/2026-01-25T03-54-34Z_doc-drift-remediation.md`
+
 ## 2026-01-24
 - **Windows Filename Validator**: Created `validators/check_windows_filename.py` to detect filenames incompatible with Windows
   - Checks for reserved characters (`: * ? " < > | \ /`)
