@@ -123,6 +123,8 @@ generator_drift:
     sha_field: "Repo SHA"
     generated_field: "Generated"
     severity: MAJOR
+    # Allow primer SHA to lag HEAD by this many commits (regenerated after commit)
+    allowed_sha_lag_commits: 1
     suspected_causes:
       - "Generator uses hardcoded validator list"
       - "Directory walker has filter excluding non-houston validators"

@@ -279,6 +279,27 @@ def _check_meta_yaml(
     return findings
 
 
+def _get_commit_lag(repo_root: Path, old_sha: str, new_sha: str) -> int | None:
+    """Calculate how many commits old_sha is behind new_sha.
+
+    Returns:
+        Number of commits between old_sha and new_sha, or None if can't determine.
+    """
+    try:
+        result = subprocess.run(
+            ["git", "rev-list", "--count", f"{old_sha}..{new_sha}"],
+            cwd=str(repo_root),
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        if result.returncode == 0:
+            return int(result.stdout.strip())
+    except Exception:
+        pass
+    return None
+
+
 def _check_generator_drift(
     repo_root: Path,
     rules: dict[str, Any],
@@ -313,7 +334,37 @@ def _check_generator_drift(
     except Exception:
         current_sha = None
 
+    # Get allowed SHA lag from config (default 0 = must match exactly)
+    allowed_lag = generator_rules.get("allowed_sha_lag_commits", 0)
+
     # Check if primer is stale
+    if primer_sha and current_sha and primer_sha != current_sha:
+        # Calculate actual commit lag
+        sha_lag = _get_commit_lag(repo_root, primer_sha, current_sha)
+
+        # If within allowed lag, downgrade to INFO
+        if sha_lag is not None and sha_lag <= allowed_lag:
+            findings.append(Finding(
+                id=counter.next_id(2),
+                level_detected=2,
+                severity=Severity.INFO,
+                category=Category.GENERATOR_DRIFT,
+                message=f"PROJECT_PRIMER.md is {sha_lag} commit(s) behind HEAD (within allowed lag of {allowed_lag})",
+                file="PROJECT_PRIMER.md",
+                suggested_fix=[
+                    "No action needed - primer SHA lag is within allowed tolerance",
+                    f"Current: {current_sha}, Primer: {primer_sha}",
+                ],
+                context={
+                    "primer_sha": primer_sha,
+                    "current_sha": current_sha,
+                    "sha_lag": sha_lag,
+                    "allowed_lag": allowed_lag,
+                },
+            ))
+            # Skip the MAJOR finding below
+            primer_sha = None  # Prevent falling through to MAJOR block
+
     if primer_sha and current_sha and primer_sha != current_sha:
         suspected_causes = generator_rules.get("suspected_causes", [
             "Generator uses hardcoded validator list",
