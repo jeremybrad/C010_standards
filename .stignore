@@ -1,0 +1,22 @@
+# Syncthing ignore patterns for C010_standards
+# See: https://docs.syncthing.net/users/ignoring.html
+
+# macOS folder icons (contain control character \r - invalid on Windows)
+Icon*
+
+# macOS metadata
+.DS_Store
+._*
+
+# Python cache
+__pycache__
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv
+venv
+*-env
+
+# Git directory (shouldn't sync - each machine has its own)
+.git

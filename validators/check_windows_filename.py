@@ -195,13 +195,14 @@ def scan_directory(
     all_issues = []
     exclude_patterns = exclude_patterns or []
 
-    # Default exclusions for common directories that shouldn't be scanned
+    # Default exclusions for common directories/files that shouldn't be scanned
     default_excludes = [
         ".git",
         "__pycache__",
         "node_modules",
         ".venv",
         "venv",
+        "/Icon",  # macOS folder icons (Icon\r) - valid on macOS, not on Windows
     ]
     exclude_patterns.extend(default_excludes)
 
