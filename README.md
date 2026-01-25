@@ -77,7 +77,7 @@ C010_standards/
 │   ├── capsulemeta_v1.0.yaml    # Capsule metadata
 │   └── houston_*.schema.json    # Houston agent configs
 ├── validators/                   # Compliance checkers
-│   ├── check_houston_*.py       # 5 Houston validators
+│   ├── check_houston_*.py       # 5 Houston + 5 general = 10 validators
 │   ├── run_all.py               # Batch runner
 │   └── common.py                # Shared utilities
 ├── scripts/                      # Bootstrap + validation
@@ -312,8 +312,8 @@ C010_standards/
 │   ├── python/                  # Ruff configuration
 │   └── testing/                 # Test infrastructure templates
 ├── 30_config/                    # Houston configuration
-├── notes/                        # Planning & ADRs
-└── Archive/                      # Archived legacy files
+├── 10_docs/notes/                # Planning & ADRs
+└── 90_archive/                   # Archived legacy files
 ```
 
 ---
@@ -446,7 +446,7 @@ See [policy/testing/README.md](policy/testing/README.md) for full documentation.
 
 ### Validators (Production-Ready)
 
-Nine validators ensure compliance with Houston configs, metadata schemas, and repository contracts:
+Ten validators ensure compliance with Houston configs, metadata schemas, and repository contracts:
 
 ```bash
 # Run individual validators
@@ -456,6 +456,7 @@ python validators/check_houston_models.py <file.json>
 python validators/check_houston_telemetry.py <file.json>
 python validators/check_houston_tools.py <file.json>
 python validators/check_repo_contract.py
+python validators/check_constitution.py
 python validators/check_capsulemeta.py <file.md>
 python validators/check_epoch.py [--require|--strict]
 python validators/check_windows_filename.py <path>
@@ -606,14 +607,14 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 - [examples/](examples/) - Schema examples and reference implementations
 
 ### Planning & History
-- [notes/ROADMAP.md](notes/ROADMAP.md) - Future plans
-- [notes/CHANGELOG.md](notes/CHANGELOG.md) - Version history
-- [notes/ADR/](notes/ADR/) - Architecture decision records
+- [CHANGELOG.md](CHANGELOG.md) - Version history
+- [10_docs/notes/ROADMAP.md](10_docs/notes/ROADMAP.md) - Future plans
+- [10_docs/notes/ADR/](10_docs/notes/ADR/) - Architecture decision records
 
 ### Advanced Topics
-- [notes/HOUSTON_INFERENCE.md](notes/HOUSTON_INFERENCE.md) - AI agent inference plans
-- [notes/HOUSTON_TOOLING.md](notes/HOUSTON_TOOLING.md) - Tool pipeline design
-- [notes/AGENT_PLAYBOOK.md](notes/AGENT_PLAYBOOK.md) - Houston retrieval strategies
+- [10_docs/notes/HOUSTON_INFERENCE.md](10_docs/notes/HOUSTON_INFERENCE.md) - AI agent inference plans
+- [10_docs/notes/HOUSTON_TOOLING.md](10_docs/notes/HOUSTON_TOOLING.md) - Tool pipeline design
+- [10_docs/notes/AGENT_PLAYBOOK.md](10_docs/notes/AGENT_PLAYBOOK.md) - Houston retrieval strategies
 
 ---
 

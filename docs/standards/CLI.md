@@ -121,6 +121,8 @@ python validators/check_houston_docmeta.py --json-output results.json
 | `houston_tools` | `python validators/check_houston_tools.py` | Tool pipeline validation |
 | `houston_models` | `python validators/check_houston_models.py` | Model deployment validation |
 | `houston_telemetry` | `python validators/check_houston_telemetry.py` | Telemetry health validation |
+| `repo_contract` | `python validators/check_repo_contract.py` | Repository contract validation |
+| `constitution` | `python validators/check_constitution.py` | Constitution validation |
 | `capsulemeta` | `python validators/check_capsulemeta.py` | Capsule frontmatter validation |
 | `epoch` | `python validators/check_epoch.py` | Epoch-as-code validation |
 | `windows_filename` | `python validators/check_windows_filename.py` | Windows filename compatibility |

@@ -110,12 +110,17 @@ python _scripts/scan_windows_filenames.py --all
 - `emotion_taxonomy.yaml` - Emotional context tagging
 - `universal_terms.yaml` - Canonical terminology and synonyms
 
-**Validators (`validators/`)** - Phase 2 production tooling (COMPLETE):
+**Validators (`validators/`)** - 10 production validators (Phase 2+ complete):
 - `check_houston_docmeta.py` - Enforce routing tags and taxonomy alignment (YAML/MD parsing)
 - `check_houston_features.py` - Validate feature config against JSON schema and trust phases
 - `check_houston_tools.py` - Verify tool pipeline consistency and dangerous ops gating
 - `check_houston_models.py` - Check deployment permissions against trust phases
 - `check_houston_telemetry.py` - Ensure telemetry freshness, latency, and fallback loops
+- `check_repo_contract.py` - Repository contract validation (README, receipts, markers)
+- `check_constitution.py` - Constitution validation
+- `check_capsulemeta.py` - Capsule frontmatter validation (c010.capsule.v1)
+- `check_epoch.py` - Epoch state snapshot validation
+- `check_windows_filename.py` - Windows filename compatibility
 - `run_all.py` - Orchestration harness (stops on first failure)
 
 **Available Validators** (registered in `validators/__init__.py`):
@@ -124,14 +129,18 @@ python _scripts/scan_windows_filenames.py --all
 - `houston_tools` - Tool pipeline validation
 - `houston_models` - Model deployment validation
 - `houston_telemetry` - Telemetry health validation
+- `repo_contract` - Repository contract validation (README, receipts, markers)
+- `constitution` - Constitution validation
 - `capsulemeta` - Capsule frontmatter validation (c010.capsule.v1)
+- `epoch` - Epoch state snapshot validation (git HEAD, artifact checksums)
+- `windows_filename` - Windows filename compatibility validation
 
 **Houston Config (`30_config/`)** - Mission Control agent configuration:
 - `houston-features.json` - Feature toggles, agency levels, trust building phases
 - `houston-tools.json` - Tool pipelines, capability flags, phase gating
 
-**Governance (`00-Governance/`)** - Historical backups and migration tooling:
-- `YAML Official/` - Official taxonomy versions
+**Archived Governance (`90_archive/00-Governance/`)** - Historical backups and migration tooling (archived):
+- `YAML Official/` - Official taxonomy versions (historical)
 - `YAML_Backup_20250713/` - Backup snapshots from July 2025
 - `Scripts/` - Canvas migration and sorting utilities for Notion migration
 
@@ -161,7 +170,7 @@ python validators/check_houston_telemetry.py --max-age 600  # 10 minutes
 - Use forward slashes (`validators/run_all.py`) - Python handles path conversion
 - On Windows with backslash preference: `python validators\run_all.py` also works
 
-**Current State**: All 5 validators are fully implemented (Phase 2 complete). They exit 0 on pass, 1 on validation failure, 2 on config errors. Include verbose mode, JSON output, and remediation suggestions.
+**Current State**: All 10 validators are fully implemented. They exit 0 on pass, 1 on validation failure, 2 on config errors. Include verbose mode, JSON output, and remediation suggestions.
 
 ### Schema Validation
 
@@ -199,9 +208,9 @@ bash scripts/bootstrap_ruff.sh
 bash scripts/bootstrap_ruff.sh C:/Users/username/SyncedProjects
 ```
 
-**Template location**: `policy/python/pyproject.ruff.template.toml`
+**Template location**: `10_docs/policy/python/pyproject.ruff.template.toml`
 **What it does**: Adds Ruff configuration to any git repo in SyncedProjects that doesn't already have `[tool.ruff]` section
-**Receipt tracking**: Creates timestamped receipt in `00_admin/RECEIPTS/ruff_*.txt`
+**Receipt tracking**: Creates timestamped receipt in target repos' `00_admin/RECEIPTS/ruff_*.txt` (not in C010 itself)
 
 **Note**: Assumes Ruff is already installed (`brew install ruff` on macOS, `pipx install ruff` cross-platform)
 
@@ -238,7 +247,7 @@ git commit -m "chore: update standards submodule"
 - `autonomous.can_deploy_updates` requires `current_phase >= 3`
 - `safety_controls.destructive_actions.require_password` must be `true` when `current_level` is `autonomous`
 - `gradual_trust_building.auto_advance` is `false` by default - phases advance manually
-- Phase advancement requires receipt entry in `notes/CHANGELOG.md` with pattern `Phase <n> activated`
+- Phase advancement requires receipt entry in `CHANGELOG.md` with pattern `Phase <n> activated`
 
 **Audio/Visual Theme**: Mission Control retro console aesthetic with radio static effects, CRT scanlines, LED indicators. TTS engine is local with southern ops personality.
 
@@ -302,7 +311,7 @@ All imported YAML files include provenance:
 ```
 
 ### Updates
-- Update `notes/CHANGELOG.md` when touching canonical schemas or taxonomies
+- Update `CHANGELOG.md` when touching canonical schemas or taxonomies
 - Reference affected files and upstream sources in commit body
 - Include diff snippets for schema changes
 
@@ -347,24 +356,24 @@ def cli(argv: List[str] | None = None) -> int:
 - **Infrastructure** (various): Standard taxonomies for tagging via Ruff bootstrap
 
 ### Schema Consumers
-See `notes/SCHEMA_CONSUMERS.md` for complete inventory of which projects depend on each schema version.
+See `10_docs/notes/SCHEMA_CONSUMERS.md` for complete inventory of which projects depend on each schema version.
 
 ### Houston Integration
-- Interface blueprint: `notes/HOUSTON_INTERFACE.md`
-- Inference routing: `notes/HOUSTON_INFERENCE.md`
-- Agent playbook: `notes/AGENT_PLAYBOOK.md`
-- Tooling plan: `notes/HOUSTON_TOOLING.md`
-- Model bootstrap: `notes/scripts/MODEL_BOOTSTRAP.md`
+- Interface blueprint: `10_docs/notes/HOUSTON_INTERFACE.md`
+- Inference routing: `10_docs/notes/HOUSTON_INFERENCE.md`
+- Agent playbook: `10_docs/notes/AGENT_PLAYBOOK.md`
+- Tooling plan: `10_docs/notes/HOUSTON_TOOLING.md`
+- Model bootstrap: `10_docs/notes/scripts/MODEL_BOOTSTRAP.md`
 
 ## Roadmap
 
 **Phase 1 (Complete)**: Consolidation of schemas, taxonomies, protocols from SADB and Betty Mirror
 
-**Phase 2 (Complete)**: All 5 validators implemented, Ruff baseline deployed, C001 integration via submodule
+**Phase 2 (Complete)**: All 10 validators implemented, Ruff baseline deployed, C001 integration via submodule
 
 **Phase 3 (In Progress)**: Adoption across repos, Houston interface prototyping, schema versioning policy
 
-See `notes/ROADMAP.md` for detailed task breakdown.
+See `10_docs/notes/ROADMAP.md` for detailed task breakdown.
 
 ## Important Notes
 
@@ -451,7 +460,7 @@ python validators\run_all.py          # Also valid
 
 ```bash
 # View schema consumers and versions
-cat notes/SCHEMA_CONSUMERS.md
+cat 10_docs/notes/SCHEMA_CONSUMERS.md
 
 # Update consuming projects to match new schema version
 ```
@@ -462,7 +471,7 @@ See "Integration Points > Schema Consumers" for affected projects.
 
 All work follows Betty Protocol evidence-driven development:
 1. Document non-trivial changes in `20_receipts/` (when applicable)
-2. Update `notes/CHANGELOG.md` for schema modifications
+2. Update `CHANGELOG.md` for schema modifications
 3. Never auto-commit - only when explicitly requested
 4. Report blockers transparently in validator output
 5. Keep README and CHANGELOG accurate when behavior changes

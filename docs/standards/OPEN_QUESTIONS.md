@@ -193,7 +193,7 @@ Unresolved decisions, known limitations, and future considerations.
 | Question | Resolution | Date |
 |----------|------------|------|
 | DocMeta version | v1.2 adopted as standard | 2025-12 |
-| Houston validator suite | All 5 validators complete | 2025-12 |
+| Houston validator suite | All 10 validators complete | 2026-01 |
 | Tier 3 doc structure | 7 docs standard adopted | 2026-01 |
 | Receipt format | Markdown with standard headers | 2025-10 |
 | Taxonomy format | YAML with flat structure | 2025-09 |
