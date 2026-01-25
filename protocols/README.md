@@ -8,5 +8,5 @@ Canonical workspace governance documents consolidated from workspace-level sourc
 
 ## Maintenance Notes
 - Update upstream sources first; then refresh the copies here, keeping version/date headers intact.
-- When upstream standards diverge, document differences in `notes/CHANGELOG.md` and annotate the affected files.
+- When upstream standards diverge, document differences in `CHANGELOG.md` and annotate the affected files.
 - Additional governance doctrines (e.g., repo-specific overrides) should live alongside these files with clear provenance notes.

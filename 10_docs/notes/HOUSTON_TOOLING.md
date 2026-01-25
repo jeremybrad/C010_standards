@@ -33,4 +33,4 @@ Running MCP tooling on a VPS provides high availability, security isolation, and
 2. Mirror the tool stack on the VPS once telemetry and validators are stable.
 3. Route Houston’s tool calls through the VPS when both local machines may be offline or remote access is needed. Maintain API key rotation and access logs.
 
-Document readiness milestones in `notes/ROADMAP.md` before enabling Phase 2 or VPS tooling to ensure validators cover new capabilities.
+Document readiness milestones in `10_docs/notes/ROADMAP.md` before enabling Phase 2 or VPS tooling to ensure validators cover new capabilities.

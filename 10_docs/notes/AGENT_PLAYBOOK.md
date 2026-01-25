@@ -1,7 +1,7 @@
 # Houston Agent Playbook
 
 ## Purpose
-Defines how Houston (Mission Control agent) retrieves, filters, and updates workspace memory while respecting metadata governance. Pair this with `notes/HOUSTON_INFERENCE.md` for inference routing specifics.
+Defines how Houston (Mission Control agent) retrieves, filters, and updates workspace memory while respecting metadata governance. Pair this with `10_docs/notes/HOUSTON_INFERENCE.md` for inference routing specifics.
 
 ## Memory Tagging Convention
 Every DocMeta/CodeMeta record destined for Houston must include:

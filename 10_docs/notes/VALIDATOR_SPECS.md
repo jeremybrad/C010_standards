@@ -5,7 +5,7 @@ Blueprint for Phase 2 tooling that keeps Houston’s metadata, inference config,
 ## 1. DocMeta Tag Validator (`validators/check_houston_docmeta.py`)
 **Goal:** Ensure Houston-targeted documents follow tagging conventions so retrieval filters remain precise.
 
-- **Scope:** Files in `schemas/`, `notes/`, or imported SADB YAML with `routing.tags` containing `agent:houston` or `source:mission-control`.
+- **Scope:** Files in `schemas/`, `10_docs/notes/`, or imported SADB YAML with `routing.tags` containing `agent:houston` or `source:mission-control`.
 - **Checks:**
   1. `doc.projects` includes both `Mission Control` and `P210`.
   2. `routing.tags` contains `agent:houston` and `sensitivity:internal`.
@@ -45,14 +45,14 @@ Blueprint for Phase 2 tooling that keeps Houston’s metadata, inference config,
   1. Validate against JSON schema (to be stored in `schemas/houston_features.schema.json`).
   2. `features.ide_integration.supported_editors` subset of allowed values (`cursor`, `vscode`, `jetbrains`).
   3. If `agency_levels.current_level` is `autonomous`, assert `safety_controls.destructive_actions.require_password` is true.
-  4. `gradual_trust_building.current_phase` ≤ length of `phases`; when `auto_advance` is false, require manual receipt entry in `notes/CHANGELOG.md` (pattern `Phase <n> activated`).
+  4. `gradual_trust_building.current_phase` ≤ length of `phases`; when `auto_advance` is false, require manual receipt entry in `CHANGELOG.md` (pattern `Phase <n> activated`).
 - **Output:** Structured diff for invalid settings plus suggestion of remediation steps.
 
 ## 5. Tool Pipeline Validator (`validators/check_houston_tools.py`)
 **Goal:** Verify `30_config/houston-tools.json` aligns pipelines, capability flags, and phase gating with documented expectations.
 
 - **Checks:**
-  1. Ensure every pipeline step maps to a known tool capability (cross-check against `notes/HOUSTON_TOOLING.md`).
+  1. Ensure every pipeline step maps to a known tool capability (cross-check against `10_docs/notes/HOUSTON_TOOLING.md`).
   2. Confirm `phase_settings.current_phase` is ≤ `gradual_trust_building.current_phase` from `houston-features.json` (if available via flag `--features-config`).
   3. Validate `tool_access.local_tools.phase_overrides` includes entries for phases declared in `phase_settings.phases` and excludes phase 3 operations (e.g., `kill_processes`, `system_shutdown`).
   4. Warn if `vps_tools.enabled` is true while `endpoint` is placeholder (`example.com`).

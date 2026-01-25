@@ -1,9 +1,0 @@
-purpose: Tests for check_houston_telemetry validator
-status: active
-dependencies:
-  - sys
-  - datetime
-  - pathlib
-created: "2026-01-10"
-last_reviewed: "2026-01-10"
-author: Jeremy Bradford

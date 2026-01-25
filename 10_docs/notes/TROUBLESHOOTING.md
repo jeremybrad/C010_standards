@@ -291,13 +291,13 @@ Align phases:
 **Symptoms:**
 ```
 WARNING: auto_advance is false and current_phase is 2, but no
-'Phase 2 activated' entry found in notes/CHANGELOG.md.
+'Phase 2 activated' entry found in CHANGELOG.md.
 ```
 
 **Cause:** Manual phase advancement not documented
 
 **Solution:**
-Add entry to `notes/CHANGELOG.md`:
+Add entry to `CHANGELOG.md`:
 ```markdown
 ## 2025-11-08
 - **Houston Phase 2 activated**: Transitioned to Collaboration mode

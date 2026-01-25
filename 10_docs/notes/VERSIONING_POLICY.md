@@ -66,7 +66,7 @@ doc:
 **When making MAJOR changes:**
 1. Create new schema file with incremented MAJOR version
 2. Keep old schema file for reference (mark as deprecated)
-3. Write migration guide in `notes/migrations/`
+3. Write migration guide in `10_docs/notes/migrations/`
 4. Update CHANGELOG.md with migration instructions
 5. Notify all consuming projects (see SCHEMA_CONSUMERS.md)
 6. Set deprecation timeline (minimum 3 months)
@@ -129,7 +129,7 @@ When a MAJOR version supersedes an older version:
    - Consuming projects encouraged to migrate
 
 3. **Sunset** (Month 4+):
-   - Old version moved to Archive/
+   - Old version moved to 90_archive/
    - Validators only accept new version
    - Migration guide remains available
 
@@ -138,7 +138,7 @@ When a MAJOR version supersedes an older version:
 # DocMeta v1.2 (DEPRECATED)
 # Source: ../C002_sadb/10_docs/SADB_DocMeta_Schema_v1.2.md
 # DEPRECATED: 2025-12-01 - Please migrate to v2.0
-# Migration guide: notes/migrations/docmeta_v1.2_to_v2.0.md
+# Migration guide: 10_docs/notes/migrations/docmeta_v1.2_to_v2.0.md
 # Sunset date: 2026-03-01
 ```
 
@@ -192,7 +192,7 @@ Every schema version MUST have:
    - Examples (valid and invalid)
    - Changelog from previous version
 
-3. **CHANGELOG Entry** (`notes/CHANGELOG.md`)
+3. **CHANGELOG Entry** (`CHANGELOG.md`)
    - Date of release
    - Version number
    - Summary of changes
@@ -201,7 +201,7 @@ Every schema version MUST have:
 
 ### Migration Guides
 
-For MAJOR version changes, create `notes/migrations/name_vOLD_to_vNEW.md`:
+For MAJOR version changes, create `10_docs/notes/migrations/name_vOLD_to_vNEW.md`:
 
 ```markdown
 # Migration Guide: DocMeta v1.2 → v2.0
@@ -248,7 +248,7 @@ python validators/check_houston_docmeta.py --verbose migrated_file.yaml
 
 ### Schema Consumer Registry
 
-Maintain `notes/SCHEMA_CONSUMERS.md` with:
+Maintain `10_docs/notes/SCHEMA_CONSUMERS.md` with:
 - Project name
 - Schema(s) consumed
 - Current version in use
@@ -431,7 +431,7 @@ doc:
 ```markdown
 ## 2025-12-01 - DocMeta v2.0
 - **BREAKING**: Field `doc.sha256` is now required
-- Migration guide: notes/migrations/docmeta_v1_to_v2.md
+- Migration guide: 10_docs/notes/migrations/docmeta_v1_to_v2.md
 - Deprecation timeline:
   - v1.2 deprecated 2025-12-01
   - v1.2 sunset 2026-03-01

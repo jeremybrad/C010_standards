@@ -163,7 +163,7 @@ Projects consuming these schemas:
 | C002_sadb | DocMeta, CodeMeta | Taxonomy lookups |
 | P001_bettymirror | DocMeta | Protocol enforcement |
 
-See `notes/SCHEMA_CONSUMERS.md` for complete inventory.
+See `10_docs/notes/SCHEMA_CONSUMERS.md` for complete inventory.
 
 ## Taxonomy Integration
 
