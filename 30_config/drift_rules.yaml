@@ -1,0 +1,133 @@
+# Drift Detection Rules for C010_standards
+# Loaded by scripts/repo_drift_detector.py at runtime
+#
+# This configuration defines data-driven rules for detecting documentation drift,
+# stale paths, and inventory mismatches.
+#
+# Last Updated: 2026-01-24
+
+# Canonical document scope - only these paths are scanned for drift
+# NOTE: Detector should warn if any glob matches zero files
+canonical_scope:
+  - README.md
+  - CLAUDE.md
+  - META.yaml
+  - CHANGELOG.md
+  - "10_docs/**/*.md"
+  - "protocols/**/*.md"
+  - "docs/standards/**/*.md"
+  - "validators/README.md"
+
+# Paths excluded from scanning (never check these for drift/broken links)
+excludes:
+  - "20_receipts/**"
+  - "70_evidence/**"
+  - "90_archive/**"
+  - "__pycache__/**"
+  - ".git/**"
+  - "node_modules/**"
+  - "venv/**"
+  - ".venv/**"
+  - "*-env/**"
+
+# Paths that can NEVER be proposed for archiving
+protected_from_archive:
+  - "schemas/**"
+  - "protocols/**"
+  - "taxonomies/**"
+  - "validators/*.py"
+  - "validators/__init__.py"
+  - "validators/common.py"
+  - "validators/README.md"
+  - "20_receipts/**"
+  - "70_evidence/**"
+  - "registry/**"
+  - "README.md"
+  - "CLAUDE.md"
+  - "META.yaml"
+  - "CHANGELOG.md"
+  - "PROJECT_PRIMER.md"
+
+# Stale path patterns to detect
+# Each rule has: pattern (regex), replacement, severity, message, suggested_fix
+# Optional: check_exists (only flag if replacement path exists but matched path doesn't)
+# Optional: require_path_context (only match in backticks or adjacent to path chars)
+stale_path_patterns:
+  - pattern: '(?<!10_docs/)notes/'
+    replacement: "10_docs/notes/"
+    severity: MINOR
+    message: "Legacy path 'notes/' should be '10_docs/notes/'"
+    suggested_fix:
+      - "Update path from 'notes/' to '10_docs/notes/'"
+
+  - pattern: '(?<!90_)Archive/'
+    replacement: "90_archive/"
+    severity: INFO
+    check_exists: true  # Only flag if 90_archive/ exists but Archive/ doesn't
+    message: "Legacy path 'Archive/' should be '90_archive/'"
+    suggested_fix:
+      - "Update path from 'Archive/' to '90_archive/'"
+
+  - pattern: 'workspace/'
+    replacement: "70_evidence/workspace/"
+    severity: INFO
+    require_path_context: true  # Only match in backticks or with path-like chars (/, .)
+    message: "Check if 'workspace/' should be '70_evidence/workspace/'"
+    suggested_fix:
+      - "Verify context and update path if referring to workspace directory"
+
+# Validator inventory rules
+validator_inventory:
+  ground_truth_source: "validators/__init__.py"
+  severity_on_mismatch: CRITICAL
+  canonical_docs_to_check:
+    - README.md
+    - CLAUDE.md
+    - validators/README.md
+    - 10_docs/STANDARDS_GUIDE.md
+    - PROJECT_PRIMER.md
+
+# Link validation rules
+link_validation:
+  scope: canonical_only
+  severity_on_broken: CRITICAL
+  # File extensions to validate as internal links
+  internal_extensions:
+    - .md
+    - .yaml
+    - .yml
+    - .json
+    - .py
+    - .sh
+
+# Archive candidate rules
+archive_candidates:
+  min_age_days: 90
+  require_all:
+    - no_inbound_refs
+    - candidate_class_match
+    - not_protected
+  candidate_classes:
+    - description: "Unreferenced markdown in 10_docs/"
+      path_pattern: "10_docs/**/*.md"
+    - description: "Unreferenced markdown outside standard locations"
+      path_pattern: "**/*.md"
+      exclude: ["10_docs/**", "protocols/**", "docs/**"]
+    - description: "Non-Python files in validators/ (except README, __init__)"
+      path_pattern: "validators/*"
+      exclude: ["*.py", "README.md", "__init__.py"]
+
+# Generator drift detection
+generator_drift:
+  PROJECT_PRIMER.md:
+    sha_field: "Repo SHA"
+    generated_field: "Generated"
+    severity: MAJOR
+    suspected_causes:
+      - "Generator uses hardcoded validator list"
+      - "Directory walker has filter excluding non-houston validators"
+    investigation_steps:
+      - "Check generator source for hardcoded validator patterns"
+      - "Verify template includes all check_*.py files"
+      - "Regenerate primer with current generator to confirm"
+    fix_command: "generate-project-primer C010_standards"

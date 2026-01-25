@@ -16,8 +16,10 @@ Icon?
 # Keep directories via .gitkeep, ignore generated content
 # - Standards Pulse: Standards_Pulse.xlsx, Standards_Inventory.csv
 # - Folder Audit: folder_structure_audit_*.csv, folder_structure_actions_*.csv
+# - Drift reports: drift_report_*.md, drift_report_*.json
 70_evidence/exports/*.xlsx
 70_evidence/exports/*.csv
+70_evidence/drift/
 exports/
 
 # Audit receipts are auto-generated (gitignored for cleanliness)

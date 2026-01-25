@@ -249,8 +249,8 @@ See `30_config/houston-features.json`:
 
 ## Related Documents
 
-- [Houston Features Schema](../schemas/houston_features.schema.json)
-- [Telemetry Validator](../validators/check_houston_telemetry.py)
+- [Houston Features Schema](../../schemas/houston_features.schema.json)
+- [Telemetry Validator](../../validators/check_houston_telemetry.py)
 - [Houston Interface Blueprint](../notes/HOUSTON_INTERFACE.md)
 
 ## Changelog

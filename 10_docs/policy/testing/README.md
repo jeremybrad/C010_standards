@@ -135,6 +135,6 @@ Priority: C-series (core infrastructure) first.
 
 ## See Also
 
-- [Betty Protocol](../protocols/betty_protocol.md) - Workspace governance
-- [Python Standards](python/) - Ruff configuration
-- [Project Template](../PROJECT_TEMPLATE.md) - New project setup
+- [Betty Protocol](../../../protocols/betty_protocol.md) - Workspace governance
+- [Python Standards](../python/) - Ruff configuration
+- [Project Template](../../../PROJECT_TEMPLATE.md) - New project setup

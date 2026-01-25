@@ -15,7 +15,7 @@ This checklist guides projects through adopting C010_standards schemas, taxonomi
 
 Before starting migration:
 
-- [ ] Review [CONTRIBUTING.md](../CONTRIBUTING.md) for contribution guidelines
+- [ ] Review [CONTRIBUTING.md](../../CONTRIBUTING.md) for contribution guidelines
 - [ ] Review [VERSIONING_POLICY.md](VERSIONING_POLICY.md) for schema versions
 - [ ] Understand your project's metadata needs
 - [ ] Have write access to target repository

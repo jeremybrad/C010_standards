@@ -153,7 +153,7 @@ python validators/check_houston_docmeta.py examples/
 
 ## See Also
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Guidelines for modifying schemas
-- [schemas/](../schemas/) - Full schema definitions
-- [taxonomies/](../taxonomies/) - Valid taxonomy values
-- [validators/README.md](../validators/README.md) - Validation tool documentation
+- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Guidelines for modifying schemas
+- [schemas/](../../schemas/) - Full schema definitions
+- [taxonomies/](../../taxonomies/) - Valid taxonomy values
+- [validators/README.md](../../validators/README.md) - Validation tool documentation

@@ -438,7 +438,7 @@ This repo defines standards used across all projects:
 - **Standard markers**: `unit`, `integration`, `slow`, `network`, `smoke`
 - Bootstrap script: `scripts/bootstrap_testing.sh`
 
-See [policy/testing/README.md](policy/testing/README.md) for full documentation.
+See [Testing Standards](10_docs/policy/testing/README.md) for full documentation.
 
 ---
 
@@ -604,7 +604,7 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 ### Templates & Examples
 - [COMPREHENSIVE_PR_TEMPLATE.md](COMPREHENSIVE_PR_TEMPLATE.md) - Systematic repo upgrades
-- [examples/](examples/) - Schema examples and reference implementations
+- [examples/](10_docs/examples/) - Schema examples and reference implementations
 
 ### Planning & History
 - [CHANGELOG.md](CHANGELOG.md) - Version history
