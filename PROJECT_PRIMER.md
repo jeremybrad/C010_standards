@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-24 11:09
-- **Repo SHA**: 9243928
+- **Generated**: 2026-01-24 19:23
+- **Repo SHA**: 4b20907
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -252,6 +252,10 @@ python validators/check_capsulemeta.py --strict 10_docs/examples/capsules/
 python validators/check_epoch.py                    # Warn if missing, exit 0
 python validators/check_epoch.py --require          # Exit 1 if missing
 python validators/check_epoch.py --strict           # Verify repo_head matches git HEAD
+
+# 10. Check Windows filename compatibility (for cross-platform sync)
+python validators/check_windows_filename.py .       # Scan current directory
+python validators/check_windows_filename.py --recursive ~/SyncedProjects
 ```
 
 ## Footguns and gotchas
@@ -278,7 +282,7 @@ python validators/check_epoch.py --strict           # Verify repo_head matches g
 ## Provenance
 
 - **Version**: 1.0.0
-- **Last Updated**: 2026-01-17
+- **Last Updated**: 2026-01-24
 - **Git SHA**: (run `git rev-parse --short HEAD` for current)
 - **Receipts**: `20_receipts/`
 - **Standard**: Self-hosting - this README passes `scripts/validate_readme_repo_card.py`
@@ -544,7 +548,7 @@ See [policy/testing/README.md](policy/testing/README.md) for full documentation.
 
 ### Validators (Production-Ready)
 
-Eight validators ensure compliance with Houston configs, metadata schemas, and repository contracts:
+Nine validators ensure compliance with Houston configs, metadata schemas, and repository contracts:
 
 ```bash
 # Run individual validators
@@ -556,6 +560,7 @@ python validators/check_houston_tools.py <file.json>
 python validators/check_repo_contract.py
 python validators/check_capsulemeta.py <file.md>
 python validators/check_epoch.py [--require|--strict]
+python validators/check_windows_filename.py <path>
 
 # Run all validators
 python validators/run_all.py
@@ -568,9 +573,10 @@ python validators/run_all.py
 - Capsule frontmatter (c010.capsule.v1)
 - Repository structure (README, receipts, markers)
 - Epoch state snapshots (git HEAD, primer SHA256 sync)
+- Windows filename compatibility (reserved chars/names, control characters)
 
 **Execution Contexts:** Validators fall into two categories:
-- **Portable** (`repo_contract`, `capsulemeta`, `constitution`, `epoch`): Work in any repo
+- **Portable** (`repo_contract`, `capsulemeta`, `constitution`, `epoch`, `windows_filename`): Work in any repo
 - **C010-context** (`houston_*`): Require `30_config/` files present in C010
 
 Consumer repos using C010 as a submodule should use `--targets` to run only portable validators. See [validators/README.md](validators/README.md) for details.
@@ -740,7 +746,7 @@ Leave breadcrumbs. Document your reasoning. Create receipts.
 
 ---
 
-*Last Updated: 2026-01-17*
+*Last Updated: 2026-01-24*
 *Maintained by: Jeremy Bradford & Claude*
 
 _All downstream repositories should treat this repo as the authoritative metadata spec. Updates here require versioning, changelog, and communication across projects._
@@ -757,7 +763,7 @@ _All downstream repositories should treat this repo as the authoritative metadat
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-17
+  last_reviewed: 2026-01-24
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
@@ -797,6 +803,7 @@ files:
   protocols/capsules/capsule_spec_v1.md: "Capsule standard v1 specification"
   schemas/capsulemeta_v1.0.yaml: "Capsule metadata schema template"
   validators/check_capsulemeta.py: "Capsule frontmatter validator"
+  validators/check_windows_filename.py: "Windows filename compatibility checker"
 
 relates_to:
   - C001_mission-control: "Consumes as git submodule at external/standards/"
