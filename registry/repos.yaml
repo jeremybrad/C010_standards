@@ -1210,3 +1210,77 @@ repos:
       - dsos
       - sqlite
       - deduplication
+
+  - repo_id: C022_clawdbot
+    name: ClawdBot Personal AI Gateway
+    purpose: 24/7 autonomous AI assistant infrastructure running in WSL2. Hosts ClawdBot gateway, local model inference via Ollama, and custom skills/agents for SADB integration.
+    philosophy: Local-first, always-on AI assistance. GPU-accelerated inference with persistent agent memory.
+    tier: 2
+    pool: personal
+    bot_active: true
+    path_rel: C022_clawdbot
+    story: |
+      ClawdBot provides 24/7 AI assistance without cloud dependency. Running in WSL2 with Ollama
+      for GPU-accelerated inference (RTX 5080), it hosts custom skills that integrate with SADB
+      MCP tools and specialized agents for knowledge capture and verification.
+    how_it_fits: |
+      C022 is the runtime infrastructure for autonomous AI assistance. It queries C002_sadb for
+      knowledge, uses C001_mission-control for credentials, routes stories to C006_revelator,
+      and receives context from C017_brain-on-tap.
+    architecture: |
+      - 40_src/skills/: Custom ClawdBot skills (SADB integrations)
+      - 40_src/agents/: Agent configurations (Biographer, Investigation Continuity, Fact Verification)
+      - 30_config/: Gateway and model configurations
+      - WSL2 Ubuntu-22.04: Runtime environment with systemd service
+    authoritative_sources:
+      - 40_src/skills/
+      - 40_src/agents/
+      - 30_config/
+    contracts:
+      - ClawdBot gateway as systemd user service
+      - Skills implement standard interface (execute, describe)
+      - Agents configured via YAML
+    interfaces:
+      - "Service: systemctl --user start/stop/restart clawdbot"
+      - "Logs: journalctl --user -u clawdbot -f"
+      - "Ollama: http://localhost:11434"
+    onboarding:
+      - "Verify WSL2 Ubuntu-22.04 is running"
+      - "Check Ollama status: ollama list"
+      - "Start gateway: systemctl --user start clawdbot"
+    entry_points:
+      - "README.md"
+      - "CLAUDE.md"
+      - "30_config/gateway.yaml"
+    key_concepts:
+      - "ClawdBot gateway"
+      - "Ollama inference"
+      - "Skills (SADB MCP)"
+      - "Agents (Biographer, Investigation Continuity, Fact Verification)"
+    common_tasks:
+      - "Start/stop gateway service"
+      - "Add new skill to 40_src/skills/"
+      - "Configure agent in 40_src/agents/"
+      - "Check logs for errors"
+    gotchas:
+      - "Gateway runs in WSL2, not Windows"
+      - "CUDA drivers must be working in WSL2"
+      - "Restart gateway after skill changes"
+    integration_points:
+      - "C002_sadb: Knowledge retrieval via MCP"
+      - "C001_mission-control: Credential vault"
+      - "C006_revelator: Story capture destination"
+      - "C017_brain-on-tap: Primer injection"
+    commands:
+      - "systemctl --user status clawdbot"
+      - "journalctl --user -u clawdbot -f"
+      - "ollama list"
+      - "ollama run llama3.2"
+    status: active
+    tags:
+      - clawdbot
+      - ollama
+      - wsl2
+      - agents
+      - skills
+      - local-inference
