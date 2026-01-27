@@ -7,6 +7,7 @@ and handling errors consistently across all validators.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 from typing import Any, cast
 
@@ -34,6 +35,9 @@ def safe_print(*args, **kwargs) -> None:
     except UnicodeEncodeError:
         for unicode_char, ascii_fallback in _UNICODE_FALLBACK.items():
             message = message.replace(unicode_char, ascii_fallback)
+        # Strip any remaining non-encodable characters
+        encoding = getattr(sys.stdout, "encoding", "ascii") or "ascii"
+        message = message.encode(encoding, errors="replace").decode(encoding)
         print(message, **kwargs)
 
 
