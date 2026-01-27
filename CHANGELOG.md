@@ -1,5 +1,12 @@
 # Metadata Governance Changelog
 
+## 2026-01-27
+- **C002→C003 SADB Migration**: Replaced all references to `C002_sadb` with `C003_sadb_canonical` across 21 files
+  - Updated CLAUDE.md, README.md, CHANGELOG.md, META.yaml, taxonomies, schemas, and archived governance docs
+  - Deprecates the `C002_sadb` identifier — `C003_sadb_canonical` is now the canonical SADB repo
+- **Windows Emoji Fix**: Handle unmapped emoji in `safe_print()` (`validators/common.py`) on Windows cp1252 consoles
+  - Adds per-character fallback so unknown emoji render as `?` instead of crashing with `UnicodeEncodeError`
+
 ## 2026-01-25
 - **Repo Drift Detector**: Added `scripts/repo_drift_detector.py` for automated drift detection
   - Level 1: Fast inventory scan (structure, paths, stale references)

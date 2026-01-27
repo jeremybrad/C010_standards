@@ -4,7 +4,7 @@
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-25
+  last_reviewed: 2026-01-27
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
@@ -46,6 +46,7 @@ files:
 
 relates_to:
   - C001_mission-control: "Consumes as git submodule at external/standards/"
+  - C003_sadb_canonical: "Consumes DocMeta/CodeMeta schemas and taxonomy lookups"
   - C017_brain-on-tap: "Profile extraction uses DocMeta schema"
   - C019_docs-site: "Publishes/searches workspace docs (MkDocs + Docs RAG)"
   - all_repos: "CI validators enforce compliance workspace-wide"
