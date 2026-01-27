@@ -341,13 +341,19 @@ START
 
 ## Examples from Jeremy's Ecosystem
 
-### ✅ Keep: C002_sadb
+### ✅ Keep: C003_sadb_canonical
 **Flags:** 0/10
-- Core infrastructure
+- Core infrastructure (canonical SADB pipeline)
 - Actively used
 - Well-documented
 - Foundation for memory system
 **Decision:** Keep & Modernize
+
+### ⚠️ Deprecated: C002_sadb
+**Flags:** 1/10 (Duplicates C003)
+- Superseded by C003_sadb_canonical
+- Being phased out
+**Decision:** Archive after dependency verification
 
 ### ✅ Keep: C004_star-extraction
 **Flags:** 0/10

@@ -77,7 +77,7 @@
 |------|---------|
 | `README.md` | Project overview (single canonical at root) |
 | `rules_now.md` | Current working rules |
-| `RELATIONS.yaml` | Links to C002_sadb as truth source |
+| `RELATIONS.yaml` | Links to C003_sadb_canonical as truth source |
 
 ### Recommended (Agent Guidance)
 | File | Purpose |

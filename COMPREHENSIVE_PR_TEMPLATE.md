@@ -85,8 +85,8 @@ sadb_integration:
 
 # Project dependencies
 depends_on:
-  - project: "C002_sadb"
-    why: "Knowledge extraction and storage"
+  - project: "C003_sadb_canonical"
+    why: "Knowledge extraction and refinement pipeline"
   - project: "C001_mission-control"
     why: "Credentials and secrets management"
   # Add more as needed

@@ -174,7 +174,7 @@ python validators/check_windows_filename.py --recursive ~/SyncedProjects
 | Repo | Relationship |
 |------|--------------|
 | `C001_mission-control` | Embeds C010 as git submodule at `external/standards/` |
-| `C002_sadb` | Uses Betty Protocol; source of conversation data |
+| `C003_sadb_canonical` | Uses Betty Protocol; source of conversation data |
 | `C017_brain-on-tap` | Extracts README repo cards for LLM context |
 | `C019_docs-site` | Canonical docs publishing/search surface (MkDocs + Docs RAG) |
 | All P/C/W repos | Must follow Betty Protocol and folder structure |

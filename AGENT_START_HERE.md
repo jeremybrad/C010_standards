@@ -38,7 +38,7 @@ Shows how data flows between systems:
 - Terminal insights and timeline braiding
 - Where each stage's output goes
 
-**Critical:** Understand dependencies before making changes. C003_sadb_canonical depends on C002_sadb output. Don't work on one without understanding the other.
+**Critical:** C003_sadb_canonical is THE canonical SADB pipeline. C002_sadb is DEPRECATED - do not reference it in new code or documentation.
 
 ### 3. Betty Protocol (15 minutes)
 📄 **[protocols/betty_protocol.md](protocols/betty_protocol.md)**
@@ -114,17 +114,19 @@ project/
 
 This is Jeremy's most complex area. Pay attention.
 
-### The Three Core Systems
+### The Core SADB System
 
-1. **C002_sadb** - Main processing pipeline
+1. **C003_sadb_canonical** - THE canonical SADB pipeline
    - Input: Conversation exports (ChatGPT, Claude)
-   - Output: SQLite database + twin feed (NDJSON)
-   - Location of data: `$SADB_DATA_DIR` (outside git)
-
-2. **C003_sadb_canonical** - Refinement pipeline (Stages S0-S2, M1-B1)
-   - Input: Data from C002 or direct conversation imports
-   - Output: Structured facts, Q/A pairs, braided timeline
+   - Output: SQLite database, structured facts, Q/A pairs, braided timeline
+   - Location of data: `$SADB_DATA_DIR` (outside git, NOT in the repo)
    - This is where GPU acceleration happens (BERTopic)
+   - Stages: S0-S2, M1-B1, J1-J3
+
+2. **C002_sadb** - ⚠️ DEPRECATED
+   - Do NOT reference this repo in new code
+   - Being phased out - all functionality migrated to C003_sadb_canonical
+   - Kept temporarily to ensure no dependencies are missed
 
 3. **C008_CBFS** - Canonical Bio Facts System
    - Input: Facts from C003 (J1 stage)
@@ -144,7 +146,7 @@ $SADB_DATA_DIR = /Users/jeremybradford/SADB_Data/
 ├── conversation-exports/
 ├── extractions/
 ├── twin/
-│   └── twin_feed_v1.ndjson    # Key output from C002
+│   └── twin_feed_v1.ndjson    # Key output from C003_sadb_canonical
 ├── chromadb-archives/
 └── facts/
     └── runs_*/                # J1/J2/J3 fact extraction runs
@@ -171,7 +173,7 @@ $SADB_DATA_DIR = /Users/jeremybradford/SADB_Data/
 1. **Ask first:** "Before I proceed, should I be working on X or Y version?"
 2. **Check timestamps:** Look for most recent modifications
 3. **Read CLAUDE.md:** It usually has the answer
-4. **Look for 'canonical' in names:** C003_sadb_canonical, not just C002_sadb
+4. **Use C003_sadb_canonical:** C002_sadb is DEPRECATED - always use C003_sadb_canonical
 
 ---
 

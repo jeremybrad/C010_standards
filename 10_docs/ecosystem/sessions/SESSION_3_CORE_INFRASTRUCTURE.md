@@ -77,7 +77,7 @@ P160 is Jeremy's central nervous system for AI interaction. It's not just an int
 - **Data:** Docker volume `open-webui-data`
 
 ### Critical Dependencies
-- C002_sadb (data source for filesystem server)
+- C003_sadb_canonical (data source for filesystem server)
 - C011_agents (persona definitions)
 - P092_mirrorlab (memory layer - planned)
 - ElevenLabs API (voice synthesis)

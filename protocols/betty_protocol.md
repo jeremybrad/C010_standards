@@ -72,7 +72,7 @@ A separate launchd job runs workspace compliance checks nightly at 3:10 AM:
 - Data policy: no data or artifacts in repo. Use $SADB_DATA_DIR with optional `50_data -> ../.links/SADB_Data` symlink for compatibility.
 - Easy buttons: `00_run/` contains double-clickable launchers (`.command` for macOS, `.ps1` for Windows) for common operations.
 - **Series-aware enforcement**: `00_run/` is **mandatory** for C-series (Core) and W-series (Work) repos; **optional** for P-series (Projects) and U-series (Utility) repos.
-- RELATIONS.yaml links the repo to C002_sadb as the truth source.
+- RELATIONS.yaml links the repo to C003_sadb_canonical as the truth source.
 
 ## Guardrails
 - Pre-commit hook blocks: new top-level dirs, files > 10 MB (allowlist .sqlite|.db)

@@ -270,7 +270,7 @@ Update `notes/CHANGELOG.md`:
 ## 2025-11-08
 - **DocMeta v1.2 Enhancement**: Added optional `doc.new_field` for X feature
 - Non-breaking change, backward compatible
-- Consuming projects: C001_mission-control, C002_sadb
+- Consuming projects: C001_mission-control, C003_sadb_canonical
 ```
 
 ## Updating Taxonomies

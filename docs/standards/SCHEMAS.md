@@ -160,7 +160,7 @@ Projects consuming these schemas:
 | Project | Schemas Used | Integration |
 |---------|--------------|-------------|
 | C001_mission-control | All | Git submodule at `external/standards` |
-| C002_sadb | DocMeta, CodeMeta | Taxonomy lookups |
+| C003_sadb_canonical | DocMeta, CodeMeta | Taxonomy lookups |
 | P001_bettymirror | DocMeta | Protocol enforcement |
 
 See `10_docs/notes/SCHEMA_CONSUMERS.md` for complete inventory.

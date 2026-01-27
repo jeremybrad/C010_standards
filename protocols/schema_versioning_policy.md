@@ -297,7 +297,7 @@ If a consumer cannot upgrade immediately:
 
 | Repo | Schema | Stuck At | Reason | Target Date |
 |------|--------|----------|--------|-------------|
-| C002_sadb | DocMeta | 1.1 | Legacy migration | 2026-Q3 |
+| C003_sadb_canonical | DocMeta | 1.1 | Legacy migration | 2026-Q3 |
 ```
 
 ---

@@ -101,7 +101,7 @@ primary_language: "python|javascript|typescript|shell"
 classification: "core|personal|work"
 maintainer: "jeremy"
 last_review: "YYYY-MM-DD"
-depends_on: ["C002_sadb", "other_projects"]
+depends_on: ["C003_sadb_canonical", "other_projects"]
 integrates_with: ["systems", "it", "connects", "to"]
 ---
 ```

@@ -137,7 +137,7 @@ repos:
       - "Profile paths are relative to repo root"
     integration_points:
       - "C010_standards: reads registry and BOT slices"
-      - "C002_sadb: queries for knowledge context"
+      - "C003_sadb_canonical: queries for knowledge context"
       - "Claude Code: consumes rendered primers"
     commands:
       - "bbot primer <profile>"
@@ -152,11 +152,13 @@ repos:
       - agent-tooling
 
   - repo_id: C002_sadb
-    name: Self-As-Database
-    purpose: Personal knowledge extraction system processing conversation exports into structured, queryable data.
+    name: Self-As-Database (DEPRECATED)
+    purpose: "DEPRECATED - Use C003_sadb_canonical instead. Legacy knowledge extraction system."
     philosophy: Extract signal from noise. 1.5M+ entries with 100% speaker attribution for Betty/Claude conversations.
-    bot_active: true
+    bot_active: false
     path_rel: C002_sadb
+    deprecated: true
+    superseded_by: C003_sadb_canonical
     story: |
       Jeremy's conversations with AI are a knowledge asset. SADB extracts, normalizes, and
       indexes them so they can be queried. What started as a simple import grew into a
@@ -1224,7 +1226,7 @@ repos:
       for GPU-accelerated inference (RTX 5080), it hosts custom skills that integrate with SADB
       MCP tools and specialized agents for knowledge capture and verification.
     how_it_fits: |
-      C022 is the runtime infrastructure for autonomous AI assistance. It queries C002_sadb for
+      C022 is the runtime infrastructure for autonomous AI assistance. It queries C003_sadb_canonical for
       knowledge, uses C001_mission-control for credentials, routes stories to C006_revelator,
       and receives context from C017_brain-on-tap.
     architecture: |
@@ -1267,7 +1269,7 @@ repos:
       - "CUDA drivers must be working in WSL2"
       - "Restart gateway after skill changes"
     integration_points:
-      - "C002_sadb: Knowledge retrieval via MCP"
+      - "C003_sadb_canonical: Knowledge retrieval via MCP"
       - "C001_mission-control: Credential vault"
       - "C006_revelator: Story capture destination"
       - "C017_brain-on-tap: Primer injection"

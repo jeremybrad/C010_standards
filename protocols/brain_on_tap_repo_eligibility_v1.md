@@ -99,7 +99,7 @@ python scripts/validate_brain_on_tap_eligibility.py C010_standards
 python scripts/validate_brain_on_tap_eligibility.py C010_standards --verbose
 
 # Validate multiple repos
-python scripts/validate_brain_on_tap_eligibility.py C010_standards C017_brain-on-tap C002_sadb
+python scripts/validate_brain_on_tap_eligibility.py C010_standards C017_brain-on-tap C003_sadb_canonical
 ```
 
 ### Validation Checks

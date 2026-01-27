@@ -1,8 +1,8 @@
 # Workspace Compliance Report
 
-**Generated:** 2026-01-24 12:10:47
-**Source:** `folder_structure_audit_20260124_121042.csv`
-**Audit timestamp:** 20260124_121042
+**Generated:** 2026-01-27 03:10:10
+**Source:** `folder_structure_audit_20260127_031005.csv`
+**Audit timestamp:** 20260127_031005
 
 ---
 
@@ -10,9 +10,9 @@
 
 | Metric | Value |
 |--------|-------|
-| Total repos | 63 |
-| Compliant | 61 (96%) |
-| With violations | 2 |
+| Total repos | 64 |
+| Compliant | 61 (95%) |
+| With violations | 3 |
 | Unclassified violations | 0 |
 
 ## Compliant Repos
@@ -39,6 +39,7 @@
 | C019_docs-site | C |
 | C020_pavlok | C |
 | C021_notebooklm-mcp | C |
+| C022_clawdbot | C |
 | Knowledge-Synthesis-Tool | - |
 | P001_bettymirror | P |
 | P004_adaptive | P |
@@ -78,7 +79,6 @@
 | W006_Abandoned_Cart | W |
 | W007_Snowflake_SQL_Library | W |
 | W008_QQ | W |
-| W009_context_library | W |
 | W011_peer-review | W |
 | W012_hardening_bundle | W |
 | W166_fiber-vs-home_reconciliation | W |
@@ -101,14 +101,23 @@ These repos have declared exceptions with remediation plans.
 
 - **Series:** W
 - **Register entry:** documented
-- **Recommended action:**
+- **Recommended action:** 
+
+### W009_context_library
+
+- **Series:** W
+- **Register entry:** **MISSING**
+- **Recommended action:** 
+
+**Invalid directories:**
+- `60_facts`
 
 ## Compliance by Series
 
 | Series | Compliant | Total | Rate |
 |--------|-----------|-------|------|
-| C (Core) | 18 | 19 | 94% |
-| W (Work) | 11 | 12 | 91% |
+| C (Core) | 19 | 20 | 95% |
+| W (Work) | 10 | 12 | 83% |
 | P (Projects) | 30 | 30 | 100% |
 | U (Utility) | 1 | 1 | 100% |
 | - (Other) | 1 | 1 | 100% |

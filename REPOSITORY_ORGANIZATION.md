@@ -13,7 +13,8 @@ Projects that are foundational to the entire ecosystem. Not actively developed f
 **Numbering**: C001-C099
 **Examples:**
 - C001_mission-control: Central orchestration hub
-- C002_sadb: Self-Aware Database project (promoted from P002, 2025-10-11)
+- ~~C002_sadb~~: DEPRECATED - use C003_sadb_canonical
+- C003_sadb_canonical: Canonical SADB pipeline (extraction, refinement, facts)
 - C003_agents: Agent definitions and frameworks
 - C009_mcp-memory-http: HTTP interface for memory system
 - C010_standards: This repository - canonical standards and governance
@@ -30,7 +31,7 @@ Personal experiments, tools, and projects not related to day job work.
 **Numbering**: P001-P999
 **Examples:**
 - P001_bettymirror: Betty AI system core
-- ~~P002_sadb~~ → Promoted to C002_sadb (2025-10-11)
+- ~~P002_sadb~~ → Promoted to C002_sadb → Now C003_sadb_canonical
 - P110_knowledge-synthesis-tool: KST development
 - P170_memory-cathedral: Advanced memory architecture
 
@@ -100,7 +101,7 @@ Workspace-level automation scripts
 #### **Workspace/** (Deprecated)
 ⚠️ **SHOULD BE MIGRATED**: Contains duplicate P-projects that should be at root level
 - P001_bettymirror (duplicate)
-- C002_sadb (duplicate, formerly P002)
+- C002_sadb (DEPRECATED - use C003_sadb_canonical)
 - P005_mybuddy (duplicate)
 - P070_midi-gesture (needs to be moved to root)
 
@@ -183,7 +184,7 @@ A project should be promoted from P-prefix to C-prefix when it meets these crite
 - The project has evolved from prototype to production-grade stability
 
 **Examples:**
-- P002 → C002_sadb: Knowledge extraction system consumed by Mission Control, validators, and infrastructure projects
+- P002 → C002_sadb → C003_sadb_canonical: Knowledge extraction system consumed by Mission Control, validators, and infrastructure projects
 - P160 → C004_open-web-ui: Evolved from experiment to core LLM interface serving 123+ models
 - P210 → C010_standards: Became the canonical source for workspace governance
 

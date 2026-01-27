@@ -44,7 +44,8 @@
 ### SADB & Knowledge Systems
 | Project | Purpose | Status |
 |---------|---------|--------|
-| C002_sadb | Self-Aware Database project (formerly P002) | **MIGRATED 2025-10-11** |
+| C003_sadb_canonical | Canonical SADB pipeline (extraction, refinement, facts) | **ACTIVE** |
+| C002_sadb | Self-Aware Database project (formerly P002) | **⚠️ DEPRECATED** |
 | P110_knowledge-synthesis-tool | KST development | Active |
 | P159_memory-system | Memory architecture | Active |
 | P170_memory-cathedral | Advanced memory architecture | Active |
@@ -96,7 +97,8 @@
 ### Archived/Deprecated
 | Project | Purpose | Status |
 |---------|---------|--------|
-| ~~P002_sadb~~ | ~~Self-Aware Database~~ | **MIGRATED → C002_sadb (2025-10-11)** |
+| ~~P002_sadb~~ | ~~Self-Aware Database~~ | **MIGRATED → C002_sadb → C003_sadb_canonical** |
+| ~~C002_sadb~~ | ~~Legacy SADB pipeline~~ | **DEPRECATED → C003_sadb_canonical** |
 | ~~P160_open-webui-ollama-setup~~ | ~~Open WebUI + Ollama~~ | **MIGRATED → C004_open-web-ui (2025-10-11)** |
 | ~~P210_metadata-governance~~ | ~~Old name for C010_standards~~ | **DELETED 2025-10-08** |
 
@@ -112,7 +114,7 @@
 
 ### In Workspace/ Folder (Should Be Migrated)
 - **P001_bettymirror** - Duplicate of root-level project
-- **C002_sadb** - Duplicate of root-level project (formerly P002)
+- **C002_sadb** - DEPRECATED (use C003_sadb_canonical instead)
 - **P005_mybuddy** - Duplicate of root-level project
 - **P070_midi-gesture** - Unique, needs to be moved to root
 

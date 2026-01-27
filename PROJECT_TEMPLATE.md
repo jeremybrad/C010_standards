@@ -68,7 +68,7 @@
 Example:
 P160 (This Project)
 ├── Depends on: Ollama (local LLM)
-├── Depends on: C002_sadb (data source)
+├── Depends on: C003_sadb_canonical (data source)
 ├── Integrates: P092_mirrorlab (memory)
 └── Serves: All user interactions (port 3000)
 ```

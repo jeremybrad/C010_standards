@@ -48,7 +48,7 @@ Go to: https://code.claude.ai
    - Source code structure (40_src/)
 
 3. **Look For:**
-   - Dependencies on other projects (especially C002_sadb, P160)
+   - Dependencies on other projects (especially C003_sadb_canonical, P160)
    - Integration points (APIs, file paths, protocols)
    - Current operational status
    - Any TODOs or unfinished work
@@ -115,7 +115,7 @@ Go to: https://code.claude.ai
    - Implementation files
 
 3. **Look For:**
-   - Overlap with C002_sadb or C003_sadb_canonical
+   - Overlap with C003_sadb_canonical
    - Integration approach
    - Current development status
 
