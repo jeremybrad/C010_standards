@@ -18,7 +18,7 @@ from fnmatch import fnmatch
 from pathlib import Path
 from typing import Any
 
-from .models import Category, Finding, FindingCounter, Severity
+from .models import Category, Finding, FindingCounter, RepoProfile, Severity
 
 
 def run_level1(
@@ -26,6 +26,7 @@ def run_level1(
     rules: dict[str, Any],
     counter: FindingCounter,
     verbose: bool = False,
+    profile: RepoProfile | None = None,
 ) -> list[Finding]:
     """Run Level 1 drift detection.
 
@@ -34,6 +35,7 @@ def run_level1(
         rules: Loaded drift_rules.yaml configuration
         counter: Finding ID counter
         verbose: Enable verbose output
+        profile: Repository profile for gating C10-specific checks
 
     Returns:
         List of findings
@@ -49,11 +51,14 @@ def run_level1(
     # 2. Validate top-level directories
     findings.extend(_check_top_level_dirs(repo_root, counter, verbose))
 
-    # 3. Check validator inventory
-    findings.extend(_check_validator_inventory(repo_root, rules, counter, verbose))
+    # 3. Check validator inventory (only if repo has validators/)
+    if profile is None or profile.has_validators:
+        findings.extend(_check_validator_inventory(repo_root, rules, counter, verbose))
+    elif verbose:
+        print("    Skipping validator inventory (no validators/ detected)")
 
-    # 4. Check schema/taxonomy inventory
-    findings.extend(_check_schema_inventory(repo_root, counter, verbose))
+    # 4. Check schema/taxonomy inventory (gated per-directory)
+    findings.extend(_check_schema_inventory(repo_root, counter, verbose, profile))
 
     # 5. Run stale path pattern checks
     findings.extend(_check_stale_paths(repo_root, rules, counter, verbose))
@@ -210,11 +215,27 @@ def _check_schema_inventory(
     repo_root: Path,
     counter: FindingCounter,
     verbose: bool,
+    profile: RepoProfile | None = None,
 ) -> list[Finding]:
-    """Check schema and taxonomy directories exist and have files."""
+    """Check schema and taxonomy directories exist and have files.
+
+    Gated by profile: schemas/ check skipped if ``not profile.has_schemas``,
+    taxonomies/ check skipped if ``not profile.has_taxonomies``.  When profile
+    is None (legacy call), all checks run unconditionally.
+    """
     findings = []
 
-    for dir_name in ["schemas", "taxonomies"]:
+    checks = {
+        "schemas": profile is None or profile.has_schemas,
+        "taxonomies": profile is None or profile.has_taxonomies,
+    }
+
+    for dir_name, should_check in checks.items():
+        if not should_check:
+            if verbose:
+                print(f"    Skipping {dir_name}/ inventory (not detected)")
+            continue
+
         dir_path = repo_root / dir_name
         if not dir_path.exists():
             findings.append(Finding(

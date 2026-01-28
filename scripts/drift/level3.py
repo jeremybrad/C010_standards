@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Any
 
 from .extractors import extract_internal_links, extract_path_references
-from .models import Category, Finding, FindingCounter, Severity
+from .models import Category, Finding, FindingCounter, RepoProfile, Severity
 
 
 def run_level3(
@@ -24,6 +24,7 @@ def run_level3(
     rules: dict[str, Any],
     counter: FindingCounter,
     verbose: bool = False,
+    profile: RepoProfile | None = None,
 ) -> list[Finding]:
     """Run Level 3 drift detection.
 
@@ -32,6 +33,7 @@ def run_level3(
         rules: Loaded drift_rules.yaml configuration
         counter: Finding ID counter
         verbose: Enable verbose output
+        profile: Repository profile for gating C10-specific checks
 
     Returns:
         List of findings
@@ -47,8 +49,8 @@ def run_level3(
     # 2. Identify orphan candidates
     findings.extend(_find_orphan_candidates(repo_root, rules, reverse_graph, counter, verbose))
 
-    # 3. Identify misplaced artifacts
-    findings.extend(_find_misplaced_artifacts(repo_root, rules, counter, verbose))
+    # 3. Identify misplaced artifacts (gate validators/ check on profile)
+    findings.extend(_find_misplaced_artifacts(repo_root, rules, counter, verbose, profile))
 
     return findings
 
@@ -243,6 +245,7 @@ def _find_misplaced_artifacts(
     rules: dict[str, Any],
     counter: FindingCounter,
     verbose: bool,
+    profile: RepoProfile | None = None,
 ) -> list[Finding]:
     """Find misplaced artifacts that should be elsewhere per Betty Protocol."""
     findings = []
@@ -255,8 +258,9 @@ def _find_misplaced_artifacts(
         return False
 
     # Check for non-Python files in validators/ (except allowed ones)
+    # Only check if the repo actually has a validators/ directory with __init__.py
     validators_dir = repo_root / "validators"
-    if validators_dir.exists():
+    if validators_dir.exists() and (profile is None or profile.has_validators):
         allowed_non_py = {"README.md", "__init__.py", "__pycache__"}
         for item in validators_dir.iterdir():
             if item.is_file():

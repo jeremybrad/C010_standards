@@ -25,7 +25,7 @@ from .extractors import (
     extract_validator_list_from_validators_readme,
     get_available_validators,
 )
-from .models import Category, Finding, FindingCounter, Severity
+from .models import Category, Finding, FindingCounter, RepoProfile, Severity
 
 
 def run_level2(
@@ -33,6 +33,7 @@ def run_level2(
     rules: dict[str, Any],
     counter: FindingCounter,
     verbose: bool = False,
+    profile: RepoProfile | None = None,
 ) -> list[Finding]:
     """Run Level 2 drift detection.
 
@@ -41,6 +42,7 @@ def run_level2(
         rules: Loaded drift_rules.yaml configuration
         counter: Finding ID counter
         verbose: Enable verbose output
+        profile: Repository profile for gating C10-specific checks
 
     Returns:
         List of findings
@@ -50,8 +52,11 @@ def run_level2(
     if verbose:
         print("  Level 2: Canonical consistency checks...")
 
-    # 1. Compare validator inventories across docs
-    findings.extend(_check_validator_consistency(repo_root, rules, counter, verbose))
+    # 1. Compare validator inventories across docs (only if repo has validators/)
+    if profile is None or profile.has_validators:
+        findings.extend(_check_validator_consistency(repo_root, rules, counter, verbose))
+    elif verbose:
+        print("    Skipping validator consistency (no validators/ detected)")
 
     # 2. Validate internal links in canonical docs
     findings.extend(_check_internal_links(repo_root, rules, counter, verbose))
@@ -60,7 +65,7 @@ def run_level2(
     findings.extend(_check_meta_yaml(repo_root, counter, verbose))
 
     # 4. Check for generator drift (PROJECT_PRIMER.md)
-    findings.extend(_check_generator_drift(repo_root, rules, counter, verbose))
+    findings.extend(_check_generator_drift(repo_root, rules, counter, verbose, profile))
 
     return findings
 
@@ -305,6 +310,7 @@ def _check_generator_drift(
     rules: dict[str, Any],
     counter: FindingCounter,
     verbose: bool,
+    profile: RepoProfile | None = None,
 ) -> list[Finding]:
     """Check for generator drift in PROJECT_PRIMER.md."""
     findings = []
@@ -397,6 +403,10 @@ def _check_generator_drift(
         ))
 
     # Check for specific known drift: validators in directory map
+    # Only relevant when the repo actually has a validators/ directory
+    if profile is not None and not profile.has_validators:
+        return findings
+
     ground_truth = get_available_validators(repo_root)
     primer_validators = extract_validator_list_from_primer(primer_path)
 

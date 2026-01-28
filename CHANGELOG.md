@@ -1,6 +1,15 @@
 # Metadata Governance Changelog
 
 ## 2026-01-27
+- **Drift Detector Repo-Agnostic**: Made drift detector work correctly on any Betty Protocol repo
+  - Added `RepoProfile` auto-detection (validators, schemas, taxonomies, META.yaml, primer, drift rules)
+  - Added `defaults.py` with universal rules and precedence-based resolution (CLI flag > repo file > defaults)
+  - Gated validator/schema/taxonomy checks on `RepoProfile` flags to eliminate false positives
+  - Console-only output when target repo has no `70_evidence/` directory
+  - Verified: C010 (same results), C017 (no false positives), C001 (no false positives)
+- **`/repo-health` Skill**: Created thin skill wrapper at `skills/repo-health/SKILL.md`
+  - Documents invocation, output, exit codes, and repo profiling behavior
+  - Symlinked to `~/.claude/skills/repo-health` for global access
 - **C002→C003 SADB Migration**: Replaced all references to `C002_sadb` with `C003_sadb_canonical` across 21 files
   - Updated CLAUDE.md, README.md, CHANGELOG.md, META.yaml, taxonomies, schemas, and archived governance docs
   - Deprecates the `C002_sadb` identifier — `C003_sadb_canonical` is now the canonical SADB repo

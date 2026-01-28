@@ -7,6 +7,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
+from pathlib import Path
 from typing import Any
 
 
@@ -169,3 +170,36 @@ class DriftReport:
             "findings": [f.to_dict() for f in self.findings],
             "inventories": self.inventories,
         }
+
+
+@dataclass
+class RepoProfile:
+    """Profile of a repository's structure for gating drift checks.
+
+    Flags indicate which C10-specific directories/files exist so the detector
+    can skip checks that would produce false positives on non-C10 repos.
+    """
+    repo_root: Path
+    has_validators: bool = False
+    has_schemas: bool = False
+    has_taxonomies: bool = False
+    has_meta_yaml: bool = False
+    has_project_primer: bool = False
+    has_drift_rules: bool = False
+
+    @classmethod
+    def detect(cls, repo_root: Path) -> RepoProfile:
+        """Auto-detect repository profile from filesystem."""
+        validators_dir = repo_root / "validators"
+        return cls(
+            repo_root=repo_root,
+            has_validators=(
+                validators_dir.is_dir()
+                and (validators_dir / "__init__.py").exists()
+            ),
+            has_schemas=(repo_root / "schemas").is_dir(),
+            has_taxonomies=(repo_root / "taxonomies").is_dir(),
+            has_meta_yaml=(repo_root / "META.yaml").is_file(),
+            has_project_primer=(repo_root / "PROJECT_PRIMER.md").is_file(),
+            has_drift_rules=(repo_root / "30_config" / "drift_rules.yaml").is_file(),
+        )

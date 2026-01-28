@@ -17,84 +17,24 @@ import subprocess
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Any
 
 # Add repo root to path for imports
 SCRIPT_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPT_DIR.parent
 sys.path.insert(0, str(REPO_ROOT))
 
-try:
-    import yaml
-    HAS_YAML = True
-except ImportError:
-    HAS_YAML = False
-
 from scripts.drift import (
     DriftReport,
     FindingCounter,
+    RepoProfile,
     Severity,
+    resolve_rules,
     run_level1,
     run_level2,
     run_level3,
     write_json_report,
     write_markdown_report,
 )
-
-
-def load_rules(rules_path: Path) -> dict[str, Any]:
-    """Load drift rules from YAML configuration.
-
-    Args:
-        rules_path: Path to drift_rules.yaml
-
-    Returns:
-        Parsed rules dictionary
-    """
-    if not rules_path.exists():
-        print(f"Warning: Rules file not found: {rules_path}")
-        return {}
-
-    if not HAS_YAML:
-        print("Warning: PyYAML not installed, using default rules")
-        return _default_rules()
-
-    try:
-        return yaml.safe_load(rules_path.read_text()) or {}
-    except Exception as e:
-        print(f"Warning: Could not parse rules file: {e}")
-        return _default_rules()
-
-
-def _default_rules() -> dict[str, Any]:
-    """Return default rules when YAML file is unavailable."""
-    return {
-        "canonical_scope": [
-            "README.md",
-            "CLAUDE.md",
-            "META.yaml",
-            "CHANGELOG.md",
-            "10_docs/**/*.md",
-            "protocols/**/*.md",
-            "validators/README.md",
-        ],
-        "excludes": [
-            "20_receipts/**",
-            "70_evidence/**",
-            "90_archive/**",
-            "__pycache__/**",
-            ".git/**",
-        ],
-        "protected_from_archive": [
-            "schemas/**",
-            "protocols/**",
-            "taxonomies/**",
-            "validators/*.py",
-            "20_receipts/**",
-            "70_evidence/**",
-        ],
-        "stale_path_patterns": [],
-    }
 
 
 def get_git_info(repo_root: Path) -> tuple[str, str]:
@@ -206,15 +146,24 @@ def main(argv: list[str] | None = None) -> int:
         print(f"ERROR: Repository not found: {repo_root}", file=sys.stderr)
         return 2
 
-    # Load rules
-    rules_path = args.rules or repo_root / "30_config" / "drift_rules.yaml"
-    rules = load_rules(rules_path)
+    # Detect repo profile
+    profile = RepoProfile.detect(repo_root)
+
+    # Resolve rules (CLI flag > repo file > universal defaults)
+    rules = resolve_rules(args.rules, repo_root, verbose=args.verbose)
 
     # Get git info
     repo_sha, repo_branch = get_git_info(repo_root)
 
-    # Determine output directory
-    out_dir = args.out_dir or repo_root / "70_evidence" / "drift" / repo_name
+    # Determine output directory — use 70_evidence/drift/ if it exists,
+    # otherwise fall back to console-only output
+    evidence_dir = repo_root / "70_evidence" / "drift"
+    if args.out_dir:
+        out_dir = args.out_dir
+    elif evidence_dir.exists() or (repo_root / "70_evidence").exists():
+        out_dir = evidence_dir / repo_name
+    else:
+        out_dir = None  # console-only
 
     if args.verbose:
         print(f"Repo Drift Detector")
@@ -222,8 +171,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"  SHA: {repo_sha}")
         print(f"  Branch: {repo_branch}")
         print(f"  Level: {args.level}")
-        print(f"  Rules: {rules_path}")
-        print(f"  Output: {out_dir}")
+        print(f"  Profile: validators={profile.has_validators}, schemas={profile.has_schemas}, "
+              f"taxonomies={profile.has_taxonomies}")
+        if out_dir:
+            print(f"  Output: {out_dir}")
+        else:
+            print(f"  Output: console only (no 70_evidence/ directory)")
         print()
 
     # Create finding counter
@@ -236,15 +189,15 @@ def main(argv: list[str] | None = None) -> int:
         print("Running drift detection...")
 
     # Level 1 always runs
-    findings.extend(run_level1(repo_root, rules, counter, verbose=args.verbose))
+    findings.extend(run_level1(repo_root, rules, counter, verbose=args.verbose, profile=profile))
 
     # Level 2 if requested
     if args.level >= 2:
-        findings.extend(run_level2(repo_root, rules, counter, verbose=args.verbose))
+        findings.extend(run_level2(repo_root, rules, counter, verbose=args.verbose, profile=profile))
 
     # Level 3 if requested
     if args.level >= 3:
-        findings.extend(run_level3(repo_root, rules, counter, verbose=args.verbose))
+        findings.extend(run_level3(repo_root, rules, counter, verbose=args.verbose, profile=profile))
 
     # Create report
     report = DriftReport(
@@ -256,8 +209,8 @@ def main(argv: list[str] | None = None) -> int:
         findings=findings,
     )
 
-    # Extract inventory data for report
-    if args.level >= 2:
+    # Extract inventory data for report (only if repo has validators/)
+    if args.level >= 2 and profile.has_validators:
         from scripts.drift.extractors import (
             extract_validator_list_from_claude,
             extract_validator_list_from_primer,
@@ -286,14 +239,18 @@ def main(argv: list[str] | None = None) -> int:
     print(f"  INFO:     {counts[Severity.INFO]}")
     print(f"  Total:    {len(findings)}")
 
-    # Write reports
-    if args.format in ("md", "both"):
-        md_path = write_markdown_report(report, out_dir)
-        print(f"\nMarkdown report: {md_path}")
+    # Write reports (skip file output when no output directory)
+    if out_dir is not None:
+        if args.format in ("md", "both"):
+            md_path = write_markdown_report(report, out_dir)
+            print(f"\nMarkdown report: {md_path}")
 
-    if args.format in ("json", "both"):
-        json_path = write_json_report(report, out_dir)
-        print(f"JSON report: {json_path}")
+        if args.format in ("json", "both"):
+            json_path = write_json_report(report, out_dir)
+            print(f"JSON report: {json_path}")
+    else:
+        if args.format != "md":
+            print("\nNote: No 70_evidence/ directory found; skipping file output.")
 
     # Determine exit code
     if args.strict and counts[Severity.CRITICAL] > 0:
