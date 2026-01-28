@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-27 20:18
-- **Repo SHA**: 2492947
+- **Generated**: 2026-01-27 21:54
+- **Repo SHA**: 1830334
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -963,6 +963,17 @@ python _scripts/scan_windows_filenames.py --all
 - `epoch` - Epoch state snapshot validation (git HEAD, artifact checksums)
 - `windows_filename` - Windows filename compatibility validation
 
+**Drift Detector (`scripts/drift/`)** - Repo-agnostic documentation drift detection:
+- `models.py` - Finding, DriftReport, RepoProfile dataclasses
+- `defaults.py` - Universal rules and precedence-based resolution
+- `level1.py` - Fast inventory checks (structure, validators, schemas, stale paths)
+- `level2.py` - Canonical consistency (cross-doc validator claims, links, META.yaml, generator drift)
+- `level3.py` - Deep dive (reference graph, orphan candidates, misplaced artifacts)
+- `extractors.py` - Document parsing utilities for inventories and references
+- `reporters.py` - Markdown and JSON report generation
+- Entry point: `scripts/repo_drift_detector.py`
+- Skill: `/repo-health` (symlinked to `~/.claude/skills/repo-health`)
+
 **Houston Config (`30_config/`)** - Mission Control agent configuration:
 - `houston-features.json` - Feature toggles, agency levels, trust building phases
 - `houston-tools.json` - Tool pipelines, capability flags, phase gating
@@ -999,6 +1010,24 @@ python validators/check_houston_telemetry.py --max-age 600  # 10 minutes
 - On Windows with backslash preference: `python validators\run_all.py` also works
 
 **Current State**: All 10 validators are fully implemented. They exit 0 on pass, 1 on validation failure, 2 on config errors. Include verbose mode, JSON output, and remediation suggestions.
+
+### Running Drift Detector
+
+```bash
+# Scan C010 at Level 2 (canonical consistency)
+python scripts/repo_drift_detector.py --level 2 --verbose
+
+# Scan a different repo (auto-profiles, uses universal defaults if no drift_rules.yaml)
+python scripts/repo_drift_detector.py --repo /path/to/repo --level 2 --verbose
+
+# With explicit rules file
+python scripts/repo_drift_detector.py --repo /path/to/repo --rules 30_config/drift_rules.yaml --level 2
+
+# Level 3 deep dive with JSON output
+python scripts/repo_drift_detector.py --level 3 --format both
+```
+
+The detector auto-profiles the target repo and skips checks that would produce false positives on repos without `validators/`, `schemas/`, or `taxonomies/`. Rules are resolved in order: `--rules` flag > `<repo>/30_config/drift_rules.yaml` > universal defaults.
 
 ### Schema Validation
 
