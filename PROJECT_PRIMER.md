@@ -2,8 +2,8 @@
 
 ## Provenance
 
-- **Generated**: 2026-01-25 01:14
-- **Repo SHA**: 0484a73
+- **Generated**: 2026-01-27 20:18
+- **Repo SHA**: 2492947
 - **Generator**: generate-project-primer v1.0.0
 - **Source Docs**:
   - README.md
@@ -78,6 +78,7 @@ Standards, governance, and project templates for workspace
 | External System | Direction | Interface | Status |
 |-----------------|-----------|-----------|--------|
 | C001_mission-control | relates to | Consumes as git submodule at external/standards/ | active |
+| C003_sadb_canonical | relates to | Consumes DocMeta/CodeMeta schemas and taxonomy lookups | active |
 | C017_brain-on-tap | relates to | Profile extraction uses DocMeta schema | active |
 | C019_docs-site | relates to | Publishes/searches workspace docs (MkDocs + Docs RAG) | active |
 | all_repos | relates to | CI validators enforce compliance workspace-wide | active |
@@ -767,7 +768,7 @@ _All downstream repositories should treat this repo as the authoritative metadat
 project:
   repo_id: C010_standards
   owner: Jeremy Bradford
-  last_reviewed: 2026-01-25
+  last_reviewed: 2026-01-27
   summary: "Standards, governance, and project templates for workspace"
   status: active
   series: C
@@ -809,6 +810,7 @@ files:
 
 relates_to:
   - C001_mission-control: "Consumes as git submodule at external/standards/"
+  - C003_sadb_canonical: "Consumes DocMeta/CodeMeta schemas and taxonomy lookups"
   - C017_brain-on-tap: "Profile extraction uses DocMeta schema"
   - C019_docs-site: "Publishes/searches workspace docs (MkDocs + Docs RAG)"
   - all_repos: "CI validators enforce compliance workspace-wide"
